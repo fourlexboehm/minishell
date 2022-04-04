@@ -12,18 +12,27 @@
 
 #include "../inc/minishell.h"
 
-int	main(int argc, char **argv, char **env)
+//copy the environment variables from **env into hashtable entries
+void init_env_table(char **env)
 {
-	char **var;
-	(void)argc;
-	(void)argv;
-
 	while (*env)
 	{
-		var = ft_split(*env, '=');
+		char **var;
+		var = ft_split(*env++, '=');
 		insert(var[0], var[1]);
-		env++;
 	}
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	t_pathlist *lst;
+
+	lst = NULL;
+	(void)argc;
+	(void)argv;
+	init_env_table(env);
+	init_pathlist(lst);
+//	loop();
 //
 //	cmd = NULL;
 //	l_command = NULL;

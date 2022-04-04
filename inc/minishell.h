@@ -22,17 +22,32 @@
 # include <stdbool.h>
 # include "../libft/libft.h"
 
-typedef struct s_env {
+typedef struct s_env
+{
 	char *key;
 	char *data;
 } t_env;
 
+typedef struct s_pathlist
+{
+	char **path;
+	char *cmd1;
+	char *cmd2;
+} t_pathlist;
+
+typedef struct s_cmdlist
+{
+	char **commands;
+} t_cmdlist;
+
 t_env	*env_table[4096];
 
-t_env *delete(t_env* item);
-void insert(char *key, char *data);
-t_env *search(char *key);
-void display();
+t_env		*delete(t_env* item);
+void		insert(char *key, char *data);
+t_env		*search(char *key);
+void		display();
+t_pathlist	*init_pathlist(t_pathlist *path);
+t_pathlist *check_if_cmd(t_pathlist *path, char *command)
 
 
 #endif
