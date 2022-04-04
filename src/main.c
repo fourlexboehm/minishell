@@ -25,16 +25,14 @@ void init_env_table(char **env)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_pathlist *lst;
+	t_pathlist	lst;
+	t_cmd		cmd;
 
-	lst = NULL;
+	(void)cmd;
 	(void)argc;
 	(void)argv;
 	init_env_table(env);
-	init_pathlist(lst);
-//	loop();
-//
-//	cmd = NULL;
-//	l_command = NULL;
+	init_pathlist(&lst);
+	loop_shell(&lst, &cmd);
 	display();
 }

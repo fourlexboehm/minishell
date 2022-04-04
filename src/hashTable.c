@@ -13,7 +13,7 @@
 #include "../inc/minishell.h"
 
 // Djb2 hash function
-static unsigned long hash(char *str)
+uint64_t hash(char *str)
 {
 	unsigned long hash;
 	int c;
@@ -66,12 +66,13 @@ void insert(char *key, char *data)
 
 t_env* delete(t_env* item)
 {
-   char *key = item->key;
+   char *key;
    unsigned long	hashIndex;
-   t_env *temp;
-   t_env *dummyItem;
+   t_env 			*temp;
+   t_env 			*dummyItem;
 
-	dummyItem = (t_env*) malloc(sizeof(t_env));
+   key = item->key;
+   dummyItem = (t_env*) malloc(sizeof(t_env));
 	dummyItem->data = "-1";
    dummyItem->key = "-1";
 	hashIndex = hash(key);
@@ -93,11 +94,10 @@ void display()
 {
 	int i = 0;
 
-	for(i = 0; i <4096; i++) {
-
+	while (i < 4096)
+	{
 		if(env_table[i] != NULL)
-			printf(" %s=%s\n",env_table[i]->key,env_table[i]->data);
+			printf(" %s=%s\n",env_table[i]->key, env_table[i]->data);
+		i++;
 	}
-
-	printf("\n");
 }

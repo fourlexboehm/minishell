@@ -20,6 +20,8 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libft/libft.h"
 
 typedef struct s_env
@@ -31,14 +33,15 @@ typedef struct s_env
 typedef struct s_pathlist
 {
 	char **path;
-	char *cmd1;
-	char *cmd2;
+	char **args;
+	char *cmd;
+	//char *cmd2;
 } t_pathlist;
 
-typedef struct s_cmdlist
+typedef struct s_cmd
 {
 	char **commands;
-} t_cmdlist;
+} t_cmd;
 
 t_env	*env_table[4096];
 
@@ -46,8 +49,15 @@ t_env		*delete(t_env* item);
 void		insert(char *key, char *data);
 t_env		*search(char *key);
 void		display();
-t_pathlist	*init_pathlist(t_pathlist *path);
-t_pathlist *check_if_cmd(t_pathlist *path, char *command)
+void		init_pathlist(t_pathlist *path);
+void		run_if_cmd(t_pathlist *path);
+void		loop_shell(t_pathlist *path, t_cmd *cmd);
+void		pwd();
+uint64_t	hash(char *str);
+void		set(t_pathlist	*path);
+void		unset(t_pathlist	*path);
+
+
 
 
 #endif
