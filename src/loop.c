@@ -5,7 +5,7 @@
 void	loop_shell(t_pathlist *path, t_cmd *cmd)
 {
 	//readline();
-	path->cmd = "set";
+	path->cmd = "export";
 	run_if_cmd(path);
 
 	(void)cmd;

@@ -6,7 +6,7 @@ void	pwd()
 	printf("%s", search("PWD")->data);
 }
 
-void	set(t_pathlist	*path)
+void	export(t_pathlist	*path)
 {
 	insert(path->args[0], path->args[1]);
 }

@@ -64,32 +64,6 @@ void insert(char *key, char *data)
    env_table[hashIndex] = item;
 }
 
-t_env* delete(t_env* item)
-{
-   char *key;
-   unsigned long	hashIndex;
-   t_env 			*temp;
-   t_env 			*dummyItem;
-
-   key = item->key;
-   dummyItem = (t_env*) malloc(sizeof(t_env));
-	dummyItem->data = "-1";
-   dummyItem->key = "-1";
-	hashIndex = hash(key);
-   while(env_table[hashIndex] != NULL)
-   {
-      if(!ft_strncmp(env_table[hashIndex]->key, key, ft_strlen(key)))
-	  {
-         temp = env_table[hashIndex];
-         env_table[hashIndex] = dummyItem;
-         return temp;
-      }
-      ++hashIndex;
-      hashIndex %= 4096;
-   }      
-   return NULL;
-}
-
 void display()
 {
 	int i = 0;
@@ -101,3 +75,30 @@ void display()
 		i++;
 	}
 }
+
+//TODO: probably unneeded
+//t_env* delete(t_env* item)
+//{
+//   char *key;
+//   unsigned long	hashIndex;
+//   t_env 			*temp;
+//   t_env 			*dummyItem;
+//
+//   key = item->key;
+//   dummyItem = (t_env*) malloc(sizeof(t_env));
+//	dummyItem->data = "-1";
+//   dummyItem->key = "-1";
+//	hashIndex = hash(key);
+//   while(env_table[hashIndex] != NULL)
+//   {
+//      if(!ft_strncmp(env_table[hashIndex]->key, key, ft_strlen(key)))
+//	  {
+//         temp = env_table[hashIndex];
+//         env_table[hashIndex] = dummyItem;
+//         return temp;
+//      }
+//      ++hashIndex;
+//      hashIndex %= 4096;
+//   }
+//   return NULL;
+//}

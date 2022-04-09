@@ -7,8 +7,8 @@ static bool	builtin(t_pathlist *path)
 		pwd();
 	else if (!strcmp(path->cmd, "env"))
 		display();
-	else if (!strcmp(path->cmd, "set"))
-		set(path);
+	else if (!strcmp(path->cmd, "export"))
+		export(path);
 	else if (!strcmp(path->cmd, "unset"))
 		unset(path);
 //	else if (!strcmp(path->cmd, "cat"))
