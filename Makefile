@@ -25,7 +25,3 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
-
-test: all
-	./push_swap 1 2 3
-

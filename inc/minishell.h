@@ -24,23 +24,6 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
-//Parsing
-//
-//1. Pipes
-//2. The separations
-//3. Command and arguments
-//4. Protections
-//5. The <,>, >> redirects
-//6. Environment variables
-//
-//The execution
-//
-//1. Redirects
-//2. Env, export, unset
-//3. Exit and $?
-//4. Pipes / signals / process links
-
-
 //Struct for each environment variable in hashTable
 typedef struct s_env
 {
