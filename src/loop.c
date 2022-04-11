@@ -13,23 +13,28 @@ char *rl_gets()
 	}
 	//TODO thread prompt variable to here??
 	line_read = readline(">>>");
-	if (line_read && *line_read)
+	if (*line_read)
 		add_history(line_read);
 	return(line_read);
 }
 
 //TODO implement
-void	loop_shell(t_pathlist *path, t_cmd *cmd)
+void	loop_shell(t_pathlist *path)
 {
-	//rl_initialize();
-	(void)cmd;
+	int	i;
+
+	i = 0;
 	(void)path;
 	while(true)
 	{
 		//temporary short circuit until parsers done
-		path->cmd = rl_gets();
+		path->cmd[i]->name = rl_gets();
 		if (path->cmd)
-			run_if_cmd(path);
-		usleep(1);
+		{
+			if (!ft_strncmp("exit", path->cmd[i]->name, 5))
+				break ;
+			//only reading the first command
+			run_if_cmd(path, 0);
+		}
 	}
 }

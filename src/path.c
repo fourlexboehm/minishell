@@ -2,54 +2,52 @@
 #include <sys/stat.h>
 #include "../inc/minishell.h"
 
-char *getfile(const t_pathlist *path);
-
-static bool	builtin(t_pathlist *path)
+static bool	builtin(t_pathlist *path, int cmdnum)
 {
-	if (!strcmp(path->cmd, "pwd"))
+	if (!strcmp(path->cmd[cmdnum]->name, "pwd"))
 		pwd();
-	else if (!strcmp(path->cmd, "env"))
+	else if (!strcmp(path->cmd[cmdnum]->name, "env"))
 		display();
-	else if (!strcmp(path->cmd, "export"))
+	else if (!strcmp(path->cmd[cmdnum]->name, "export"))
 		export(path);
-	else if (!strcmp(path->cmd, "unset"))
+	else if (!strcmp(path->cmd[cmdnum]->name, "unset"))
 		unset(path);
-	//TODO actually return to main and free stuff properly
-	else if (!strcmp(path->cmd, "exit"))
-		exit(-1);
 	else
 		return (false);
 	return (true);
 }
 
 //string join a directory in path[] to the command name
-char *getfile(const t_pathlist *path)
+static char *getfile(const t_pathlist *path, int cmdnum)
 {
 	char *file;
 	char *subfile;
 	int	i;
 
 	i = 0;
-	subfile = ft_strjoin("/", path->cmd);
+	subfile = ft_strjoin("/", path->cmd[cmdnum]->name);
 	file = ft_strjoin(path->path[i++], subfile);
 	free(subfile);
 	return file;
 }
 
 //checks if a program exists and run it
-void run_if_cmd(t_pathlist *path)
+void run_if_cmd(t_pathlist *path, int cmdnum)
 {
 	struct stat sb;
 	char *file;
+	pid_t	pid;
 
-	if (builtin(path))
+	if (builtin(path, cmdnum))
 		return;
 	while(path->path)
 	{
-		file = getfile(path);
+		file = getfile(path, cmdnum);
 		if (stat(file, &sb) == 0 && sb.st_mode & S_IXUSR)
 		{
-			execv(file, path->args);
+			pid = fork();
+			(void)pid;
+			execv(file, path->cmd[cmdnum]->args);
 			free(file);
 			file = NULL;
 			return ;
@@ -57,13 +55,12 @@ void run_if_cmd(t_pathlist *path)
 		free(file);
 	}
 	file = NULL;
-	printf("%s Could not be run", path->cmd);
+	printf("%s Could not be run", path->cmd[cmdnum]->name);
 }
 
 //takes the path from the env_table and adds it to a 2d array in the pathlist
 void	init_pathlist(t_pathlist *path)
 {
-	//path = malloc(sizeof (t_pathlist*));
 	path->path = ft_split(search("PATH")->data, ':');
 }
 
