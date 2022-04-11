@@ -20,6 +20,7 @@ void init_env_table(char **env)
 		char **var;
 		var = ft_split(*env++, '=');
 		insert(var[0], var[1]);
+		free(var);
 	}
 }
 
@@ -34,5 +35,5 @@ int	main(int argc, char **argv, char **env)
 	init_env_table(env);
 	init_pathlist(&lst);
 	loop_shell(&lst, &cmd);
-	display();
+	destroy_pathlist(&lst);
 }

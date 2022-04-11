@@ -1,5 +1,8 @@
 
+#include <sys/stat.h>
 #include "../inc/minishell.h"
+
+char *getfile(const t_pathlist *path);
 
 static bool	builtin(t_pathlist *path)
 {
@@ -11,37 +14,61 @@ static bool	builtin(t_pathlist *path)
 		export(path);
 	else if (!strcmp(path->cmd, "unset"))
 		unset(path);
-//	else if (!strcmp(path->cmd, "cat"))
-//		ls(path->args);
+	//TODO actually return to main and free stuff properly
+	else if (!strcmp(path->cmd, "exit"))
+		exit(-1);
 	else
 		return (false);
 	return (true);
 }
 
+//string join a directory in path[] to the command name
+char *getfile(const t_pathlist *path)
+{
+	char *file;
+	char *subfile;
+	int	i;
+
+	i = 0;
+	subfile = ft_strjoin("/", path->cmd);
+	file = ft_strjoin(path->path[i++], subfile);
+	free(subfile);
+	return file;
+}
+
 //checks if a program exists and run it
 void run_if_cmd(t_pathlist *path)
 {
-	int	i;
+	struct stat sb;
 	char *file;
 
 	if (builtin(path))
 		return;
-	i = 0;
 	while(path->path)
 	{
-		file = ft_strjoin(path->path[i++], ft_strjoin("/", path->cmd));
-		if (access( file, F_OK ) == 0 )
+		file = getfile(path);
+		if (stat(file, &sb) == 0 && sb.st_mode & S_IXUSR)
 		{
 			execv(file, path->args);
+			free(file);
+			file = NULL;
 			return ;
 		}
+		free(file);
 	}
+	file = NULL;
 	printf("%s Could not be run", path->cmd);
 }
 
-//takes the path from the the env_table and adds it to a 2d array in the pathlist
+//takes the path from the env_table and adds it to a 2d array in the pathlist
 void	init_pathlist(t_pathlist *path)
 {
 	//path = malloc(sizeof (t_pathlist*));
 	path->path = ft_split(search("PATH")->data, ':');
+}
+
+void	destroy_pathlist(t_pathlist *path)
+{
+	free(path->path);
+	path->path = NULL;
 }

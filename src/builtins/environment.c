@@ -3,7 +3,7 @@
 
 void	pwd()
 {
-	printf("%s", search("PWD")->data);
+	printf("%s\n", search("PWD")->data);
 }
 
 void	export(t_pathlist	*path)

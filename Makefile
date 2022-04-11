@@ -14,7 +14,8 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 
 	make -C $(LIBFT) bonus
-	gcc $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBFT_A)
+	gcc $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBFT_A) -lreadline
+	#/opt/homebrew/Cellar/readline/8.1.2/lib/libhistory.a /opt/homebrew/Cellar/readline/8.1.2/lib/libreadline.a
 
 clean:
 	make clean -C $(LIBFT)
