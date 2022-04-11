@@ -9,9 +9,9 @@ static bool	builtin(t_pathlist *path, int cmdnum)
 	else if (!strcmp(path->cmd[cmdnum]->name, "env"))
 		display();
 	else if (!strcmp(path->cmd[cmdnum]->name, "export"))
-		export(path);
+		export(path, cmdnum);
 	else if (!strcmp(path->cmd[cmdnum]->name, "unset"))
-		unset(path);
+		unset(path, cmdnum);
 	else
 		return (false);
 	return (true);
@@ -52,6 +52,7 @@ void run_if_cmd(t_pathlist *path, int cmdnum)
 			file = NULL;
 			return ;
 		}
+		path->path++;
 		free(file);
 	}
 	file = NULL;

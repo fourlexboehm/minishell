@@ -34,5 +34,6 @@ int	main(int argc, char **argv, char **env)
 	init_pathlist(&lst);
 	loop_shell(&lst);
 	destroy_pathlist(&lst);
+	free_env();
 	check_leaks();
 }

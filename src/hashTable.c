@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hashmap.c                                          :+:      :+:    :+:   */
+/*   hashTable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboehm <aboehm@42adel.org.au>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 11:52:49 by aboehm            #+#    #+#             */
-/*   Updated: 2022/04/04 12:20:05 by aboehm           ###   ########.fr       */
+/*   Updated: 2022/04/11 15:54:38 by aboehm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 // Djb2 hash function
-uint64_t hash(char *str)
+u_int64_t hash(char *str)
 {
-	unsigned long hash;
+	u_int64_t hash;
 	int c;
 
 	hash = 5381L;
 	while ((c = *str++))
 		hash = ((hash << 5) + hash) + c;
-	return hash % 4096;
+	return(hash % 4096);
 }
 
 t_env *search(char *key)
@@ -35,10 +35,10 @@ t_env *search(char *key)
 	{
 		if(!ft_strncmp(env_table[hashIndex]->key, key,  ft_strlen(key)))
 			return env_table[hashIndex];
-      //go to next cell
-      ++hashIndex;
-      //wrap around the table
-      hashIndex %= 4096;
+		//go to next cell
+		++hashIndex;
+		//wrap around the table
+		hashIndex %= 4096;
    }        
    return NULL;
 }
@@ -51,23 +51,20 @@ void insert(char *key, char *data)
 	item = (t_env*) malloc(sizeof(t_env));
 	item->data = data;
 	item->key = key;
-   //get the hash
-   hashIndex = hash(key);
-   //move in array until an empty or deleted cell
-   while(env_table[hashIndex] != NULL && (!ft_strncmp(env_table[hashIndex]->key, "-1", 2)))
-   {
-      //go to next cell
-      ++hashIndex;
-      //wrap around the table
-      hashIndex %= 4096;
-   }
-   env_table[hashIndex] = item;
+	hashIndex = hash(key);
+	while(env_table[hashIndex] != NULL && (!ft_strncmp(env_table[hashIndex]->key, "-1", 2)))
+	{
+		++hashIndex;
+		hashIndex %= 4096;
+	}
+	env_table[hashIndex] = item;
 }
 
 void display()
 {
-	int i = 0;
+	int i;
 
+	i = 0;
 	while (i < 4096)
 	{
 		if(env_table[i] != NULL)
@@ -76,6 +73,18 @@ void display()
 	}
 }
 
+void	free_env()
+{
+	int i;
+
+	i = 0;
+	while (i < 4096)
+	{
+		if (env_table[i])
+			free(env_table[i]);
+		i++;
+	}
+}
 //TODO: probably unneeded
 //t_env* delete(t_env* item)
 //{
