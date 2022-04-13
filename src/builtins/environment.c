@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environment.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboehm <aboehm@42adel.org.au>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/13 21:56:23 by aboehm            #+#    #+#             */
+/*   Updated: 2022/04/13 21:57:06 by aboehm           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	pwd()
+void	pwd(void)
 {
 	printf("%s\n", search("PWD")->data);
 }
 
 void	export(t_pathlist	*path, int cmdnum)
 {
-	char **vec;
+	char	**vec;
 
 	if (!path->cmd[cmdnum].args)
 		return ;

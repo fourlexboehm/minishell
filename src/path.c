@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboehm <aboehm@42adel.org.au>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/13 21:59:04 by aboehm            #+#    #+#             */
+/*   Updated: 2022/04/13 22:03:15 by aboehm           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <sys/stat.h>
 #include "../inc/minishell.h"
@@ -18,45 +29,40 @@ static bool	builtin(t_pathlist *path, int cmdnum)
 }
 
 //string join a directory in path[] to the command name
-static char *getfile(const t_pathlist *path, int cmdnum)
+static char	*getfile(const t_pathlist *path, int cmdnum)
 {
-	char *file;
-	char *subfile;
-	int	i;
+	char	*file;
+	char	*subfile;
+	int		i;
 
 	i = 0;
 	subfile = ft_strjoin("/", path->cmd[cmdnum].name);
 	file = ft_strjoin(path->path[i++], subfile);
 	free(subfile);
-	return file;
+	return (file);
 }
 
 //checks if a program exists and run it
-void run_if_cmd(t_pathlist *path, int cmdnum)
+void	run_if_cmd(t_pathlist *path, int cmdnum)
 {
-	struct stat sb;
-	char *file;
-	pid_t	pid;
+	struct stat	sb;
+	char		*file;
+	pid_t		pid;
 
 	if (builtin(path, cmdnum))
-		return;
-	while(path->path)
+		return ;
+	while (path->path)
 	{
 		file = getfile(path, cmdnum);
 		if (stat(file, &sb) == 0 && sb.st_mode & S_IXUSR)
 		{
-
 			pid = fork();
-			if(pid==-1)
+			if (pid == -1)
 			{
 				printf("exec failed\n");
 				exit(-1);
 			}
 			execve(file, path->cmd[cmdnum].args, get_env());
-			if (pid == 0)
-			{
-				(execve(file, path->cmd[cmdnum].args, get_env()));
-			}
 			free(file);
 			file = NULL;
 			return ;
@@ -71,10 +77,9 @@ void run_if_cmd(t_pathlist *path, int cmdnum)
 //takes the path from the env_table and adds it to a 2d array in the pathlist
 void	init_pathlist(t_pathlist *pathlist)
 {
-	//t_env *pathvar;
-	char* path = search("PATH")->data;
+	char	*path;
 
-	//pathvar = search("PATH");
+	path = search("PATH")->data;
 	if (path)
 		pathlist->path = ft_split(path, ':');
 	else

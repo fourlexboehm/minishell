@@ -6,86 +6,87 @@
 /*   By: aboehm <aboehm@42adel.org.au>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 11:52:49 by aboehm            #+#    #+#             */
-/*   Updated: 2022/04/11 15:54:38 by aboehm           ###   ########.fr       */
+/*   Updated: 2022/04/13 22:16:08 by aboehm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 // Djb2 hash function
-u_int64_t hash(char *str)
+u_int64_t	hash(char *str)
 {
-	u_int64_t hash;
-	char c;
+	u_int64_t	hash;
+	char		c;
 
 	hash = 5381L;
-	while ((c = *str++))
-		hash = ((hash << 5) + hash) + c;
-	return(hash % 4096);
+	while (*str++)
+		hash = ((hash << 5) + hash) + (*str - 1);
+	return (hash % 4096);
 }
 
-t_env *search(char *key)
+//returns an environmariable from a key
+t_env	*search(char *key)
 {
-	unsigned long	hashIndex;
+	unsigned long	hashindex;
 
-	//get the hash 
-	hashIndex = hash(key);
-   //move in array until an empty 
-	while(env_table[hashIndex] != NULL)
+	hashindex = hash(key);
+	while (env_table[hashindex] != NULL)
 	{
-		if(!ft_strncmp(env_table[hashIndex]->key, key,  ft_strlen(key)))
-			return env_table[hashIndex];
-		//go to next cell
-		++hashIndex;
-		//wrap around the table
-		hashIndex %= 4096;
-   }        
-   return NULL;
+		if (!ft_strncmp(env_table[hashindex]->key, key, ft_strlen(key)))
+			return (env_table[hashindex]);
+		++hashindex;
+		hashindex %= 4096;
+	}
+	return (NULL);
 }
 
-void insert(char *key, char *data)
+//insert a key-value pair into the hashtable
+void	insert(char *key, char *data)
 {
-	t_env *item;
-	unsigned long	hashIndex;
+	t_env			*item;
+	unsigned long	hashindex;
 
 	item = (t_env *) malloc(sizeof(t_env));
 	item->data = data;
 	item->key = key;
-	hashIndex = hash(key);
-	while(env_table[hashIndex] != NULL && (!ft_strncmp(env_table[hashIndex]->key, "-1", 2)))
+	hashindex = hash(key);
+	while (env_table[hashindex] != NULL
+		&& (!ft_strncmp(env_table[hashindex]->key, "-1", 2)))
 	{
-		++hashIndex;
-		hashIndex %= 4096;
+		++hashindex;
+		hashindex %= 4096;
 	}
-	env_table[hashIndex] = item;
+	env_table[hashindex] = item;
 }
 
-void display()
+//return a list of env vars to the terminal
+//todo make compat with pipes/redirects
+void	display(void)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 4096)
 	{
-		if(env_table[i] != NULL)
-			printf(" %s=%s\n",env_table[i]->key, env_table[i]->data);
+		if (env_table[i] != NULL)
+			printf("%s=%s\n", env_table[i]->key, env_table[i]->data);
 		i++;
 	}
 }
 
-char **get_env()
+char	**get_env(void)
 {
-	int i;
-	char *tmp;
-	char **env;
-	char **envtemp;
+	int		i;
+	char	*tmp;
+	char	**env;
+	char	**envtemp;
 
 	env = malloc(sizeof(char *));
 	*env = NULL;
 	i = 0;
 	while (i < 4096)
 	{
-		if(env_table[i] != NULL)
+		if (env_table[i] != NULL)
 		{
 			envtemp = env;
 			env = malloc(sizeof (char *) * 1 + n_str_in_vec(env));
