@@ -16,7 +16,7 @@
 u_int64_t hash(char *str)
 {
 	u_int64_t hash;
-	int c;
+	char c;
 
 	hash = 5381L;
 	while ((c = *str++))
@@ -48,7 +48,7 @@ void insert(char *key, char *data)
 	t_env *item;
 	unsigned long	hashIndex;
 
-	item = (t_env*) malloc(sizeof(t_env));
+	item = (t_env *) malloc(sizeof(t_env));
 	item->data = data;
 	item->key = key;
 	hashIndex = hash(key);
@@ -73,41 +73,28 @@ void display()
 	}
 }
 
-void	free_env()
+char **get_env()
 {
 	int i;
+	char *tmp;
+	char **env;
+	char **envtemp;
 
+	env = malloc(sizeof(char *));
+	*env = NULL;
 	i = 0;
 	while (i < 4096)
 	{
-		if (env_table[i])
-			free(env_table[i]);
+		if(env_table[i] != NULL)
+		{
+			envtemp = env;
+			env = malloc(sizeof (char *) + ft_strlen((char *) env));
+			free(envtemp);
+			tmp = ft_strjoin(env_table[i]->key, "=");
+			*env = ft_strjoin(tmp, env_table[i]->data);
+			free(tmp);
+		}
 		i++;
 	}
+	return (env);
 }
-//TODO: probably unneeded
-//t_env* delete(t_env* item)
-//{
-//   char *key;
-//   unsigned long	hashIndex;
-//   t_env 			*temp;
-//   t_env 			*dummyItem;
-//
-//   key = item->key;
-//   dummyItem = (t_env*) malloc(sizeof(t_env));
-//	dummyItem->data = "-1";
-//   dummyItem->key = "-1";
-//	hashIndex = hash(key);
-//   while(env_table[hashIndex] != NULL)
-//   {
-//      if(!ft_strncmp(env_table[hashIndex]->key, key, ft_strlen(key)))
-//	  {
-//         temp = env_table[hashIndex];
-//         env_table[hashIndex] = dummyItem;
-//         return temp;
-//      }
-//      ++hashIndex;
-//      hashIndex %= 4096;
-//   }
-//   return NULL;
-//}

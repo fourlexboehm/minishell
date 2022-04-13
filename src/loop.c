@@ -24,7 +24,6 @@ void	loop_shell(t_pathlist *path)
 	int	i;
 
 	i = 0;
-	(void)path;
 	while(true)
 	{
 		//temporary short circuit until parsers done

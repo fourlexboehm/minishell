@@ -45,9 +45,18 @@ void run_if_cmd(t_pathlist *path, int cmdnum)
 		file = getfile(path, cmdnum);
 		if (stat(file, &sb) == 0 && sb.st_mode & S_IXUSR)
 		{
+
 			pid = fork();
-			(void)pid;
-			execv(file, path->cmd[cmdnum]->args);
+			if(pid==-1)
+			{
+				printf("exec failed\n");
+				exit(-1);
+			}
+			printf("%d", pid);
+			if (pid == 0)
+			{
+				(execve(file, path->cmd[cmdnum]->args, get_env()));
+			}
 			free(file);
 			file = NULL;
 			return ;
@@ -60,9 +69,16 @@ void run_if_cmd(t_pathlist *path, int cmdnum)
 }
 
 //takes the path from the env_table and adds it to a 2d array in the pathlist
-void	init_pathlist(t_pathlist *path)
+void	init_pathlist(t_pathlist *pathlist)
 {
-	path->path = ft_split(search("PATH")->data, ':');
+	//t_env *pathvar;
+	char* path = getenv("PATH");
+
+	//pathvar = search("PATH");
+	if (path)
+		pathlist->path = ft_split(path, ':');
+	else
+		pathlist->path = NULL;
 }
 
 void	destroy_pathlist(t_pathlist *path)

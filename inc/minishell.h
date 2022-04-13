@@ -29,6 +29,7 @@ typedef struct s_env
 {
 	char *key;
 	char *data;
+	struct s_env *next;
 } t_env;
 
 
@@ -53,6 +54,7 @@ t_env	*env_table[4096];
 //environment functions
 void		insert(char *key, char *data);
 t_env		*search(char *key);
+char		**get_env();
 void		display();
 void		free_env();
 
