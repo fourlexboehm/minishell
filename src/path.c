@@ -52,7 +52,7 @@ void run_if_cmd(t_pathlist *path, int cmdnum)
 				printf("exec failed\n");
 				exit(-1);
 			}
-			printf("%d", pid);
+			execve(file, path->cmd[cmdnum].args, get_env());
 			if (pid == 0)
 			{
 				(execve(file, path->cmd[cmdnum].args, get_env()));

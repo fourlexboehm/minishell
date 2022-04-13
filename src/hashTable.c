@@ -88,12 +88,13 @@ char **get_env()
 		if(env_table[i] != NULL)
 		{
 			envtemp = env;
-			env = malloc(sizeof (char *) + ft_strlen((char *) env));
+			env = malloc(sizeof (char *) * 1 + n_str_in_vec(env));
 			free(envtemp);
 			tmp = ft_strjoin(env_table[i]->key, "=");
 			*env = ft_strjoin(tmp, env_table[i]->data);
 			free(tmp);
 		}
+		(*env)++;
 		i++;
 	}
 	return (env);

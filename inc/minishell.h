@@ -29,7 +29,7 @@ typedef struct s_env
 {
 	char *key;
 	char *data;
-	struct s_env *next;
+	//struct s_env *next;
 } t_env;
 
 
@@ -64,12 +64,14 @@ void		run_if_cmd(t_pathlist *path, int cmdnum);
 
 //parser
 t_cmd	*lex(char *line);
+int n_str_in_vec(char **vec);
 
 void		loop_shell(t_pathlist *path);
 void		pwd();
 u_int64_t	hash(char *str);
 void		export(t_pathlist	*path, int cmdnum);
 void		unset(t_pathlist	*path, int cmdnum);
+
 
 
 

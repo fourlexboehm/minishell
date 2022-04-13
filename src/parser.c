@@ -20,9 +20,8 @@ t_cmd	*lex(char *line)
 	char 	**currcmdvec;
 
 	cmdvec = ft_split(line, '|');
-
 	numcmds = n_str_in_vec(cmdvec);
-	cmds = malloc(sizeof(t_cmd*) * numcmds + 1);
+	cmds = malloc(sizeof(t_cmd) * numcmds + 1);
 	i = 0;
 	//add handling for quotes
 	while (i < numcmds)
@@ -30,13 +29,11 @@ t_cmd	*lex(char *line)
 		currcmdvec = ft_split(cmdvec[i], ' ');
 		cmds[i].name = currcmdvec[0];
 		cmds[i].args = currcmdvec;
-		free(currcmdvec);
 		i++;
 	}
 	cmds[i].args = NULL;
 	cmds[i].name = NULL;
 
-	//cmds[numcmds] = NULL;
 	free(cmdvec);
 	return (cmds);
 }
