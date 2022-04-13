@@ -43,10 +43,8 @@ typedef struct s_cmd
 typedef struct s_pathlist
 {
 	char **path;
-	t_cmd **cmd;
+	t_cmd *cmd;
 } t_pathlist;
-
-
 
 //One allowed Global variable, it's the hash table that stores the environment variables
 t_env	*env_table[4096];
@@ -64,7 +62,9 @@ void		destroy_pathlist(t_pathlist *path);
 
 void		run_if_cmd(t_pathlist *path, int cmdnum);
 
-//
+//parser
+t_cmd	*lex(char *line);
+
 void		loop_shell(t_pathlist *path);
 void		pwd();
 u_int64_t	hash(char *str);

@@ -58,6 +58,8 @@ int	main(int argc, char **argv, char **env)
 	init_pathlist(&lst);
 	if (lst.path)
 		loop_shell(&lst);
+	if (lst.cmd)
+
 	destroy_pathlist(&lst);
 	free_env();
 	check_leaks();

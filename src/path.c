@@ -4,13 +4,13 @@
 
 static bool	builtin(t_pathlist *path, int cmdnum)
 {
-	if (!strcmp(path->cmd[cmdnum]->name, "pwd"))
+	if (!strcmp(path->cmd[cmdnum].name, "pwd"))
 		pwd();
-	else if (!strcmp(path->cmd[cmdnum]->name, "env"))
+	else if (!strcmp(path->cmd[cmdnum].name, "env"))
 		display();
-	else if (!strcmp(path->cmd[cmdnum]->name, "export"))
+	else if (!strcmp(path->cmd[cmdnum].name, "export"))
 		export(path, cmdnum);
-	else if (!strcmp(path->cmd[cmdnum]->name, "unset"))
+	else if (!strcmp(path->cmd[cmdnum].name, "unset"))
 		unset(path, cmdnum);
 	else
 		return (false);
@@ -25,7 +25,7 @@ static char *getfile(const t_pathlist *path, int cmdnum)
 	int	i;
 
 	i = 0;
-	subfile = ft_strjoin("/", path->cmd[cmdnum]->name);
+	subfile = ft_strjoin("/", path->cmd[cmdnum].name);
 	file = ft_strjoin(path->path[i++], subfile);
 	free(subfile);
 	return file;
@@ -55,7 +55,7 @@ void run_if_cmd(t_pathlist *path, int cmdnum)
 			printf("%d", pid);
 			if (pid == 0)
 			{
-				(execve(file, path->cmd[cmdnum]->args, get_env()));
+				(execve(file, path->cmd[cmdnum].args, get_env()));
 			}
 			free(file);
 			file = NULL;
@@ -65,14 +65,14 @@ void run_if_cmd(t_pathlist *path, int cmdnum)
 		free(file);
 	}
 	file = NULL;
-	printf("%s Could not be run", path->cmd[cmdnum]->name);
+	printf("%s Could not be run", path->cmd[cmdnum].name);
 }
 
 //takes the path from the env_table and adds it to a 2d array in the pathlist
 void	init_pathlist(t_pathlist *pathlist)
 {
 	//t_env *pathvar;
-	char* path = getenv("PATH");
+	char* path = search("PATH")->data;
 
 	//pathvar = search("PATH");
 	if (path)
