@@ -84,5 +84,7 @@ void	ft_putnbr_fd(int n, int fd);
 void	ft_putendl_fd(char *s, int fd);
 char	*ft_strndup(const char *s1, size_t n);
 void	ft_new_node(t_list **list, int content);
+void	ft_freev(void **ptr, int len, bool free_seg);
+
 
 #endif

@@ -27,6 +27,7 @@ void	init_env_table(char **env)
 		var = ft_split(*env++, '=');
 		insert(var[0], var[1]);
 		free(var);
+		//ft_freev((void **) var, 3, true);
 	}
 }
 

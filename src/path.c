@@ -48,6 +48,7 @@ void	run_if_cmd(t_pathlist *path, int cmdnum)
 	struct stat	sb;
 	char		*file;
 	pid_t		pid;
+	char		**env;
 
 	if (builtin(path, cmdnum))
 		return ;
@@ -62,8 +63,11 @@ void	run_if_cmd(t_pathlist *path, int cmdnum)
 				printf("exec failed\n");
 				exit(-1);
 			}
-			execve(file, path->cmd[cmdnum].args, get_env());
+			env = get_env();
+			execve(file, path->cmd[cmdnum].args, env);
 			free(file);
+			//ft_freev((void **) env, n_str_in_vec(env), true);
+			free(env);
 			file = NULL;
 			return ;
 		}

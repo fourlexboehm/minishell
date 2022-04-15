@@ -16,7 +16,7 @@
 u_int64_t	hash(char *str)
 {
 	u_int64_t	hash;
-	char		c;
+	//char		c;
 
 	hash = 5381L;
 	while (*str++)

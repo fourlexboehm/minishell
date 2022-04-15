@@ -34,5 +34,7 @@ void	loop_shell(t_pathlist *path)
 				break ;
 			run_if_cmd(path, 0);
 		}
+		free(path->cmd);
 	}
+	free(path->cmd);
 }
