@@ -59,7 +59,7 @@ void		free_env();
 //pathlist struct functions
 void		init_pathlist(t_pathlist *path);
 void		destroy_pathlist(t_pathlist *path);
-void		run_if_cmd(t_pathlist *path, int cmdnum);
+void		run_if_valid_cmd(t_pathlist *path, int cmdnum);
 
 //parser
 t_cmd		*lex(char *line);

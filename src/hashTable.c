@@ -79,24 +79,28 @@ char	**get_env(void)
 	int		i;
 	char	*tmp;
 	char	**env;
-	char	**envtemp;
+	//char	**envtemp;
+	int		len;
 
-	env = malloc(sizeof(char *));
-	*env = NULL;
+	len = 0;
 	i = 0;
 	while (i < 4096)
+		if (env_table[i++])
+			len++;
+	env = (char **)ft_calloc(len + 1, sizeof(char *));
+	i = -1;
+	while (++i < 4096)
 	{
-		if (env_table[i] != NULL)
+		if (env_table[i])
 		{
-			envtemp = env;
-			env = malloc(sizeof (char *) * 1 + n_str_in_vec(env));
-			free(envtemp);
+			//envtemp = env;
 			tmp = ft_strjoin(env_table[i]->key, "=");
 			*env = ft_strjoin(tmp, env_table[i]->data);
+			//ft_strlcat(*env, env_table[i]->data, 1);
+			//free(envtemp);
 			free(tmp);
+			(*env)++;
 		}
-		(*env)++;
-		i++;
 	}
 	return (env);
 }

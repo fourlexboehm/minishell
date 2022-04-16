@@ -14,7 +14,6 @@ void	interrupt_process(int signal)
 	write(1, "\n", 1);
 }
 
-
 void	define_exec_signals(void)
 {
 	signal(SIGINT, interrupt_process);

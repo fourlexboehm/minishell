@@ -2,11 +2,11 @@
 
 /* Read a string, and return a pointer to it.  Returns NULL on EOF. */
 
-static void freecmd(const t_pathlist *path, int i)
+static void freecmd(t_cmd *cmd, int i)
 {
-	ft_freev((void **) path->cmd[i].args, n_str_in_vec(path->cmd[i].args), true);
-	path->cmd[i].args = NULL;
-	path->cmd[i].name = NULL;
+	ft_freev((void **) cmd[i].args, n_str_in_vec(cmd[i].args), true);
+	cmd[i].args = NULL;
+	cmd[i].name = NULL;
 }
 
 //TODO thread prompt variable to here??
@@ -36,15 +36,16 @@ void	loop_shell(t_pathlist *path)
 	while (true)
 	{
 		path->cmd = lex(rl_get());
-		if (path->cmd)
+		if (path->cmd->name)
 		{
 			if (!ft_strncmp("exit", path->cmd[i].name, 5))
 				break ;
-			run_if_cmd(path, 0);
-			freecmd(path, i);
+			run_if_valid_cmd(path, 0);
 		}
+		freecmd(path->cmd, i);
+
 	}
-	freecmd(path, i);
-	free(path->cmd);
+	freecmd(path->cmd, i);
+	//free(path->cmd);
 }
 
