@@ -30,13 +30,11 @@ t_cmd	*lex(char *line)
 		currcmdvec = ft_split(cmdvec[i], ' ');
 		cmds[i].name = currcmdvec[0];
 		cmds[i].args = currcmdvec;
-		free(cmdvec);
-		//ft_freev((void **) currcmdvec, n_str_in_vec(currcmdvec), true);
 		i++;
 	}
 	cmds[i].args = NULL;
 	cmds[i].name = NULL;
-	free(cmdvec);
-	//ft_freev((void **) cmdvec, numcmds, true);
+	//free(cmdvec);
+	ft_freev((void **) cmdvec, numcmds, true);
 	return (cmds);
 }

@@ -16,18 +16,22 @@
 void	init_env_table(char **env)
 {
 	char	**var;
-
+//	int i;
+//
+//	i = 0;
+//	while(i < 4096)
+//	{
+//		env_table[i] = NULL;
+//		i++;
+//	}
 	while (*env)
 	{
-//		int i;
-//
-//		i = 0;
-//		while(i < 4096)
-//			env_table[i++] = (t_env *)NULL;
 		var = ft_split(*env++, '=');
-		insert(var[0], var[1]);
-		free(var);
-		//ft_freev((void **) var, 3, true);
+		if (var[1])
+		{
+			insert(var[0], var[1]);
+			free(var);
+		}
 	}
 }
 
@@ -39,7 +43,11 @@ void	free_env(void)
 	while (i < 4096)
 	{
 		if (env_table[i])
+		{
+			free(env_table[i]->data);
+			free(env_table[i]->key);
 			free(env_table[i]);
+		}
 		i++;
 	}
 }
@@ -53,8 +61,8 @@ int	main(int argc, char **argv, char **env)
 	(void)env;
 	init_env_table(env);
 	init_pathlist(&lst);
-	if (lst.path)
-		loop_shell(&lst);
+//	if (lst.path)
+//		loop_shell(&lst);
 	destroy_pathlist(&lst);
 	free_env();
 	check_leaks();

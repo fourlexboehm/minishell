@@ -33,8 +33,14 @@ void	loop_shell(t_pathlist *path)
 			if (!ft_strncmp("exit", path->cmd[i].name, 5))
 				break ;
 			run_if_cmd(path, 0);
+			ft_freev((void **) path->cmd[i].args, n_str_in_vec(path->cmd[i].args), true);
+			path->cmd[i].args = NULL;
+			path->cmd[i].name = NULL;
 		}
 		free(path->cmd);
+		path->cmd = NULL;
+
 	}
+	ft_freev((void **) path->cmd[i].args, n_str_in_vec(path->cmd[i].args), true);
 	free(path->cmd);
 }

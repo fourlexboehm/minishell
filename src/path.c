@@ -66,8 +66,7 @@ void	run_if_cmd(t_pathlist *path, int cmdnum)
 			env = get_env();
 			execve(file, path->cmd[cmdnum].args, env);
 			free(file);
-			//ft_freev((void **) env, n_str_in_vec(env), true);
-			free(env);
+			ft_freev((void **) env, n_str_in_vec(env), true);
 			file = NULL;
 			return ;
 		}
@@ -81,17 +80,19 @@ void	run_if_cmd(t_pathlist *path, int cmdnum)
 //takes the path from the env_table and adds it to a 2d array in the pathlist
 void	init_pathlist(t_pathlist *pathlist)
 {
-	char	*path;
+	t_env 	*path;
 
-	path = search("PATH")->data;
+	path = search("PATH");
 	if (path)
-		pathlist->path = ft_split(path, ':');
+		pathlist->path = ft_split(path->data, ':');
 	else
 		pathlist->path = NULL;
 }
 
 void	destroy_pathlist(t_pathlist *path)
 {
-	free(path->path);
+	if (path->path)
+		ft_freev((void **) path->path, n_str_in_vec(path->path), true);
+	//free(path->path);
 	path->path = NULL;
 }
