@@ -1,7 +1,8 @@
 NAME = minishell
 #CFLAGS = -g
 CFLAGS = -Wall -Wextra -Werror -g
-SRC = src/main.c src/hashTable.c src/path.c src/loop.c src/builtins/environment.c src/parser.c
+SRC = src/main.c src/hashTable.c src/path.c src/loop.c src/builtins/environment.c src/parser.c src/signals.c \
+src/expander.c \ src/cd.c
 INCLUDES = ./includes/
 LIBFT = ./libft/
 LIBFT_A = ./libft/libft.a

@@ -61,8 +61,8 @@ int	main(int argc, char **argv, char **env)
 	(void)env;
 	init_env_table(env);
 	init_pathlist(&lst);
-//	if (lst.path)
-//		loop_shell(&lst);
+	if (lst.path)
+		loop_shell(&lst);
 	destroy_pathlist(&lst);
 	free_env();
 	check_leaks();

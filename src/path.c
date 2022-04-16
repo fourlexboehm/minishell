@@ -39,6 +39,7 @@ static char	*getfile(const t_pathlist *path, int cmdnum)
 	subfile = ft_strjoin("/", path->cmd[cmdnum].name);
 	file = ft_strjoin(path->path[i++], subfile);
 	free(subfile);
+	subfile = NULL;
 	return (file);
 }
 
@@ -49,7 +50,9 @@ void	run_if_cmd(t_pathlist *path, int cmdnum)
 	char		*file;
 	pid_t		pid;
 	char		**env;
-
+	int			status;
+	if (!path->cmd[cmdnum].name)
+		return ;
 	if (builtin(path, cmdnum))
 		return ;
 	while (path->path)
@@ -63,11 +66,18 @@ void	run_if_cmd(t_pathlist *path, int cmdnum)
 				printf("exec failed\n");
 				exit(-1);
 			}
-			env = get_env();
-			execve(file, path->cmd[cmdnum].args, env);
+			if (pid == 0)
+			{
+				env = get_env();
+				execve(file, path->cmd[cmdnum].args, env);
+				ft_freev((void **) env, n_str_in_vec(env), true);
+			}
+			waitpid(pid, &status, 0);
 			free(file);
-			ft_freev((void **) env, n_str_in_vec(env), true);
 			file = NULL;
+			if (WIFEXITED(status))
+				printf("%i cmd returned:", status);
+
 			return ;
 		}
 		path->path++;
@@ -92,7 +102,7 @@ void	init_pathlist(t_pathlist *pathlist)
 void	destroy_pathlist(t_pathlist *path)
 {
 	if (path->path)
-		ft_freev((void **) path->path, n_str_in_vec(path->path), true);
+		ft_freev((void **) path->path, n_str_in_vec(path->path), false);
 	//free(path->path);
 	path->path = NULL;
 }
