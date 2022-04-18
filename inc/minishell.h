@@ -20,6 +20,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
@@ -31,7 +32,6 @@ typedef struct s_env
 	char *data;
 	//struct s_env *next;
 } t_env;
-
 
 typedef struct s_cmd
 {
