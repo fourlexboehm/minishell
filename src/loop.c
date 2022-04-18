@@ -1,14 +1,15 @@
 #include "../inc/minishell.h"
 
-/* Read a string, and return a pointer to it.  Returns NULL on EOF. */
-
 static void freecmd(t_cmd *cmd, int i)
 {
-	ft_freev((void **) cmd[i].args, n_str_in_vec(cmd[i].args), true);
+	free2d_array((void **)cmd[i].args);
 	cmd[i].args = NULL;
 	cmd[i].name = NULL;
+	free(cmd);
+	cmd = NULL;
 }
 
+/* Read a string, and return a pointer to it.  Returns NULL on EOF. */
 //TODO thread prompt variable to here??
 static char	*rl_get(void)
 {
@@ -41,11 +42,10 @@ void	loop_shell(t_pathlist *path)
 			if (!ft_strncmp("exit", path->cmd[i].name, 5))
 				break ;
 			run_if_valid_cmd(path, 0);
+			freecmd(path->cmd, i);
 		}
-		freecmd(path->cmd, i);
 
 	}
-	freecmd(path->cmd, i);
-	//free(path->cmd);
+	if (path->cmd->name)
+		freecmd(path->cmd, i);
 }
-

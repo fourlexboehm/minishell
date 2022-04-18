@@ -34,7 +34,6 @@ t_cmd	*lex(char *line)
 	}
 	cmds[i].args = NULL;
 	cmds[i].name = NULL;
-	//free(cmdvec);
-	ft_freev((void **) cmdvec, numcmds, true);
+	free2d_array((void **)cmdvec);
 	return (cmds);
 }

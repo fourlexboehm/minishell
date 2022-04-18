@@ -16,9 +16,9 @@
 void	init_env_table(char **env)
 {
 	char	**var;
-//	int i;
-//
-//	i = 0;
+	int i;
+
+	i = 2;
 //	while(i < 4096)
 //	{
 //		env_table[i] = NULL;
@@ -30,8 +30,11 @@ void	init_env_table(char **env)
 		if (var[1])
 		{
 			insert(var[0], var[1]);
-			free(var);
 		}
+		if (var[i])
+			while(var[i])
+				free(var[i++]);
+		free(var);
 	}
 }
 

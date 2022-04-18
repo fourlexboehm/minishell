@@ -22,3 +22,13 @@ void ft_freev(void **ptr, int len, bool free_seg)
 	if (free_seg)
 		free(ptr);
 }
+
+void	free2d_array(void **arry)
+{
+	int	i;
+
+	i = 0;
+	while (arry[i])
+		free(arry[i++]);
+	free(arry);
+}

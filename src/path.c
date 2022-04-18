@@ -28,7 +28,6 @@ void	init_pathlist(t_pathlist *pathlist)
 void	destroy_pathlist(t_pathlist *path)
 {
 	if (path->path)
-		ft_freev((void **) path->path, n_str_in_vec(path->path), true);
-	//free(path->path);
+		free2d_array((void **)path->path);
 	path->path = NULL;
 }
