@@ -21,7 +21,7 @@ void	export(t_pathlist	*path, int cmdnum)
 {
 	char	**vec;
 
-	if (!path->cmd[cmdnum].args)
+	if (!path->cmd[cmdnum].args[1])
 		return ;
 	vec = ft_split(path->cmd[cmdnum].args[1], '=');
 	insert(vec[0], vec[1]);
@@ -29,6 +29,6 @@ void	export(t_pathlist	*path, int cmdnum)
 
 void	unset(t_pathlist	*path, int cmdnum)
 {
-	if (path->cmd[cmdnum].args)
-		env_table[hash(path->cmd[cmdnum].args[1])] = NULL;
+	if (path->cmd[cmdnum].args[1])
+		env_table[hash(path->cmd[cmdnum].args[1], env_size)] = NULL;
 }

@@ -52,10 +52,11 @@ t_env	*env_table[env_size];
 
 //environment functions
 void		insert(char *key, char *data);
-t_env		*search(char *key, int env_len);
+t_env		*search(char *key);
 char		**get_env(t_env **envtab);
 void		display();
 void		free_env();
+u_int64_t	hash(char *str, int env_len);
 
 //pathlist struct functions
 void		init_pathlist(t_pathlist *path);
@@ -64,11 +65,16 @@ void		run_if_valid_cmd(t_pathlist *path, int cmdnum);
 
 //parser
 t_cmd		*lex(char *line);
+
+//utils
 int 		n_str_in_vec(char **vec);
 
+//repl
 void		loop_shell(t_pathlist *path);
+
+//builtins
+void		cd(char *path);
 void		pwd();
-u_int64_t	hash(char *str, int env_len);
 void		export(t_pathlist	*path, int cmdnum);
 void		unset(t_pathlist	*path, int cmdnum);
 

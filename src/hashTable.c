@@ -25,11 +25,11 @@ u_int64_t	hash(char *str, int envlen)
 }
 
 //returns an environmariable from a key
-t_env	*search(char *key, int env_len)
+t_env	*search(char *key)
 {
 	unsigned long	hashindex;
 
-	hashindex = hash(key, env_len);
+	hashindex = hash(key, env_size);
 	while (env_table[hashindex]->key != NULL)
 	{
 		if (!ft_strncmp(env_table[hashindex]->key, key, ft_strlen(key)))
@@ -60,7 +60,6 @@ void	insert(char *key, char *data)
 }
 
 //return a list of env vars to the terminal
-//TODO make compat with pipes/redirects
 void	display()
 {
 	int	i;

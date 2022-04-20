@@ -18,7 +18,7 @@ void	init_pathlist(t_pathlist *pathlist)
 {
 	t_env 	*path;
 
-	path = search("PATH", env_size);
+	path = search("PATH");
 	if (path)
 		pathlist->path = ft_split(path->data, ':');
 	else

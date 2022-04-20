@@ -42,6 +42,7 @@ SOURCES = ft_printf.c \
 		ft_putstr_fd.c \
 		ft_putendl_fd.c \
 		ft_putnbr_fd.c \
+		ft_strncat.c \
 		ft_freev.c
 
 BONUS 	= ft_lstnew.c \

@@ -45,7 +45,7 @@ int		ft_toupper(int c);
 int		ft_tolower(int c);
 long	ft_atoi(const char *str);
 int		ft_strcmp(char *s1, char *s2);
-int		ft_strlen(char *str);
+int		ft_strlen(const char *str);
 size_t	ft_strnlen(const char *str, size_t size);
 char	*ft_strncat(char *dest, const char *src, unsigned int nb);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);

@@ -43,7 +43,7 @@ void	free_env(void)
 	int	i;
 
 	i = 0;
-	while (i < 4096)
+	while (i < env_size)
 	{
 		if (env_table[i])
 		{

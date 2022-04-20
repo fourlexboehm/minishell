@@ -5,6 +5,8 @@ static bool	builtin(t_pathlist *path, int cmdnum)
 {
 	if (!strcmp(path->cmd[cmdnum].name, "pwd"))
 		pwd();
+	else if (!strcmp(path->cmd[cmdnum].name, "cd"))
+		cd(path->cmd[cmdnum].args[1]);
 	else if (!strcmp(path->cmd[cmdnum].name, "env"))
 		display();
 	else if (!strcmp(path->cmd[cmdnum].name, "export"))
