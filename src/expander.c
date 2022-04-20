@@ -2,7 +2,7 @@
 
 static void	define_value(char **value, char *key)
 {
-	*value = ft_strdup(search(key)->data);
+	*value = ft_strdup(search(key, env_size)->data);
 	//TODO impl local vars
 //	if (!*value)
 //		*value = ft_strdup(localsearch(localvars, key));

@@ -3,14 +3,14 @@
 static void	quit_process(int signal)
 {
 	(void)signal;
-	//todo error handling
+	//TODO error handling
 	ft_printf("Quit (core dumped)\n");
 }
 
 void	interrupt_process(int signal)
 {
 	(void)signal;
-// todo error handling
+// TODO error handling
 	write(1, "\n", 1);
 }
 

@@ -13,7 +13,7 @@
 #include "../inc/minishell.h"
 
 // Djb2 hash function
-u_int64_t	hash(char *str)
+u_int64_t	hash(char *str, int envlen)
 {
 	u_int64_t	hash;
 	//char		c;
@@ -21,21 +21,21 @@ u_int64_t	hash(char *str)
 	hash = 5381L;
 	while (*str++)
 		hash = ((hash << 5) + hash) + (*str - 1);
-	return (hash % 4096);
+	return (hash % envlen);
 }
 
 //returns an environmariable from a key
-t_env	*search(char *key)
+t_env	*search(char *key, int env_len)
 {
 	unsigned long	hashindex;
 
-	hashindex = hash(key);
-	while (env_table[hashindex] != NULL)
+	hashindex = hash(key, env_len);
+	while (env_table[hashindex]->key != NULL)
 	{
 		if (!ft_strncmp(env_table[hashindex]->key, key, ft_strlen(key)))
 			return (env_table[hashindex]);
 		++hashindex;
-		hashindex %= 4096;
+		hashindex %= env_size;
 	}
 	return (NULL);
 }
@@ -49,24 +49,24 @@ void	insert(char *key, char *data)
 	item = (t_env *) malloc(sizeof(t_env));
 	item->data = data;
 	item->key = key;
-	hashindex = hash(key);
+	hashindex = hash(key, env_size);
 	while (env_table[hashindex] != NULL
 		&& (!ft_strncmp(env_table[hashindex]->key, "-1", 2)))
 	{
 		++hashindex;
-		hashindex %= 4096;
+		hashindex %= env_size;
 	}
 	env_table[hashindex] = item;
 }
 
 //return a list of env vars to the terminal
-//todo make compat with pipes/redirects
-void	display(void)
+//TODO make compat with pipes/redirects
+void	display()
 {
 	int	i;
 
 	i = 0;
-	while (i < 4096)
+	while (i < env_size)
 	{
 		if (env_table[i] != NULL)
 			printf("%s=%s\n", env_table[i]->key, env_table[i]->data);
@@ -74,7 +74,7 @@ void	display(void)
 	}
 }
 
-char	**get_env(void)
+char	**get_env(t_env **envtab)
 {
 	int		i;
 	char	*tmp;
@@ -84,20 +84,17 @@ char	**get_env(void)
 
 	len = 0;
 	i = 0;
-	while (i < 4096)
-		if (env_table[i++])
+	while (i < env_size)
+		if (envtab[i++])
 			len++;
 	env = (char **)ft_calloc(len + 1, sizeof(char *));
 	i = -1;
-	while (++i < 4096)
+	while (++i < env_size)
 	{
-		if (env_table[i])
+		if (envtab[i])
 		{
-			//envtemp = env;
-			tmp = ft_strjoin(env_table[i]->key, "=");
-			*env = ft_strjoin(tmp, env_table[i]->data);
-			//ft_strlcat(*env, env_table[i]->data, 1);
-			//free(envtemp);
+			tmp = ft_strjoin(envtab[i]->key, "=");
+			*env = ft_strjoin(tmp, envtab[i]->data);
 			free(tmp);
 			(*env)++;
 		}
