@@ -1,11 +1,11 @@
 #include "../inc/minishell.h"
 
-static void	define_value(char **value, char *key)
+static void	define_value(char **value, char *key, t_env *local_vars)
 {
-	*value = ft_strdup(search(key)->data);
+	*value = ft_strdup(search(key).data);
 	//TODO impl local vars
-//	if (!*value)
-//		*value = ft_strdup(localsearch(localvars, key));
+	if (!*value)
+		*value = ft_strdup(local_search(key, local_vars).data);
 	if (!*value)
 		*value = ft_strdup("");
 }
@@ -32,6 +32,7 @@ static void	restore_quote(char **value, char **temp)
 
 void	expand(char **variable)
 {
+	t_env local_vars[local_env_size];
 	char	*value;
 	char	*key;
 	char	*temp;
@@ -41,7 +42,7 @@ void	expand(char **variable)
 	temp = *variable;
 	temp++;
 	has_quote = check_double_quotes(&temp, &key);
-	define_value(&value, key);
+	define_value(&value, key, local_vars);
 	free(*variable);
 	free(key);
 	if (has_quote)

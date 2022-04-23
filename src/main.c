@@ -19,11 +19,12 @@ void	init_env_table(char **env)
 	int i;
 
 	i = 2;
-//	while(i < env_size)
-//	{
-//		env_table[i] = NULL;
-//		i++;
-//	}
+	while(i < env_size)
+	{
+		env_table[i].key = NULL;
+		env_table[i].data = NULL;
+		i++;
+	}
 	while (*env)
 	{
 		var = ft_split(*env++, '=');
@@ -45,11 +46,10 @@ void	free_env(void)
 	i = 0;
 	while (i < env_size)
 	{
-		if (env_table[i])
+		if (env_table[i].key)
 		{
-			free(env_table[i]->data);
-			free(env_table[i]->key);
-			free(env_table[i]);
+			free(env_table[i].data);
+			free(env_table[i].key);
 		}
 		i++;
 	}

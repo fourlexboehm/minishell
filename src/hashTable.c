@@ -25,38 +25,34 @@ u_int64_t	hash(char *str, int envlen)
 }
 
 //returns an environmariable from a key
-t_env	*search(char *key)
+t_env	search(char *key)
 {
 	unsigned long	hashindex;
 
 	hashindex = hash(key, env_size);
-	while (env_table[hashindex]->key != NULL)
+	while (env_table[hashindex].key != NULL)
 	{
-		if (!ft_strncmp(env_table[hashindex]->key, key, ft_strlen(key)))
+		if (!ft_strncmp(env_table[hashindex].key, key, ft_strlen(key)))
 			return (env_table[hashindex]);
 		++hashindex;
 		hashindex %= env_size;
 	}
-	return (NULL);
+	return (env_table[hashindex]);
 }
 
 //insert a key-value pair into the hashtable
 void	insert(char *key, char *data)
 {
-	t_env			*item;
 	unsigned long	hashindex;
 
-	item = (t_env *) malloc(sizeof(t_env));
-	item->data = data;
-	item->key = key;
 	hashindex = hash(key, env_size);
-	while (env_table[hashindex] != NULL
-		&& (!ft_strncmp(env_table[hashindex]->key, "-1", 2)))
+	while (env_table[hashindex].key != NULL)
 	{
 		++hashindex;
 		hashindex %= env_size;
 	}
-	env_table[hashindex] = item;
+	env_table[hashindex].key = key;
+	env_table[hashindex].data = data;
 }
 
 //return a list of env vars to the terminal
@@ -67,13 +63,13 @@ void	display()
 	i = 0;
 	while (i < env_size)
 	{
-		if (env_table[i] != NULL)
-			printf("%s=%s\n", env_table[i]->key, env_table[i]->data);
+		if (env_table[i].key != NULL)
+			printf("%s=%s\n", env_table[i].key, env_table[i].data);
 		i++;
 	}
 }
 
-char	**get_env(t_env **envtab)
+char	**get_env(t_env *envtab)
 {
 	int		i;
 	char	*tmp;
@@ -84,16 +80,16 @@ char	**get_env(t_env **envtab)
 	len = 0;
 	i = 0;
 	while (i < env_size)
-		if (envtab[i++])
+		if (envtab[i++].key)
 			len++;
 	env = (char **)ft_calloc(len + 1, sizeof(char *));
 	i = -1;
 	while (++i < env_size)
 	{
-		if (envtab[i])
+		if (envtab[i].key)
 		{
-			tmp = ft_strjoin(envtab[i]->key, "=");
-			*env = ft_strjoin(tmp, envtab[i]->data);
+			tmp = ft_strjoin(envtab[i].key, "=");
+			*env = ft_strjoin(tmp, envtab[i].data);
 			free(tmp);
 			(*env)++;
 		}

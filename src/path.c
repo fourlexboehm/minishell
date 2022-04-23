@@ -16,11 +16,11 @@
 //takes the path from the env_table and adds it to a 2d array in the pathlist
 void	init_pathlist(t_pathlist *pathlist)
 {
-	t_env 	*path;
+	t_env 	path;
 
 	path = search("PATH");
-	if (path)
-		pathlist->path = ft_split(path->data, ':');
+	if (path.key)
+		pathlist->path = ft_split(path.data, ':');
 	else
 		pathlist->path = NULL;
 }

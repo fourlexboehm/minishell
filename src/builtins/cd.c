@@ -5,15 +5,15 @@ static void	change_dir_to_oldpwd(char *current_path)
 {
 	char * tmp;
 
-	tmp = search("OLDPWD")->data;
+	tmp = search("OLDPWD").data;
 	insert("OLDPWD", current_path);
 	chdir(tmp);
 }
 
 static void cd_home()
 {
-	insert("OLDPWD", ft_strdup(search("PWD")->data));
-	chdir(search("HOME")->data);
+	insert("OLDPWD", ft_strdup(search("PWD").data));
+	chdir(search("HOME").data);
 }
 
 static void	change_dir_to_path(const char *current_path)
@@ -22,7 +22,7 @@ static void	change_dir_to_path(const char *current_path)
 	char *abspath;
 	int	len;
 
-	wd = search("PWD")->data;
+	wd = search("PWD").data;
 	{
 		len = ft_strlen(wd) + ft_strlen(current_path) + 1;
 		insert("OLDPWD", ft_strdup(wd));
@@ -42,6 +42,11 @@ static void	change_dir_to_path(const char *current_path)
 	}
  }
 
+ /* if the string is just ~ or ~/, calls cd_home
+  * if it's -, assigns the PWD to the OLDPWD and calls
+  * change_dir_to_oldpwd
+  * else calls change_dir_to_path */
+
 void	cd(char *path)
 {
 	char	*current_path;
@@ -50,13 +55,13 @@ void	cd(char *path)
 		return cd_home();
 	else if (ft_strncmp(path, "-", 1) == 0)
 	{
-		current_path = ft_strdup(search("OLDPWD")->data);
+		current_path = ft_strdup(search("OLDPWD").data);
 		if (current_path == NULL)
 		{
 			//error_message("cd", NO_OLDPWD, 1);
 			return ;
 		}
-		insert("OLDPWD", ft_strdup(search("PWD")->data));
+		insert("OLDPWD", ft_strdup(search("PWD").data));
 		change_dir_to_oldpwd(current_path);
 	}
 	else

@@ -14,7 +14,7 @@
 
 void	pwd(void)
 {
-	printf("%s\n", search("PWD")->data);
+	printf("%s\n", search("PWD").data);
 }
 
 void	export(t_pathlist	*path, int cmdnum)
@@ -30,5 +30,5 @@ void	export(t_pathlist	*path, int cmdnum)
 void	unset(t_pathlist	*path, int cmdnum)
 {
 	if (path->cmd[cmdnum].args[1])
-		env_table[hash(path->cmd[cmdnum].args[1], env_size)] = NULL;
+		env_table[hash(path->cmd[cmdnum].args[1], env_size)].key = NULL;
 }

@@ -57,19 +57,19 @@ typedef struct s_pathlist
 //One allowed Global variable, it's the hash table that stores the environment variables
 #define env_size 2048
 #define local_env_size 256
-t_env	*env_table[env_size];
+t_env	env_table[env_size];
 
 //environment functions
 void		insert(char *key, char *data);
-t_env		*search(char *key);
-char		**get_env(t_env **envtab);
+t_env		search(char *key);
+char		**get_env(t_env *envtab);
 void		display();
 void		free_env();
 u_int64_t	hash(char *str, int env_len);
 
 //local environment functions
-void	local_insert(char *key, char *data, t_env **env_local);
-t_env	*local_search(char *key, t_env **env_local);
+void	local_insert(char *key, char *data, t_env *env_local);
+t_env	local_search(char *key, t_env *env_local);
 
 //pathlist struct functions
 void		init_pathlist(t_pathlist *path);
