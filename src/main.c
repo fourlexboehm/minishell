@@ -10,14 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../inc/global.h"
 #include "../inc/minishell.h"
 
 //copy the environment variables from **env into hashtable entries
 void	init_env_table(char **env)
 {
 	char	**var;
-	int i;
-
+	int	i;
+	
 	i = 2;
 	while(i < env_size)
 	{

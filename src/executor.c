@@ -10,7 +10,7 @@ static bool	builtin(t_pathlist *path, int cmdnum)
 	else if (!strcmp(path->cmd[cmdnum].name, "env"))
 		display();
 	else if (!strcmp(path->cmd[cmdnum].name, "export"))
-		export(path, cmdnum);
+		ft_export(path, cmdnum);
 	else if (!strcmp(path->cmd[cmdnum].name, "unset"))
 		unset(path, cmdnum);
 	else

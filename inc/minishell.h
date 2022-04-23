@@ -24,40 +24,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
-
-//Struct for each environment variable in hashTable
-typedef struct s_env
-{
-	char *key;
-	char *data;
-	//struct s_env *next;
-} t_env;
-
-typedef struct s_token
-{
-	int				type;
-	char			*value;
-	struct s_token	*next;
-	struct s_token	*previous;
-}	t_token;
-
-typedef struct s_cmd
-{
-	char *name;
-	char **args;
-} t_cmd;
-
-//Struct to store PATH
-typedef struct s_pathlist
-{
-	char **path;
-	t_cmd *cmd;
-} t_pathlist;
+# include "typedefs.h"
 
 //One allowed Global variable, it's the hash table that stores the environment variables
 #define env_size 2048
 #define local_env_size 256
-t_env	env_table[env_size];
+extern t_env	env_table[env_size];
 
 //environment functions
 void		insert(char *key, char *data);
@@ -88,7 +60,7 @@ void		loop_shell(t_pathlist *path);
 //builtins
 void		cd(char *path);
 void		pwd();
-void		export(t_pathlist	*path, int cmdnum);
+void		ft_export(t_pathlist	*path, int cmdnum);
 void		unset(t_pathlist	*path, int cmdnum);
 
 #endif

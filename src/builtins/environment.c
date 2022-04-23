@@ -17,7 +17,7 @@ void	pwd(void)
 	printf("%s\n", search("PWD").data);
 }
 
-void	export(t_pathlist	*path, int cmdnum)
+void	ft_export(t_pathlist	*path, int cmdnum)
 {
 	char	**vec;
 
