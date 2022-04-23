@@ -13,30 +13,26 @@
 #include "../inc/global.h"
 #include "../inc/minishell.h"
 
-//copy the environment variables from **env into hashtable entries
+//copy the environment variables from *env into hashtable entries
 void	init_env_table(char **env)
 {
 	char	**var;
 	int	i;
 	
-	i = 2;
+	i = 0;
 	while(i < env_size)
 	{
 		env_table[i].key = NULL;
 		env_table[i].data = NULL;
 		i++;
 	}
+	i = 2;
 	while (*env)
 	{
 		var = ft_split(*env++, '=');
-		if (var[1])
-		{
-			insert(var[0], var[1]);
-		}
-		if (var[i])
-			while(var[i])
-				free(var[i++]);
-		free(var);
+		if (var[0] && var[1])
+			insert(ft_strdup(var[0]), ft_strdup(var[1]));
+		free2d_array((void **)var);
 	}
 }
 

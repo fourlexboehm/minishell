@@ -1,12 +1,10 @@
 #include "../inc/minishell.h"
 
-static void freecmd(t_cmd *cmd, int i)
+static void freecmd(t_cmd cmd)
 {
-	free2d_array((void **)cmd[i].args);
-	cmd[i].args = NULL;
-	cmd[i].name = NULL;
-	free(cmd);
-	cmd = NULL;
+	free2d_array((void **)cmd.args);
+	cmd.args = NULL;
+	cmd.name = NULL;
 }
 
 /* Read a string, and return a pointer to it.  Returns NULL on EOF. */
@@ -39,13 +37,21 @@ void	loop_shell(t_pathlist *path)
 		path->cmd = lex(rl_get());
 		if (path->cmd->name)
 		{
-			if (!ft_strncmp("exit", path->cmd[i].name, 5))
-				break ;
-			run_if_valid_cmd(path, 0);
-			freecmd(path->cmd, i);
+			while(path->cmd[i].args)
+			{
+				if (!ft_strncmp("exit", path->cmd[i].name, 5))
+					goto exit ;
+				run_if_valid_cmd(path, 0);
+				freecmd(path->cmd[i++]);
+			}
+			i = 0;
+			free(path->cmd);
+			path->cmd = NULL;
 		}
 
 	}
-	if (path->cmd->name)
-		freecmd(path->cmd, i);
+	exit:
+	while (path->cmd[i].args)
+		freecmd(path->cmd[i++]);
+	free(path->cmd);
 }

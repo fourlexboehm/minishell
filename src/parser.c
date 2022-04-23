@@ -23,7 +23,7 @@ t_cmd	*lex(char *line)
 
 	cmdvec = ft_split(line, '|');
 	numcmds = n_str_in_vec(cmdvec);
-	cmds = malloc(sizeof(t_cmd) * numcmds + 1);
+	cmds = malloc(sizeof(t_cmd) * (numcmds + 1));
 	i = 0;
 	while (i < numcmds)
 	{
