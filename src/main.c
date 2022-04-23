@@ -19,7 +19,7 @@ void	init_env_table(char **env)
 	int i;
 
 	i = 2;
-//	while(i < 4096)
+//	while(i < env_size)
 //	{
 //		env_table[i] = NULL;
 //		i++;
