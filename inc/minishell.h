@@ -49,10 +49,15 @@ void		destroy_pathlist(t_pathlist *path);
 void		run_if_valid_cmd(t_pathlist *path, int cmdnum);
 
 //parser
-t_cmd		*lex(char *line);
+t_token		*lex(char *line, t_lex *lex_data);
+//void	lstadd_back(t_token **lst, t_token *new);
 
 //utils
 int 		n_str_in_vec(char **vec);
+int         is_whitespace(char c);
+void        skip_whitespace(t_lex *lex_data);
+t_token     *new_token(t_token **list);
+void        handle_quote(t_token *token, t_lex *lex_data);
 
 //repl
 void		loop_shell(t_pathlist *path);

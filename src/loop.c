@@ -30,11 +30,14 @@ static char	*rl_get(void)
 void	loop_shell(t_pathlist *path)
 {
 	int	i;
+	t_lex	lex_data;
+	char	*line;
 
 	i = 0;
 	while (true)
 	{
-		path->cmd = lex(rl_get());
+		line = rl_get();
+		lex_data.token_list = lex(line, &lex_data);
 		if (path->cmd->name)
 		{
 			while(path->cmd[i].args)

@@ -10,12 +10,19 @@ typedef struct s_env
 	//struct s_env *next;
 } t_env;
 
+typedef	struct s_lex
+{
+	char	*line;
+	int		i;
+	struct s_token	*token_list;
+}	t_lex;
+
+
 typedef struct s_token
 {
 	int				type;
 	char			*value;
 	struct s_token	*next;
-	struct s_token	*previous;
 }	t_token;
 
 typedef struct s_cmd
