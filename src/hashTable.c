@@ -30,14 +30,14 @@ t_env	search(char *key)
 	unsigned long	hashindex;
 
 	hashindex = hash(key, env_size);
-	while (env_table[hashindex].key != NULL)
+	while (g_env_table[hashindex].key != NULL)
 	{
-		if (!ft_strncmp(env_table[hashindex].key, key, ft_strlen(key)))
-			return (env_table[hashindex]);
+		if (!ft_strncmp(g_env_table[hashindex].key, key, ft_strlen(key)))
+			return (g_env_table[hashindex]);
 		++hashindex;
 		hashindex %= env_size;
 	}
-	return (env_table[hashindex]);
+	return (g_env_table[hashindex]);
 }
 
 //insert a key-value pair into the hashtable
@@ -46,13 +46,13 @@ void	insert(char *key, char *data)
 	unsigned long	hashindex;
 
 	hashindex = hash(key, env_size);
-	while (env_table[hashindex].key != NULL)
+	while (g_env_table[hashindex].key != NULL)
 	{
 		++hashindex;
 		hashindex %= env_size;
 	}
-	env_table[hashindex].key = key;
-	env_table[hashindex].data = data;
+	g_env_table[hashindex].key = key;
+	g_env_table[hashindex].data = data;
 }
 
 //return a list of env vars to the terminal
@@ -63,8 +63,8 @@ void	display()
 	i = 0;
 	while (i < env_size)
 	{
-		if (env_table[i].key != NULL)
-			printf("%s=%s\n", env_table[i].key, env_table[i].data);
+		if (g_env_table[i].key != NULL)
+			printf("%s=%s\n", g_env_table[i].key, g_env_table[i].data);
 		i++;
 	}
 }

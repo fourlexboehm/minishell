@@ -13,7 +13,7 @@
 #include <sys/stat.h>
 #include "../inc/minishell.h"
 
-//takes the path from the env_table and adds it to a 2d array in the pathlist
+//takes the path from the g_env_table and adds it to a 2d array in the pathlist
 void	init_pathlist(t_pathlist *pathlist)
 {
 	t_env 	path;

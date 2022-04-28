@@ -30,5 +30,5 @@ void	ft_export(t_pathlist	*path, int cmdnum)
 void	unset(t_pathlist	*path, int cmdnum)
 {
 	if (path->cmd[cmdnum].args[1])
-		env_table[hash(path->cmd[cmdnum].args[1], env_size)].key = NULL;
+		g_env_table[hash(path->cmd[cmdnum].args[1], env_size)].key = NULL;
 }

@@ -14,7 +14,7 @@
 #include "../inc/minishell.h"
 
 //copy the environment variables from *env into hashtable entries
-void	init_env_table(char **env)
+void	init_g_env_table(char **env)
 {
 	char	**var;
 	int	i;
@@ -22,8 +22,8 @@ void	init_env_table(char **env)
 	i = 0;
 	while(i < env_size)
 	{
-		env_table[i].key = NULL;
-		env_table[i].data = NULL;
+		g_env_table[i].key = NULL;
+		g_env_table[i].data = NULL;
 		i++;
 	}
 	i = 2;
@@ -43,10 +43,10 @@ void	free_env(void)
 	i = 0;
 	while (i < env_size)
 	{
-		if (env_table[i].key)
+		if (g_env_table[i].key)
 		{
-			free(env_table[i].data);
-			free(env_table[i].key);
+			free(g_env_table[i].data);
+			free(g_env_table[i].key);
 		}
 		i++;
 	}
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	init_env_table(env);
+	init_g_env_table(env);
 	init_pathlist(&lst);
 	if (lst.path)
 		loop_shell(&lst);

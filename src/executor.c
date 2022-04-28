@@ -48,7 +48,7 @@ static void execute(t_pathlist *path, int cmdnum, char *file)
 	}
 	if (pid == 0)
 	{
-		env = get_env(env_table);
+		env = get_env(g_env_table);
 		execve(file, path->cmd[cmdnum].args, env);
 		free2d_array((void **)env);
 		//ft_freev((void **) env, n_str_in_vec(env), true);

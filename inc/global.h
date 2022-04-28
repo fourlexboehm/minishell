@@ -6,6 +6,6 @@
 
 
 #define env_size 2048
-t_env	env_table[env_size];
+t_env	g_env_table[env_size];
 
 #endif

@@ -29,7 +29,7 @@
 //One allowed Global variable, it's the hash table that stores the environment variables
 #define env_size 2048
 #define local_env_size 256
-extern t_env	env_table[env_size];
+extern t_env	g_env_table[env_size];
 
 //environment functions
 void		insert(char *key, char *data);
