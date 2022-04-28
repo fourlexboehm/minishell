@@ -1,6 +1,5 @@
 
 #include "../inc/minishell.h"
-#include <stdio.h>
 
 int	n_str_in_vec(char **vec)
 {
@@ -38,18 +37,20 @@ int	n_str_in_vec(char **vec)
 	free2d_array((void **)cmdvec);
 	return (cmds);
 } */
-t_token	*lex(char *line, t_lex *lex_data) 
-{	
+t_token	*lex(char *line, t_lex *lex_data)
+{
 	t_token *token;
 	t_token	*tkn_lst;
-	line = lex_data->line;
+
+	//line = lex_data->line;
 	lex_data->i = 0;
 	int	j = 0;
-	
+	tkn_lst = NULL;
+
 	skip_whitespace(lex_data);
 	while (line[lex_data->i] != '\0')
 	{
-		printf("this is first c %c and line is %s", line[j], line);
+		printf("this is first c %c and line is %s\n", line[j], line);
 		token = new_token(&tkn_lst);
 		if (line[lex_data->i] == '"' || line[lex_data->i] == '\'')
 		{
