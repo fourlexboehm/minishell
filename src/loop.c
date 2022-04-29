@@ -1,11 +1,11 @@
 #include "../inc/minishell.h"
 
-//static void freecmd(t_cmd cmd)
-//{
-//	free2d_array((void **)cmd.args);
-//	cmd.args = NULL;
-//	cmd.name = NULL;
-//}
+static void freecmd(t_cmd cmd)
+{
+	free2d_array((void **)cmd.args);
+	cmd.args = NULL;
+	cmd.name = NULL;
+}
 
 /* Read a string, and return a pointer to it.  Returns NULL on EOF. */
 static char	*rl_get(void)
@@ -30,32 +30,32 @@ void	loop_shell(t_pathlist *path)
 {
 	int	i;
 	t_lex	lex_data;
-	char	*line;
+	t_cmd	*cmds;
 
 	(void)i; //temporary
 	(void)path; //temporary
 	i = 0;
 	while (true)
 	{
-		line = rl_get();
-		lex_data.token_list = lex(line, &lex_data);
-//		if (path->cmd->name)
-//		{
-//			while(path->cmd[i].args)
-//			{
-//				if (!ft_strncmp("exit", path->cmd[i].name, 5))
-//					goto exit ;
-//				run_if_valid_cmd(path, 0);
-//				freecmd(path->cmd[i++]);
-//			}
-//			i = 0;
-//			free(path->cmd);
-//			path->cmd = NULL;
-//		}
+		lex_data.token_list = lex(rl_get(), &lex_data);
+		cmds = parse(&lex_data.token_list);
+		if (cmds->name)
+		{
+			while(cmds[i].args)
+			{
+				if (!ft_strncmp("exit", cmds[i].name, 5))
+					goto exit ;
+				executor(path->path, cmds, i);
+				freecmd(cmds[i++]);
+			}
+			i = 0;
+			free(cmds);
+			cmds = NULL;
+		}
 		free_tkn_lst(&lex_data.token_list);
 	}
-////	exit:
-//	while (path->cmd[i].args)
-//		freecmd(path->cmd[i++]);
-//	free(path->cmd);
+	exit:
+	while (cmds[i].args)
+		freecmd(cmds[i++]);
+	free(cmds);
 }

@@ -35,7 +35,6 @@ typedef struct s_cmd
 typedef struct s_pathlist
 {
 	char **path;
-	t_cmd *cmd;
 } t_pathlist;
 
 #endif
