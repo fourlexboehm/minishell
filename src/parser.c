@@ -1,53 +1,32 @@
 
 #include "../inc/minishell.h"
 
-int	n_str_in_vec(char **vec)
+static int	n_tokens(t_token **token)
 {
 	int	i;
+	t_token *tmp;
 
 	i = 0;
-	while (vec[i++])
-		;
-	return (i - 1);
-}
-
-//very simply temporary lexer, only splits pipes into separate commands,
-//doesn't handle quotes or redirects
-/*t_cmd	*lex(char *line)
-{
-	t_cmd *cmds;
-	int numcmds;
-	int i;
-	char **cmdvec;
-	char **currcmdvec;
-
-	cmdvec = ft_split(line, '|');
-	numcmds = n_str_in_vec(cmdvec);
-	cmds = malloc(sizeof(t_cmd) * (numcmds + 1));
-	i = 0;
-	while (i < numcmds)
+	tmp = *token;
+	while (tmp->next)
 	{
-		currcmdvec = ft_split(cmdvec[i], ' ');
-		cmds[i].name = currcmdvec[0];
-		cmds[i].args = currcmdvec;
+		tmp = tmp->next;
 		i++;
 	}
-	cmds[i].args = NULL;
-	cmds[i].name = NULL;
-	free2d_array((void **)cmdvec);
-	return (cmds);
-} */
-t_token	*lex(char *line, t_lex *lex_data)
+	return (i);
+}
+
+t_token	*lex(char const *line, t_lex *lex_data)
 {
 	t_token *token;
 	t_token	*tkn_lst;
-	t_token *curr;
+	//t_token *curr;
 
 	lex_data->line = line;
 	lex_data->i = 0;
 	tkn_lst = NULL;
 	skip_whitespace(lex_data);
-	while (line[lex_data->i] != '\0')
+	while (line[lex_data->i])
 	{
 		skip_whitespace(lex_data);
 		token = new_token(&tkn_lst);
@@ -60,17 +39,40 @@ t_token	*lex(char *line, t_lex *lex_data)
 		else if (line[lex_data->i] == '<')
 			redir_l(token, lex_data);
 		else
-			handle_rest(token, lex_data);
+ 			handle_rest(token, lex_data);
 		//printf("token is %s and lineC is %c\n", token->value, lex_data->line[lex_data->i]);
 	}
-	curr = tkn_lst;
-	if(curr)
-	{	
-		while(curr->next)
-		{
-			printf("val is %s\n", curr->value);
-			curr = curr->next;
-		}	
-	}
+//	curr = tkn_lst;
+//	if(curr)
+//	{
+//		while(curr->next)
+//		{
+//			printf("val is %s\n", curr->value);
+//			curr = curr->next;
+//		}
+//	}
 	return(tkn_lst);
+}
+
+//TODO work in progress
+t_cmd	*parse(t_token **list)
+{
+	t_cmd *cmds;
+	int numcmds;
+	int i;
+
+	numcmds = n_tokens(list);
+	cmds = malloc(sizeof(t_cmd) * (numcmds + 1));
+	i = 0;
+	while (i < numcmds)
+	{
+		if ((*list)->type == 1)
+			cmds[i].name = (*list)->value;
+		if ((*list)->type == 2)
+			cmds[i].args = &(*list)->value;
+		i++;
+	}
+	cmds[i].args = NULL;
+	cmds[i].name = NULL;
+	return (cmds);
 }

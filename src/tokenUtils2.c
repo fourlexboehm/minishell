@@ -44,10 +44,24 @@ void    handle_rest(t_token *token, t_lex *lex_data)
     int start;
     int j;
     
-    j = 0;
     start = lex_data->i;
-    while(lex_data->line[j] && !is_whitespace(lex_data->line[j]))
+	j = start;
+	while(lex_data->line[j] && !is_whitespace(lex_data->line[j]))
         j++;
-    token->value = ft_substr(lex_data->line, start, j);
-    lex_data->i += j + 1;
+    token->value = ft_substr(lex_data->line, start, j - start);
+    lex_data->i = j;
+}
+
+void free_tkn_lst(t_token **tkn_lst)
+{
+    t_token *trash;
+    while ((*tkn_lst))
+    {
+        trash = *tkn_lst;
+        *tkn_lst = (*tkn_lst)->next;
+        free(trash->value);
+        free(trash);
+        trash->value = NULL;
+        trash = NULL;
+    }
 }

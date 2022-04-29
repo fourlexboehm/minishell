@@ -49,8 +49,7 @@ void		destroy_pathlist(t_pathlist *path);
 void		run_if_valid_cmd(t_pathlist *path, int cmdnum);
 
 //parser
-t_token		*lex(char *line, t_lex *lex_data);
-int 		n_str_in_vec(char **vec);
+t_token		*lex(char const *line, t_lex *lex_data);
 
 //tokenUtils
 int         is_whitespace(char c);
@@ -63,6 +62,8 @@ void    smoke_pipes(t_token *token, t_lex *lex_data);
 void    redir_l(t_token *token, t_lex *lex_data);
 void    redir_r(t_token *token, t_lex *lex_data);
 void    handle_rest(t_token *token, t_lex *lex_data);
+void	free_tkn_lst(t_token **tkn_lst);
+
 
 //repl
 void		loop_shell(t_pathlist *path);

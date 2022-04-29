@@ -12,7 +12,7 @@ typedef struct s_env
 
 typedef	struct s_lex
 {
-	char	*line;
+	char const	*line;
 	int		i;
 	struct s_token	*token_list;
 }	t_lex;
