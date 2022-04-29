@@ -35,7 +35,7 @@ t_token *new_token(t_token **list)
 }
 
 int find_quote(t_lex *lex_data)
-{
+{   
     int     j;
     int     k;
     char    c;
@@ -43,10 +43,13 @@ int find_quote(t_lex *lex_data)
     k = lex_data->i;
     j = 0;
     c = lex_data->line[lex_data->i];
-    while (lex_data->line[k])
+    while (lex_data->line[lex_data->i])
     {
-        if (lex_data->line[k++] == c)
-            return(j);    
+        lex_data->i++;
+        if (lex_data->line[lex_data->i] == c) {
+            printf("value of k is %i and j is %i c is %c and val is %c\n", k, j, c, lex_data->line[k]);
+            return(j); 
+        }   
         j++;
     }
     return(-1);
@@ -55,16 +58,18 @@ int find_quote(t_lex *lex_data)
 void    handle_quote(t_token *token, t_lex *lex_data)
 {
     int end_quote;
+    int start;
+    start = lex_data->i;
     if (lex_data->line[lex_data->i] == '"')
         token->type = 1;
     else
         token->type = 2;
-    end_quote = find_quote(lex_data);
+    printf("eq is %i\n", end_quote = find_quote(lex_data));
     if(end_quote == -1)
-        printf("Unclosed Quotes"); ///Errorrrr 
+        printf("Unclosed Quotes\n"); ///Errorrrr 
     else
     {
-        token->value = ft_substr(lex_data->line, lex_data->i, end_quote);
-        lex_data->i += end_quote; 
+        token->value = ft_substr(lex_data->line, start + 1, end_quote);
+        lex_data->i++;
     }
 }

@@ -38,6 +38,7 @@ void	loop_shell(t_pathlist *path)
 	{
 		line = rl_get();
 		lex_data.token_list = lex(line, &lex_data);
+		printf("back\n");
 		if (path->cmd->name)
 		{
 			while(path->cmd[i].args)

@@ -50,14 +50,19 @@ void		run_if_valid_cmd(t_pathlist *path, int cmdnum);
 
 //parser
 t_token		*lex(char *line, t_lex *lex_data);
-//void	lstadd_back(t_token **lst, t_token *new);
-
-//utils
 int 		n_str_in_vec(char **vec);
+
+//tokenUtils
 int         is_whitespace(char c);
 void        skip_whitespace(t_lex *lex_data);
 t_token     *new_token(t_token **list);
 void        handle_quote(t_token *token, t_lex *lex_data);
+
+//tokenUtils2
+void    smoke_pipes(t_token *token, t_lex *lex_data);
+void    redir_l(t_token *token, t_lex *lex_data);
+void    redir_r(t_token *token, t_lex *lex_data);
+void    handle_rest(t_token *token, t_lex *lex_data);
 
 //repl
 void		loop_shell(t_pathlist *path);

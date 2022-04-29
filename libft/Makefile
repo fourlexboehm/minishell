@@ -59,21 +59,21 @@ OBJECTS_B = $(BONUS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	ar rcs $(NAME) $(OBJECTS)
+	@ar rcs $(NAME) $(OBJECTS)
 
 $(dothemaking):
-	$(CC) $(FLAGS) $(CFLAGS) -o $(NAME) $(OBJECTS) $(HEADERS)
+	@$(CC) $(FLAGS) $(CFLAGS) -o $(NAME) $(OBJECTS) $(HEADERS)
 
 bonus:  $(OBJECTS) $(OBJECTS_B)
-		ar rcs $(NAME) $(OBJECTS) $(OBJECTS_B)
+		@ar rcs $(NAME) $(OBJECTS) $(OBJECTS_B)
 
 clean:
-	rm -rf *.o
+	@rm -rf *.o
 
 fclean: clean
-	rm -rf $(NAME)
-	echo "[INFO] Library [$(NAME) removed!"
+	@rm -rf $(NAME)
+	@echo "[INFO] Library [$(NAME) removed!"
 
 #Re-make everything.
-re:		fclean all
+re:		@fclean all
 
