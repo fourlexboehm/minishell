@@ -24,38 +24,45 @@ static char	*rl_get(void)
 	return ((char *)line_read);
 }
 
-//TODO implement
-//currently only reading the first command
-void	loop_shell(t_pathlist *path)
+static int iterate_cmds(t_pathlist *path, t_cmd **cmds, bool *notexit)
 {
 	int	i;
+
+	i = 0;
+	while((*cmds)[i].args)
+	{
+		(*notexit) = ft_strncmp("exit", (*cmds)[i].name, 5);
+		if (!*notexit)
+			return (i);
+		executor(path->path, (*cmds), i);
+		freecmd((*cmds)[i++]);
+	}
+	i = 0;
+	free((*cmds));
+	(*cmds) = NULL;
+	return (0);
+}
+
+//TODO implement
+void	loop_shell(t_pathlist *path)
+{
 	t_lex	lex_data;
 	t_cmd	*cmds;
+	bool	notexit;
+	int		i;
 
-	(void)i; //temporary
-	(void)path; //temporary
 	i = 0;
-	while (true)
+	notexit = true;
+	while (notexit)
 	{
 		lex_data.token_list = lex(rl_get(), &lex_data);
 		cmds = parse(&lex_data.token_list);
 		if (cmds->name)
-		{
-			while(cmds[i].args)
-			{
-				if (!ft_strncmp("exit", cmds[i].name, 5))
-					goto exit ;
-				executor(path->path, cmds, i);
-				freecmd(cmds[i++]);
-			}
-			i = 0;
-			free(cmds);
-			cmds = NULL;
-		}
+			i = iterate_cmds(path, &cmds, &notexit);
 		free_tkn_lst(&lex_data.token_list);
 	}
-	exit:
 	while (cmds[i].args)
 		freecmd(cmds[i++]);
 	free(cmds);
 }
+
