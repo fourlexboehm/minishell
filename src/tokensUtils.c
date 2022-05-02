@@ -61,9 +61,9 @@ void    handle_quote(t_token *token, t_lex *lex_data)
     int start;
     start = lex_data->i;
     if (lex_data->line[lex_data->i] == '"')
-        token->type = 1;
+        token->type = double_quotes;
     else
-        token->type = 2;
+        token->type = single_quotes;
     printf("eq is %i\n", end_quote = find_quote(lex_data));
     if(end_quote == -1)
         printf("Unclosed Quotes\n"); ///Errorrrr 

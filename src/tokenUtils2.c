@@ -11,13 +11,13 @@ void    redir_r(t_token *token, t_lex *lex_data)
 {
     if (lex_data->line[lex_data->i] == '>' && lex_data->line[lex_data->i + 1] == '>')
     {
-        token->type = 4; //r_redx2
+        token->type = append_rd; //r_redx2
         token->value = ">>";
         lex_data->i += 2;
     }
     else 
     {
-        token->type = 5; //r_redx1
+        token->type = redir_to_file; //r_redx1
         token->value = ">";
         lex_data->i += 1;
     }
@@ -27,13 +27,13 @@ void    redir_l(t_token *token, t_lex *lex_data)
 {
     if (lex_data->line[lex_data->i] == '<' && lex_data->line[lex_data->i + 1] == '<')
     {
-        token->type = 6; //l_redx2
+        token->type = redir_from_here_st; //l_redx2
         token->value = "<<";
         lex_data->i += 2;
     }
     else 
     {
-        token->type = 7; //l_redx1
+        token->type = redir_from_file; //l_redx1
         token->value = "<";
         lex_data->i += 1;
     }
@@ -45,6 +45,7 @@ void    handle_rest(t_token *token, t_lex *lex_data)
     int j;
     
     start = lex_data->i;
+	token->type = command;
 	j = start;
 	while(lex_data->line[j] && !is_whitespace(lex_data->line[j]))
         j++;

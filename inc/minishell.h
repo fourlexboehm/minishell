@@ -26,6 +26,17 @@
 # include "../libft/libft.h"
 # include "typedefs.h"
 
+
+//lexer
+#define command 0
+#define double_quotes 1
+#define single_quotes 2
+#define append_rd 4
+#define redir_to_file 5
+#define redir_from_here_st 6 //
+#define redir_from_file 7
+
+
 //One allowed Global variable, it's the hash table that stores the environment variables
 #define env_size 2048
 #define local_env_size 256
