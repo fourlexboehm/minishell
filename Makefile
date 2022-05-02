@@ -1,7 +1,7 @@
 NAME = minishell
 CFLAGS = -Wall -Wextra -Werror -g
 SRC = src/main.c src/hashTable.c src/path.c src/loop.c src/builtins/environment.c src/parser.c src/signals.c src/tokensUtils.c \
-src/expander.c src/executor.c src/builtins/cd.c src/localvars.c src/tokenUtils2.c src/lexer.c
+src/expander.c src/executor.c src/builtins/cd.c src/localvars.c src/tokenUtils2.c src/lexer.c src/expander2.c src/expanderUtils.c
 INCLUDES = ./includes/
 LIBFT = ./libft/
 LIBFT_A = ./libft/libft.a

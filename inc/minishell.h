@@ -43,6 +43,20 @@
 #define local_env_size 256
 extern t_env	g_env_table[env_size];
 
+//expander
+void	expand(char **variable);
+void	expand_variables(char **value);
+
+
+//expander_utils
+char	**split_in_two(const char *string, char c);
+char	**split_in_two_by_pointer(const char *string, char *c_ptr);
+char	*search_var(char *value, int *i);
+int		get_var_size(const char *var, int *index);
+void	handle_var_single_quote(t_var *var, char **value, int i);
+
+
+
 
 //environment functions
 void		insert(char *key, char *data);

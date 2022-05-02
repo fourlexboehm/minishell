@@ -40,14 +40,15 @@ static void expandlst(t_token *lst)
 		if (lst->type == single_quotes)
 		{
 			lst = lst->next;
-			while(lst->type != single_quotes)
+			while(lst && lst->type != single_quotes)
 				lst = lst->next;
 		}
-		else if (lst->type == command)
+		else if (lst->type == command || lst->type == double_quotes)
 		{
 			expand_variables(&lst->value);
 		}
-		lst = lst->next;
+		if (lst)
+			lst = lst->next;
 	}
 }
 
@@ -55,37 +56,36 @@ static void expandlst(t_token *lst)
 static t_token **split_tkn_lsts(t_token **lst)
 {
 	t_token **tkn_lst_array;
-	t_token *tmp = tmp;
-
+	t_token *tmp;
 	int i;
-
-
 	int		numpipes;
+
 	numpipes = n_pipes(lst);
 	tkn_lst_array = malloc(sizeof(char *) * (numpipes + 2));
 	i = 0;
 	tkn_lst_array[i] = *lst;
-	while (*lst)
+	tmp = *lst;
+	while (tmp)
 	{
-		i++;
-		if ((*lst)->type != pipe)
-			*lst = (*lst)->next;
-		else
+		*lst = tmp;
+		tmp = (*lst)->next;
+		if (tmp->type == pipe)
 		{
-			tkn_lst_array[i] = lst;
-
+			(*lst)->next = NULL;
+			*lst = tmp;
+			tkn_lst_array[++i] = *lst;
 		}
-
 	}
 	return (tkn_lst_array);
 }
 
 //generate the token list for each command
-t_cmd *make_cmd_lst(t_token **tkn_lst_array, t_cmd *cmds)
+t_cmd *make_cmd_lst(t_token **tkn_lst_array)
 {
-	int numcmds;
-	int i;
-	int j;
+	int		numcmds;
+	int		i;
+	t_cmd	*cmds;
+//	int j;
 	i = 0;
 	while (tkn_lst_array)
 	{
@@ -113,7 +113,7 @@ t_cmd	*parse(t_token **lst)
 	expandlst(*lst);
 	tkn_lst_array = split_tkn_lsts(lst);
 
-	cmds = make_cmd_lst(tkn_lst_array, cmds);
+	cmds = make_cmd_lst(tkn_lst_array);
 	return (cmds);
 
 }
