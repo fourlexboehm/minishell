@@ -27,9 +27,21 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
+	int	argc;
 	char *name;
+	char **in;
+	char **out;
 	char **args;
 } t_cmd;
+
+typedef struct s_var
+{
+	char	*before;
+	char	*after;
+	char	*value;
+	char	*pointer;
+}	t_var;
+
 
 //Struct to store PATH
 typedef struct s_pathlist

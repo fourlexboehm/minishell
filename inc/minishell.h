@@ -31,6 +31,7 @@
 #define command 0
 #define double_quotes 1
 #define single_quotes 2
+#define pipe 3
 #define append_rd 4
 #define redir_to_file 5
 #define redir_from_here_st 6 //
@@ -41,6 +42,7 @@
 #define env_size 2048
 #define local_env_size 256
 extern t_env	g_env_table[env_size];
+
 
 //environment functions
 void		insert(char *key, char *data);

@@ -2,7 +2,7 @@
 
 void    smoke_pipes(t_token *token, t_lex *lex_data)
 {
-    token->type = 3;
+    token->type = pipe;
     token->value = "|";
     lex_data->i++;
 }

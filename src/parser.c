@@ -1,7 +1,7 @@
 
 #include "../inc/minishell.h"
 
-static int	n_tokens(t_token **token)
+static int	n_cmds(t_token **token)
 {
 	int	i;
 	t_token *tmp;
@@ -10,8 +10,9 @@ static int	n_tokens(t_token **token)
 	tmp = *token;
 	while (tmp)
 	{
+		if (tmp->type == command)
+			i++;
 		tmp = tmp->next;
-		i++;
 	}
 	return (i);
 }
@@ -24,7 +25,7 @@ t_cmd	*parse(t_token **lst)
 	int i;
 	t_token *tkn_lst = *lst;
 
-	numcmds = n_tokens(lst);
+	numcmds = n_cmds(lst);
 	cmds = malloc(sizeof(t_cmd) * (numcmds + 1));
 	i = 0;
 	while (tkn_lst)
