@@ -67,14 +67,15 @@ static t_token **split_tkn_lsts(t_token **lst)
 	tmp = *lst;
 	while (tmp)
 	{
-		*lst = tmp;
-		tmp = (*lst)->next;
+
 		if (tmp->type == pipe)
 		{
 			(*lst)->next = NULL;
 			*lst = tmp;
 			tkn_lst_array[++i] = *lst;
 		}
+		*lst = tmp;
+		tmp = (*lst)->next;
 	}
 	return (tkn_lst_array);
 }

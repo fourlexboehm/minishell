@@ -49,6 +49,3 @@ void	expand(char **variable)
 		restore_quote(&value, &temp);
 	*variable = value;
 }
-
-//expand_variables
-
