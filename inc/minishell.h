@@ -13,6 +13,8 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include <sys/file.h>
 # include <unistd.h>
 # include <string.h>
 # include <stdio.h>
@@ -44,6 +46,7 @@
 extern t_env	g_env_table[env_size];
 
 //expander
+void expandlst(t_token *lst);
 void	expand(char **variable);
 void	expand_variables(char **value);
 

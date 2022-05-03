@@ -1,7 +1,7 @@
 
 #include "../inc/minishell.h"
 
-static int	n_cmds(t_token *token)
+static int	n_args(t_token *token)
 {
 	int	i;
 	t_token *tmp;
@@ -10,7 +10,7 @@ static int	n_cmds(t_token *token)
 	tmp = token;
 	while (tmp)
 	{
-		if (tmp->type == command)
+		if (tmp->type == command || tmp->type == single_quotes || tmp->type == double_quotes )
 			i++;
 		tmp = tmp->next;
 	}
@@ -31,25 +31,6 @@ static int	n_pipes(t_token **token)
 		tmp = tmp->next;
 	}
 	return (i);
-}
-
-static void expandlst(t_token *lst)
-{
-	while (lst)
-	{
-		if (lst->type == single_quotes)
-		{
-			lst = lst->next;
-			while(lst && lst->type != single_quotes)
-				lst = lst->next;
-		}
-		else if (lst->type == command || lst->type == double_quotes)
-		{
-			expand_variables(&lst->value);
-		}
-		if (lst)
-			lst = lst->next;
-	}
 }
 
 //splits the token list into an array of token lists
@@ -80,28 +61,54 @@ static t_token **split_tkn_lsts(t_token **lst)
 	return (tkn_lst_array);
 }
 
+//TODO add redirect handling
+static void make_cmd(t_token *tkn_lst, t_cmd *cmd)
+{
+	int i;
+
+	cmd->argc = n_args(tkn_lst);
+	cmd->args = ft_calloc( cmd->argc + 1, sizeof (char *));
+	i = 0;
+	while(i < cmd->argc)
+	{
+		cmd->args[i++] = ft_strdup(tkn_lst->value);
+		tkn_lst = tkn_lst->next;
+	}
+	//cmd->in = dup(0);
+	//cmd->out = &tkn_lst->value;
+	if (tkn_lst->type == redir_from_file)
+	{
+		tkn_lst = tkn_lst->next;
+		open(tkn_lst->value, O_CREAT);
+	}
+	if (tkn_lst->type == redir_from_here_st)
+	{
+		tkn_lst = tkn_lst->next;
+		//tkn_lst->value;
+	}
+	if (tkn_lst->type == redir_to_file)
+	{
+		tkn_lst = tkn_lst->next;
+		open(tkn_lst->value, O_CREAT);
+	}
+
+}
 //generate the token list for each command
-t_cmd *make_cmd_lst(t_token **tkn_lst_array)
+static t_cmd *make_cmd_lst(t_token **tkn_lst_array)
 {
 	int		numcmds;
 	int		i;
 	t_cmd	*cmds;
 //	int j;
-	i = 0;
-	while (tkn_lst_array)
-	{
-		numcmds = n_cmds(tkn_lst_array[i]);
-		cmds = malloc(sizeof(t_cmd) * (numcmds + 1));
-		while (tkn_lst_array[i])
-		{
-			if (tkn_lst_array[i]->type == 0)
-				cmds[i].name = tkn_lst_array[i]->value;
-			tkn_lst_array[i] = tkn_lst_array[i]->next;
-			i++;
-		}
-		cmds[i].args = NULL;
-		cmds[i].name = NULL;
-	}
+	numcmds = n_pipes(tkn_lst_array) + 1;
+	cmds = malloc(sizeof(t_cmd) * (numcmds + 1));
+	i = -1;
+	while (++i < numcmds)
+		make_cmd(tkn_lst_array[i], &cmds[i]);
+	cmds[i].args = NULL;
+	cmds[i].name = NULL;
+	cmds[i].in = NULL;
+	cmds[i].out = NULL;
 	return cmds;
 }
 
@@ -113,7 +120,6 @@ t_cmd	*parse(t_token **lst)
 
 	expandlst(*lst);
 	tkn_lst_array = split_tkn_lsts(lst);
-
 	cmds = make_cmd_lst(tkn_lst_array);
 	return (cmds);
 

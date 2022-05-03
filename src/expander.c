@@ -49,3 +49,22 @@ void	expand(char **variable)
 		restore_quote(&value, &temp);
 	*variable = value;
 }
+
+void expandlst(t_token *lst)
+{
+	while (lst)
+	{
+		if (lst->type == single_quotes)
+		{
+			lst = lst->next;
+			while(lst && lst->type != single_quotes)
+				lst = lst->next;
+		}
+		else if (lst->type == command || lst->type == double_quotes)
+		{
+			expand_variables(&lst->value);
+		}
+		if (lst)
+			lst = lst->next;
+	}
+}
