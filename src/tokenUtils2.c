@@ -55,7 +55,10 @@ void    handle_rest(t_token *token, t_lex *lex_data)
 
 void free_tkn_lst(t_token **tkn_lst)
 {
+	void *freeme;
     t_token *trash;
+
+	freeme = tkn_lst;
 	while (*tkn_lst)
 	{
 		while (*tkn_lst)
@@ -69,4 +72,5 @@ void free_tkn_lst(t_token **tkn_lst)
 		}
 		tkn_lst++;
 	}
+	free(freeme);
 }
