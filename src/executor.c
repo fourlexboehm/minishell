@@ -68,9 +68,8 @@ void	executor(char **path, t_cmd *cmds, int cmdnum)
 	char 		**cpy;
 
 	cpy = path;
-	if (!cmds[cmdnum].name || cmds[cmdnum].name[0] == '\n')
-		return ;
-	if (builtin(cmds, cmdnum))
+	if (!cmds[cmdnum].name || cmds[cmdnum].name[0] == '\n'
+		|| builtin(cmds, cmdnum))
 		return ;
 	while (*cpy)
 	{
