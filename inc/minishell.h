@@ -30,14 +30,14 @@
 
 
 //lexer
-#define command 0
-#define double_quotes 1
-#define single_quotes 2
-#define pipe 3
-#define append_rd 4
-#define redir_to_file 5
-#define redir_from_here_st 6 //
-#define redir_from_file 7
+#define t_command 0
+#define t_double_quotes 1
+#define t_single_quotes 2
+#define t_pipe 3
+#define t_append_rd 4
+#define t_redir_to_file 5
+#define t_redir_from_here_st 6
+#define t_redir_from_file 7
 
 
 //One allowed Global variable, it's the hash table that stores the environment variables

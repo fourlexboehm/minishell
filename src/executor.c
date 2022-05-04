@@ -6,7 +6,7 @@ static bool	builtin(t_cmd *cmds, int cmdnum)
 	if (!strcmp(cmds[cmdnum].name, "pwd"))
 		pwd();
 	else if (!strcmp(cmds[cmdnum].name, "cd"))
-		cd(cmds[cmdnum].args[1]);
+		cd(cmds[cmdnum].argv[1]);
 	else if (!strcmp(cmds[cmdnum].name, "env"))
 		display();
 	else if (!strcmp(cmds[cmdnum].name, "export"))
@@ -18,7 +18,7 @@ static bool	builtin(t_cmd *cmds, int cmdnum)
 	return (true);
 }
 
-//string join a directory in path[] to the command name
+//string join a directory in path[] to the t_command name
 static char	*getfile(char **dir, t_cmd *cmds, int cmdnum)
 {
 	char	*file;
@@ -49,7 +49,7 @@ static void execute(t_cmd *cmds, int cmdnum, char *file)
 	if (pid == 0)
 	{
 		env = get_env(g_env_table);
-		execve(file, cmds[cmdnum].args, env);
+		execve(file, cmds[cmdnum].argv, env);
 		free2d_array((void **)env);
 		//ft_freev((void **) env, n_str_in_vec(env), true);
 	}

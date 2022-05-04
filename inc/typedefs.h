@@ -29,9 +29,9 @@ typedef struct s_cmd
 {
 	int	argc;
 	char *name;
-	char **in;
-	char **out;
-	char **args;
+	int	in;
+	int	out;
+	char **argv;
 } t_cmd;
 
 typedef struct s_var

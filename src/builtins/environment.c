@@ -21,14 +21,14 @@ void	ft_export(t_cmd *cmds, int cmdnum)
 {
 	char	**vec;
 
-	if (!cmds[cmdnum].args[1])
+	if (!cmds[cmdnum].argv[1])
 		return ;
-	vec = ft_split(cmds[cmdnum].args[1], '=');
+	vec = ft_split(cmds[cmdnum].argv[1], '=');
 	insert(vec[0], vec[1]);
 }
 
 void	unset(t_cmd *cmds, int cmdnum)
 {
-	if (cmds[cmdnum].args[1])
-		g_env_table[hash(cmds[cmdnum].args[1], env_size)].key = NULL;
+	if (cmds[cmdnum].argv[1])
+		g_env_table[hash(cmds[cmdnum].argv[1], env_size)].key = NULL;
 }

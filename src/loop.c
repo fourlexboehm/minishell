@@ -2,8 +2,8 @@
 
 static void freecmd(t_cmd cmd)
 {
-	free2d_array((void **)cmd.args);
-	cmd.args = NULL;
+	free2d_array((void **)cmd.argv);
+	cmd.argv = NULL;
 	cmd.name = NULL;
 }
 
@@ -29,7 +29,7 @@ static int iterate_cmds(t_pathlist *path, t_cmd **cmds, bool *notexit)
 	int	i;
 
 	i = 0;
-	while((*cmds)[i].args)
+	while((*cmds)[i].argv)
 	{
 		(*notexit) = ft_strncmp("exit", (*cmds)[i].name, 5);
 		if (!*notexit)
@@ -57,11 +57,10 @@ void	loop_shell(t_pathlist *path)
 	{
 		lex_data.token_list = lex(rl_get(), &lex_data);
 		cmds = parse(&lex_data.token_list);
-		if (cmds->name)
+		if (cmds && cmds->name)
 			i = iterate_cmds(path, &cmds, &notexit);
-		free_tkn_lst(&lex_data.token_list);
 	}
-	while (cmds[i].args)
+	while (cmds[i].argv)
 		freecmd(cmds[i++]);
 	free(cmds);
 }
