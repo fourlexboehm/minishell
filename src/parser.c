@@ -119,7 +119,8 @@ static void make_cmd(t_token *tkn_lst, t_cmd *cmd)
 	if (tkn_lst->type == t_redir_from_file)
 	{
 		tkn_lst = tkn_lst->next;
-		open(tkn_lst->value, O_CREAT);
+		redir_in(cmd, tkn_lst->value);
+		//open(tkn_lst->value, O_CREAT);
 	}
 	if (tkn_lst->type == t_redir_from_here_st)
 	{
@@ -128,7 +129,13 @@ static void make_cmd(t_token *tkn_lst, t_cmd *cmd)
 	if (tkn_lst->type == t_redir_to_file)
 	{
 		tkn_lst = tkn_lst->next;
-		open(tkn_lst->value, O_CREAT);
+		redir_out(cmd, 1, tkn_lst->value);
+		//open(tkn_lst->value, O_CREAT);
+	}
+	if (tkn_lst->type == t_append_rd)
+	{
+		tkn_lst = tkn_lst->next;
+		redir_out(cmd, 2, tkn_lst->value);
 	}
 }
 //generate the token list for each t_command

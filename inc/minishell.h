@@ -82,6 +82,10 @@ void		executor(char **pathlist, t_cmd *cmds, int cmdnum);
 t_cmd		*parse(t_token **lst);
 t_token		*lex(char const *line, t_lex *lex_data);
 
+//parsingUtils
+void    redir_in(t_cmd *cmd, char *value);
+void    redir_out(t_cmd *cmd, int type, char *value);
+
 //tokenUtils
 int         is_whitespace(char c);
 void        skip_whitespace(t_lex *lex_data);
@@ -94,7 +98,6 @@ void    redir_l(t_token *token, t_lex *lex_data);
 void    redir_r(t_token *token, t_lex *lex_data);
 void    handle_rest(t_token *token, t_lex *lex_data);
 void	free_tkn_lst(t_token **tkn_lst);
-
 
 //repl
 void		loop_shell(t_pathlist *path);
