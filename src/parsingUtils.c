@@ -40,3 +40,7 @@ void    redir_in(t_cmd *cmd, char *value)
 
 ///heredoc function....
 ///still trying to get my head around how this is going to work..
+//https://github.com/gallegoloco/minishell/blob/main/srcs/redirection/heredoc.c
+//https://github.com/jmartini89/42_minishell/tree/master/src/exec/redirections
+//https://github.com/lskywalker/minishell/blob/master/src/parser/parser_here_doc.c
+//https://github.com/Jachokoreto/minishell/blob/main/src/exe_heredoc.c  --doesnt fork
