@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 t_token	*lex(char const *line, t_lex *lex_data)
 {

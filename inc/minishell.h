@@ -83,6 +83,7 @@ t_cmd		*parse(t_token **lst);
 t_token		*lex(char const *line, t_lex *lex_data);
 
 //parsingUtils
+void make_cmd(t_token *tkn_lst, t_cmd *cmd);
 void    redir_in(t_cmd *cmd, char *value);
 void    redir_out(t_cmd *cmd, int type, char *value);
 

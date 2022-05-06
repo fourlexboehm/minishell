@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static void	define_value(char **value, char *key, t_env *local_vars)
 {

@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void    smoke_pipes(t_token *token, t_lex *lex_data)
 {
@@ -43,7 +43,8 @@ void    handle_rest(t_token *token, t_lex *lex_data)
 {
     int start;
     int j;
-    
+
+
     start = lex_data->i;
 	token->type = t_command;
 	j = start;
@@ -56,21 +57,21 @@ void    handle_rest(t_token *token, t_lex *lex_data)
 void free_tkn_lst(t_token **tkn_lst)
 {
 	void *freeme;
-    t_token *trash;
+//    t_token *trash;
 
 	freeme = tkn_lst;
-	while (*tkn_lst)
-	{
-		while (*tkn_lst)
-		{
-			trash = *tkn_lst;
-			*tkn_lst = (*tkn_lst)->next;
-			free(trash->value);
-			free(trash);
-			trash->value = NULL;
-			trash = NULL;
-		}
-		tkn_lst++;
-	}
+//	while (*tkn_lst)
+//	{
+//		while (*tkn_lst)
+//		{
+//			trash = *tkn_lst;
+//			*tkn_lst = (*tkn_lst)->next;
+//			free(trash->value);
+//			free(trash);
+//			trash->value = NULL;
+//			trash = NULL;
+//		}
+//		tkn_lst++;
+//	}
 	free(freeme);
 }
