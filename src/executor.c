@@ -47,7 +47,6 @@ static void execute(t_cmd *cmd, char *file)
 	}
 	if (pid == 0)
 	{
-		dup2();
 		env = get_env(g_env_table);
 		execve(file, cmd->argv, env);
 		free2d_array((void **)env);

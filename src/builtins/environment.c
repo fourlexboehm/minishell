@@ -17,18 +17,18 @@ void	pwd(void)
 	printf("%s\n", search("PWD").data);
 }
 
-void	ft_export(t_cmd *cmds, int cmdnum)
+void	ft_export(t_cmd *cmd)
 {
 	char	**vec;
 
-	if (!cmds[cmdnum].argv[1])
+	if (!cmd->argv[1])
 		return ;
-	vec = ft_split(cmds[cmdnum].argv[1], '=');
+	vec = ft_split(cmd->argv[1], '=');
 	insert(vec[0], vec[1]);
 }
 
-void	unset(t_cmd *cmds, int cmdnum)
+void	unset(t_cmd *cmd)
 {
-	if (cmds[cmdnum].argv[1])
-		g_env_table[hash(cmds[cmdnum].argv[1], env_size)].key = NULL;
+	if (cmd->argv[1])
+		g_env_table[hash(cmd->argv[1], env_size)].key = NULL;
 }

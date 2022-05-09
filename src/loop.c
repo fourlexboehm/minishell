@@ -24,22 +24,21 @@ static char	*rl_get(void)
 	return ((char *)line_read);
 }
 
-static int iterate_cmds(t_pathlist *path, t_cmd **cmds, bool *notexit)
+static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *notexit)
 {
 	int	i;
 
 	i = 0;
-	while((*cmds)[i].argv)
+	while(cmds[i].name)
 	{
-		(*notexit) = ft_strncmp("exit", (*cmds)[i].name, 5);
+		(*notexit) = ft_strncmp("exit", cmds[i].name, 5);
 		if (!*notexit)
 			return (i);
-		executor(path->path, (*cmds), i);
-		freecmd((*cmds)[i++]);
+		executor(path->path, &cmds[i]);
+		freecmd(cmds[i++]);
 	}
-	i = 0;
-	free((*cmds));
-	(*cmds) = NULL;
+	free(cmds);
+	cmds = NULL;
 	return (0);
 }
 
@@ -58,9 +57,9 @@ void	loop_shell(t_pathlist *path)
 		lex_data.token_list = lex(rl_get(), &lex_data);
 		cmds = parse(&lex_data.token_list);
 		if (cmds && cmds->name)
-			i = iterate_cmds(path, &cmds, &notexit);
+			i = iterate_cmds(path, cmds, &notexit);
 	}
-	while (cmds[i].argv)
+	while (cmds && cmds[i].argv)
 		freecmd(cmds[i++]);
 	free(cmds);
 }

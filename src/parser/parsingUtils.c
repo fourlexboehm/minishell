@@ -22,10 +22,14 @@ static void	make_pipe(t_cmd *cmd)
 {
 	int	new_pipe[2];
 
+	dup2(cmd->in, STDIN_FILENO);
+	if (cmd->in != 0)
+		close(cmd->in);
 	pipe(new_pipe);
-	cmd->in = new_pipe[0];
-	cmd--;
-	cmd->out = new_pipe[1];
+	dup2(new_pipe[1], STDOUT_FILENO);
+	close(new_pipe[1]);
+	cmd->in = dup(new_pipe[0]);
+	close(new_pipe[0]);
 }
 
 
@@ -58,7 +62,7 @@ t_token *make_argv(t_token *tkn_lst, t_cmd *cmd)
 {
 	int i;
 
-	if (tkn_lst->type == t_pipe)
+	if (tkn_lst && tkn_lst->type == t_pipe)
 	{
 		make_pipe(cmd);
 		tkn_lst = tkn_lst->next;
