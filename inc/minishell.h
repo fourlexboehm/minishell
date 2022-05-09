@@ -76,11 +76,14 @@ t_env	local_search(char *key, t_env *env_local);
 //pathlist struct functions
 void		init_pathlist(t_pathlist *path);
 void		destroy_pathlist(t_pathlist *path);
-void		executor(char **pathlist, t_cmd *cmds, int cmdnum);
+void		executor(char **path, t_cmd *cmd);
+char		*getfile(char *dir, char *name);
+
 
 //parser
 t_cmd		*parse(t_token **lst);
 t_token		*lex(char const *line, t_lex *lex_data);
+void	pipe_checker(t_token *head, int *old_pipe_in);
 
 //parsingUtils
 void make_cmd(t_token *tkn_lst, t_cmd *cmd);
@@ -106,7 +109,7 @@ void		loop_shell(t_pathlist *path);
 //builtins
 void		cd(char *path);
 void		pwd();
-void		ft_export(t_cmd *cmds, int cmdnum);
-void		unset(t_cmd *cmds, int cmdnum);
+void		ft_export(t_cmd *cmd);
+void		unset(t_cmd *cmd);
 
 #endif
