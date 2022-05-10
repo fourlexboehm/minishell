@@ -40,22 +40,26 @@ static void execute(t_cmd *cmd, char *file)
 
 	pid = fork();
 	//define_exec_signals();
-	if (pid == -1)
-	{
-		printf("exec failed\n");
-		exit(-1);
-	}
+//	if (pid == -1)
+//	{
+//		printf("exec failed\n");
+//		exit(-1);
+//	}
 	if (pid == 0)
 	{
+		if (cmd->in != STDIN_FILENO)
+			dup2(cmd->in, STDIN_FILENO);
+		if (cmd->in != STDOUT_FILENO)
+			dup2(cmd->out, STDOUT_FILENO);
 		env = get_env(g_env_table);
 		execve(file, cmd->argv, env);
-		free2d_array((void **)env);
 	}
 	waitpid(pid, &status, 0);
+	free2d_array((void **)env);
 	free(file);
 	file = NULL;
 	if (!WIFEXITED(status))
-		printf("%i cmd returned:", status);
+		printf(" cmd returned: %i", status);
 }
 
 //checks if a program exists as a builtin or in the path

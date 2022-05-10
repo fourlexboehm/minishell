@@ -18,8 +18,7 @@ static char	*rl_get(void)
 		free((char *)line_read);
 		line_read = (char *) NULL;
 	}
-	line_read = readline(">>>");
-	if (*line_read)
+	line_read = readline(">>>");if (*line_read)
 		add_history(line_read);
 	return ((char *)line_read);
 }
