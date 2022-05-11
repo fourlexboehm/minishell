@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <unistd.h>
 
 typedef struct leaks Leaks;
 
@@ -145,17 +146,17 @@ void	free_track(void *ptr)
 void	check_leaks(void)
 {
 	Leaks	*curr = g_leaks;
+	write(1, "fuck", 4);
 
 	if (!curr)
 	{
-		printf("\e[92mAll Malloc Calls have been freed\n\e[0m");
+		printf("All Malloc Calls have been freed\n");
 		return ;
 	}
 	while (curr)
 	{
 		if (first_occurance(curr))
-			printf("\e[91mMalloc in File: \e[93m%s\e[91m on line: \e[93m%lu\e[91m in Func: \e[93m%s\e[91m has leaked a total of \e[93m%i\e[91m times!\n\e[0m",
-				   curr->file, curr->line, curr->func, count_leaks(curr));
+			printf("Malloc in File: %s on line: %lu in Func: %s has leaked a total of %i times\n", curr->file, curr->line, curr->func, count_leaks(curr));
 		curr = curr->next;
 	}
 	free_leaks();

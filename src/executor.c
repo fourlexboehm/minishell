@@ -43,26 +43,43 @@ static void execute(t_cmd *cmd, char *file)
 		printf("exec failed\n");
 		exit(-1);
 	}
-	if (cmd->pid == 0)
+	if (cmd->pid != 0)
 	{
-		env = get_env(g_env_table);
-
-		if (cmd->in != STDIN_FILENO)
-		{
-			dup2(cmd->in, STDIN_FILENO);
-			close(cmd->in);
-		}
-		if (cmd->out != STDOUT_FILENO)
-		{
-			dup2(cmd->out, STDOUT_FILENO);
-			close(cmd->out);
-		}
-		execve(file, cmd->argv, env);
-		//free2d_array((void **)env); free this somewhere?
+		free(file);
+		file = NULL;
+		return ;
 	}
+	env = get_env(g_env_table);
+	if (cmd->pipe_in != STDIN_FILENO)
+	{
+		dup2(cmd->pipe_in, STDIN_FILENO);
+		close(cmd->pipe_in);
+	}
+	if (cmd->pipe_out != STDOUT_FILENO)
+	{
+		dup2(cmd->pipe_out, STDOUT_FILENO);
+		close(cmd->pipe_out);
+	}
+	while(cmd->redir_in)
+	{
+		if (*cmd->redir_in != STDIN_FILENO)
+		{
+			dup2(*cmd->redir_in, STDIN_FILENO);
+			close(*cmd->redir_in);
+		}
+	}
+	while(cmd->redir_out)
+	{
+		if (*cmd->redir_out != STDOUT_FILENO)
+		{
+			dup2(*cmd->redir_out, STDOUT_FILENO);
+			close(*cmd->redir_out);
+		}
+	}
+	execve(file, cmd->argv, env);
+		//free2d_array((void **)env); free this somewhere?
 	//should this wait for cmd to exit to free?
-	//free(file);
-	//file = NULL;
+
 }
 
 //checks if a program exists as a builtin or in the path

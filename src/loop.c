@@ -3,6 +3,10 @@
 static void freecmd(t_cmd cmd)
 {
 	free2d_array((void **)cmd.argv);
+	free(cmd.redir_in);
+	free(cmd.redir_out);
+	cmd.redir_out = NULL;
+	cmd.redir_in = NULL;
 	cmd.argv = NULL;
 	cmd.name = NULL;
 }
@@ -23,7 +27,7 @@ static char	*rl_get(void)
 	return ((char *)line_read);
 }
 
-static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *notexit)
+static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 {
 	int	i;
 	int status;
@@ -31,8 +35,8 @@ static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *notexit)
 	i = 0;
 	while(cmds[i].name)
 	{
-		(*notexit) = ft_strncmp("exit", cmds[i].name, 5);
-		if (!*notexit)
+		*exit = !ft_strncmp("exit", cmds[i].name, 5);
+		if (*exit)
 			return (i);
 		executor(path->path, &cmds[i++]);
 	}
@@ -55,17 +59,17 @@ void	loop_shell(t_pathlist *path)
 {
 	t_lex	lex_data;
 	t_cmd	*cmds;
-	bool	notexit;
+	bool	exit;
 	int		i;
 
 	i = 0;
-	notexit = true;
-	while (notexit)
+	exit = false;
+	while (!exit)
 	{
 		lex_data.token_list = lex(rl_get(), &lex_data);
 		cmds = parse(&lex_data.token_list);
 		if (cmds && cmds->name)
-			i = iterate_cmds(path, cmds, &notexit);
+			i = iterate_cmds(path, cmds, &exit);
 	}
 	while (cmds && cmds[i].argv)
 		freecmd(cmds[i++]);

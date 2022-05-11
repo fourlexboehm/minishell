@@ -83,12 +83,11 @@ char		*getfile(char *dir, char *name);
 //parser
 t_cmd		*parse(t_token **lst);
 t_token		*lex(char const *line, t_lex *lex_data);
-void	pipe_checker(t_token *head, int *old_pipe_in);
+void		make_redirs(t_token *tkn_lst, t_cmd *cmd);
+
 
 //parsingUtils
 void make_cmd(t_token *tkn_lst, t_cmd *cmd);
-void    redir_in(t_cmd *cmd, char *value);
-void    redir_out(t_cmd *cmd, int type, char *value);
 
 //tokenUtils
 int         is_whitespace(char c);
