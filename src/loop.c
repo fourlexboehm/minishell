@@ -26,6 +26,7 @@ static char	*rl_get(void)
 static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *notexit)
 {
 	int	i;
+	int status;
 
 	i = 0;
 	while(cmds[i].name)
@@ -33,9 +34,17 @@ static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *notexit)
 		(*notexit) = ft_strncmp("exit", cmds[i].name, 5);
 		if (!*notexit)
 			return (i);
-		executor(path->path, &cmds[i]);
+		executor(path->path, &cmds[i++]);
+	}
+	i = 0;
+	while(cmds[i].name)
+	{
+		waitpid(cmds[i].pid, &status, 0);
+		if (!WIFEXITED(status))
+			printf(" cmd returned: %i", status);
 		freecmd(cmds[i++]);
 	}
+
 	free(cmds);
 	cmds = NULL;
 	return (0);
