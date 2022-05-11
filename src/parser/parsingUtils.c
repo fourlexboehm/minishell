@@ -8,11 +8,10 @@ static int	n_args(t_token *token)
 
 	i = 0;
 	tmp = token;
-	while (tmp)
+	while (tmp && (tmp->type == t_command || tmp->type == t_single_quotes
+		   || tmp->type == t_double_quotes))
 	{
-		if (tmp->type == t_command || tmp->type == t_single_quotes
-			|| tmp->type == t_double_quotes )
-			i++;
+		i++;
 		tmp = tmp->next;
 	}
 	return (i);

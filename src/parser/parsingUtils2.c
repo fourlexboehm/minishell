@@ -20,11 +20,11 @@ void    redir_out(t_cmd *cmd, int type, char *value)
 			printf("ERROR MSG\n");
 			return ;
 		}
-		else
-		{
-			dup2(cmd->out, 1);
-			close(cmd->out);
-		}
+//		else
+//		{
+//			dup2(cmd->out, 1);
+//			close(cmd->out);
+//		}
 	}
 	if (type == 1) // type 1 being '>>'
 	{
@@ -52,9 +52,9 @@ void    redir_in(t_cmd *cmd, char *value)
 	cmd->in = open(value, O_RDONLY | O_CREAT);
 	if (cmd->in == -1)
 		printf("ERROR MSG\n");
-	else
-	{
-		dup2(cmd->in, 0);
-		close(cmd->in);
-	}
+//	else
+//	{
+//		dup2(cmd->in, 0);
+//		close(cmd->in);
+//	}
 }

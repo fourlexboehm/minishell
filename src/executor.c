@@ -38,25 +38,31 @@ static void execute(t_cmd *cmd, char *file)
 
 	cmd->pid = fork();
 	//define_exec_signals();
-//	if (pid == -1)
-//	{
-//		printf("exec failed\n");
-//		exit(-1);
-//	}
+	if (cmd->pid == -1)
+	{
+		printf("exec failed\n");
+		exit(-1);
+	}
 	if (cmd->pid == 0)
 	{
 		env = get_env(g_env_table);
 
 		if (cmd->in != STDIN_FILENO)
+		{
 			dup2(cmd->in, STDIN_FILENO);
-		if (cmd->in != STDOUT_FILENO)
+			close(cmd->in);
+		}
+		if (cmd->out != STDOUT_FILENO)
+		{
 			dup2(cmd->out, STDOUT_FILENO);
+			close(cmd->out);
+		}
 		execve(file, cmd->argv, env);
 		//free2d_array((void **)env); free this somewhere?
 	}
 	//should this wait for cmd to exit to free?
-	free(file);
-	file = NULL;
+	//free(file);
+	//file = NULL;
 }
 
 //checks if a program exists as a builtin or in the path
