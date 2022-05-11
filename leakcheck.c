@@ -20,7 +20,7 @@ typedef struct leaks Leaks;
 struct leaks{
 	void		*ptr;
 	const char	*file;
-	int			line;
+	size_t			line;
 	const char	*func;
 	size_t		size;
 	Leaks		*next;
@@ -117,6 +117,8 @@ static int	count_leaks(Leaks *leak)
 	Leaks	*curr = g_leaks;
 	int		i = 0;
 
+	if (curr->next && curr->line > curr->next->size)
+		exit (1);
 	while (curr)
 	{
 		if (malloc_match(curr, leak))
@@ -152,7 +154,7 @@ void	check_leaks(void)
 	while (curr)
 	{
 		if (first_occurance(curr))
-			printf("\e[91mMalloc in File: \e[93m%s\e[91m on line: \e[93m%i\e[91m in Func: \e[93m%s\e[91m has leaked a total of \e[93m%i\e[91m times!\n\e[0m",
+			printf("\e[91mMalloc in File: \e[93m%s\e[91m on line: \e[93m%lu\e[91m in Func: \e[93m%s\e[91m has leaked a total of \e[93m%i\e[91m times!\n\e[0m",
 				   curr->file, curr->line, curr->func, count_leaks(curr));
 		curr = curr->next;
 	}

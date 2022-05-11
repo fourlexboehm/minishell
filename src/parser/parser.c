@@ -132,11 +132,11 @@ static t_token **split_tkn_lsts(t_token **lst)
 	t_token **tkn_lst_array;
 	t_token *tmp;
 	int i;
-	int		numpipes;
+	int		numcmds;
 
-	numpipes = n_pipes(lst);
-	tkn_lst_array = malloc(sizeof(char *) * (numpipes + 2));
-	tkn_lst_array[numpipes + 2] = NULL;
+	numcmds = n_pipes(lst) + 1;
+	tkn_lst_array = malloc(sizeof(char *) * (numcmds + 1));
+	tkn_lst_array[numcmds] = NULL;
 	i = 0;
 	tkn_lst_array[i] = *lst;
 	tmp = *lst;
@@ -166,7 +166,7 @@ static t_cmd *make_cmd_lst(t_token **tkn_lst_array)
 	i = -1;
 	cmds[0].in = dup(0);
 	cmds[numcmds - 1].out = dup(1);
-	while (++i <= numcmds)
+	while (++i < numcmds)
 		make_cmd(tkn_lst_array[i], &cmds[i]);
 	cmds[i].argv = NULL;
 	cmds[i].name = NULL;
