@@ -91,27 +91,21 @@ void make_redirs(t_token *tkn_lst, t_cmd *cmd)
 
 	i = 0;
 	j = 0;
-	cmd->redir_in = ft_calloc(n_redirs_in(tkn_lst + 1), sizeof (int));
-	cmd->redir_out = ft_calloc(n_redirs_out(tkn_lst + 1), sizeof (int));
-	while (tkn_lst->type != t_pipe)
+	cmd->redir_in = ft_calloc(n_redirs_in(tkn_lst) + 1, sizeof (int));
+	cmd->redir_out = ft_calloc(n_redirs_out(tkn_lst) + 1, sizeof (int));
+	while (tkn_lst && tkn_lst->type != t_pipe)
 	{
-		if (tkn_lst->type == t_redir_from_file)
+		if (tkn_lst->type == t_redir_from_file || tkn_lst->type == t_redir_from_here_st)
 		{
-			tkn_lst = tkn_lst->next;
-			redir_in(cmd->redir_in + i++, tkn_lst->type, tkn_lst->value);
+			redir_in(cmd->redir_in + i++, tkn_lst->type, tkn_lst->next->value);
+			if (tkn_lst->next)
+				tkn_lst = tkn_lst->next->next;
 		}
-		if (tkn_lst->type == t_redir_from_here_st)
+		else if (tkn_lst->type == t_redir_to_file || tkn_lst->type == t_append_rd)
 		{
-			tkn_lst = tkn_lst->next;
-			//TODO heredocs
-			//redir_in(cmd->redir_in + i, tkn_lst->value);
-			//redir_heredoc(cmd->redir_in + i, tkn_lst->value);
-
-		}
-		if (tkn_lst->type == t_redir_to_file || tkn_lst->type == t_append_rd)
-		{
-			tkn_lst = tkn_lst->next;
-			redir_out(cmd->redir_out + j++, tkn_lst->type, tkn_lst->value);
+			redir_out(cmd->redir_out + j++, tkn_lst->type, tkn_lst->next->value);
+			if (tkn_lst->next)
+				tkn_lst = tkn_lst->next->next;
 		}
 	}
 }
