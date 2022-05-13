@@ -82,6 +82,8 @@ static void    redir_in(int *in, int type, char *value)
 		if (*in == -1)
 			printf("ERROR MSG\n");
 	}
+	if (type == t_redir_from_here_st)
+		heredoc(value, )
 }
 
 void make_redirs(t_token *tkn_lst, t_cmd *cmd)
