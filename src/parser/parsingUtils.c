@@ -1,6 +1,5 @@
 #include "../../inc/minishell.h"
 
-
 static int	n_args(t_token *token)
 {
 	int	i;
@@ -25,8 +24,6 @@ static void	make_pipe(t_cmd *cmd)
 	cmd->pipe_in = new_pipe[0];
 	(cmd - 1)->pipe_out = new_pipe[1];
 }
-
-
 
 t_token *make_argv(t_token *tkn_lst, t_cmd *cmd)
 {

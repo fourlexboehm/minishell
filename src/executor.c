@@ -35,7 +35,11 @@ char	*getfile(char *dir, char *name)
 static void execute(t_cmd *cmd, char *file)
 {
 	char **env;
+	int	*in_cpy;
+	int	*out_cpy;
 
+	in_cpy = cmd->redir_in;
+	out_cpy = cmd->redir_out;
 	cmd->pid = fork();
 	//define_exec_signals();
 	if (cmd->pid == -1)
@@ -49,6 +53,7 @@ static void execute(t_cmd *cmd, char *file)
 		file = NULL;
 		return ;
 	}
+	//printf("before redirs%i\n", *cmd->redir_in);
 	env = get_env(g_env_table);
 	if (cmd->pipe_in != STDIN_FILENO)
 	{
@@ -60,26 +65,26 @@ static void execute(t_cmd *cmd, char *file)
 		dup2(cmd->pipe_out, STDOUT_FILENO);
 		close(cmd->pipe_out);
 	}
-	while(cmd->redir_in)
+	while(in_cpy)
 	{
-		if (*cmd->redir_in != STDIN_FILENO)
+		if (*in_cpy != STDIN_FILENO)
 		{
-			dup2(*cmd->redir_in, STDIN_FILENO);
-			close(*cmd->redir_in);
+			dup2(*in_cpy, STDIN_FILENO);
+			close(*in_cpy);
 		}
+		in_cpy++;
 	}
-	while(cmd->redir_out)
+	while(out_cpy)
 	{
-		if (*cmd->redir_out != STDOUT_FILENO)
+		if (*out_cpy != STDOUT_FILENO && *out_cpy != STDIN_FILENO)
 		{
-			dup2(*cmd->redir_out, STDOUT_FILENO);
-			close(*cmd->redir_out);
+			dup2(*out_cpy, STDOUT_FILENO);
+			close(*out_cpy);
 		}
+		out_cpy++;
 	}
+	//printf("after redirs%i\n", *cmd->redir_in);
 	execve(file, cmd->argv, env);
-		//free2d_array((void **)env); free this somewhere?
-	//should this wait for cmd to exit to free?
-
 }
 
 //checks if a program exists as a builtin or in the path

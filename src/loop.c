@@ -2,13 +2,25 @@
 
 static void freecmd(t_cmd cmd)
 {
+//	if (cmd.pipe_in != STDIN_FILENO)
+//		close(cmd.pipe_in);
+//	if (cmd.pipe_out != STDOUT_FILENO)
+//		close(cmd.pipe_out);
+//	while(cmd.redir_in)
+//	{
+//		if (*cmd.redir_in != STDIN_FILENO)
+//			close(*cmd.redir_in);
+//		cmd.redir_in++;
+//	}
+//	while(cmd.redir_out)
+//	{
+//		if (*cmd.redir_out != STDOUT_FILENO)
+//			close(*cmd.redir_out);
+//		cmd.redir_out++;
+//	}
 	free2d_array((void **)cmd.argv);
 	free(cmd.redir_in);
 	free(cmd.redir_out);
-	cmd.redir_out = NULL;
-	cmd.redir_in = NULL;
-	cmd.argv = NULL;
-	cmd.name = NULL;
 }
 
 /* Read a string, and return a pointer to it.  Returns NULL on EOF. */
@@ -45,10 +57,9 @@ static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 	{
 		waitpid(cmds[i].pid, &status, 0);
 		if (!WIFEXITED(status))
-			printf(" cmd returned: %i", status);
+			printf(" cmd %i returned: %i\n", i, status);
 		freecmd(cmds[i++]);
 	}
-
 	free(cmds);
 	cmds = NULL;
 	return (0);
