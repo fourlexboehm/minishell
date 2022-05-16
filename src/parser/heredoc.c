@@ -18,11 +18,30 @@ void    exit_heredoc(int signal)
     exit (0);
 }
 
+static void    heredoc_var(char *line, int *i, int tmp_file)
+{
+    char    *temp[100];
+    int j;
+    
+    j = 0;
+    if(line[++(*i)] > 'A' && line[*i] < 'Z')
+    {
+        while (line[*i] != ' ')
+        {
+            *temp[j] = line[*i];
+            i++;
+            j++;
+        }
+        *temp[++j] = '\0';
+        expand(temp);
+        ft_putstr_fd(*temp, tmp_file);
+    }
+
+}
+
 void    read_n_write(char *delim, int has_quotes, int tmp_file)
 {
     char    *line;
-    char    *temp[100];
-    int j;
     int i;
 
     i = 0;
@@ -43,23 +62,11 @@ void    read_n_write(char *delim, int has_quotes, int tmp_file)
         {
             if (line[i] == '$' && has_quotes == 0)
             {
-                if(line[++i] > 'A' && line[i] < 'Z')
-                {
-                    j = 0;
-                    while (line[i] != ' ')
-                    {
-                        *temp[j] = line[i];
-                        i++;
-                        j++;
-                    }
-                    *temp[++j] = '\0';
-                    expand(temp);
-                    ft_putstr_fd(*temp, tmp_file);
-                }
-
+               heredoc_var(line, &i, tmp_file);
             }
             else 
                 ft_putchar_fd(line[i], tmp_file);
+            i++;
         }
     }
 }
