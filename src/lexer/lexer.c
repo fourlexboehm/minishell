@@ -4,7 +4,6 @@ t_token	*lex(char const *line, t_lex *lex_data)
 {
 	t_token *token;
 	t_token	*tkn_lst;
-	//t_token *curr;
 
 	lex_data->line = line;
 	lex_data->i = 0;
@@ -24,16 +23,6 @@ t_token	*lex(char const *line, t_lex *lex_data)
 			redir_l(token, lex_data);
 		else
 			handle_rest(token, lex_data);
-		//printf("token is %s and lineC is %c\n", token->value, lex_data->line[lex_data->i]);
 	}
-//	curr = tkn_lst;
-//	if(curr)
-//	{
-//		while(curr->next)
-//		{
-//			printf("val is %s\n", curr->value);
-//			curr = curr->next;
-//		}
-//	}
 	return(tkn_lst);
 }

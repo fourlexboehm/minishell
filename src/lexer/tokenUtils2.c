@@ -57,21 +57,19 @@ void    handle_rest(t_token *token, t_lex *lex_data)
 void free_tkn_lst(t_token **tkn_lst)
 {
 	void *freeme;
-//    t_token *trash;
 
 	freeme = tkn_lst;
-//	while (*tkn_lst)
-//	{
-//		while (*tkn_lst)
-//		{
-//			trash = *tkn_lst;
-//			*tkn_lst = (*tkn_lst)->next;
-//			free(trash->value);
-//			free(trash);
-//			trash->value = NULL;
-//			trash = NULL;
-//		}
-//		tkn_lst++;
-//	}
+	while (*tkn_lst)
+	{
+		while (*tkn_lst)
+		{
+			if ((*tkn_lst)->type < t_pipe)
+				free((*tkn_lst)->value);
+			(*tkn_lst)->value = NULL;
+			free(*tkn_lst);
+			*tkn_lst = (*tkn_lst)->next;
+		}
+		tkn_lst++;
+	}
 	free(freeme);
 }

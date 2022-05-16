@@ -1,5 +1,5 @@
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 t_env	local_search(char *key, t_env *env_local)
 {

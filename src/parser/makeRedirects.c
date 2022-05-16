@@ -32,7 +32,7 @@ static int	n_redirs_out(t_token *token)
 	return (i);
 }
 
-static void    redir_out(int *out, int type, char *value)
+static char	*redir_out(int *out, int type, char *value)
 {
 	char *file;
 
@@ -49,46 +49,47 @@ static void    redir_out(int *out, int type, char *value)
 		*out = open(value, O_CREAT | O_RDWR | O_APPEND, 0777);
 		if (*out == -1)
 		{
-			printf("ERROR MSG\n");
-			return ;
+			printf("File could not be opened\n");
+			return(NULL);
 		}
 	}
 	//if (type == t_append_rd) // type 1 being '>>'
 	{
 		*out = open(value, O_CREAT | O_RDWR | O_TRUNC, 0777);
 		if (*out == -1)
-			printf("ERROR MSG\n");
+			printf("File could not be created\n");
 		else
 		{
 			dup2(*out, 1);
 			close(*out);
 		}
 	}
+	return (value);
 }
 
-static void    redir_in(int *in, int type, char *value)
+static char *redir_in(int *in, int type, char *value)
 {
 	char *file;
 
-	if (*value != '/' && type == t_redir_from_file)
-	{
-		file = getfile(search("PWD").data, value);
-		free(value);
-		value = file;
-	}
 	if (type == t_redir_from_file)
 	{
+		if (*value != '/')
+		{
+			file = getfile(search("PWD").data, value);
+			free(value);
+			value = file;
+		}
 		*in = open(value, O_RDONLY | O_CREAT);
 		if (*in == -1)
-			printf("ERROR MSG\n");
+			printf("File could not be opened\n");
 	}
-	if (type == t_redir_from_here_st)
+	else
 	{
 		heredoc(value);
 		*in = open("/tmp/tmp_file", O_RDONLY);
 	}
-
-	}
+	return (value);
+}
 
 void make_redirs(t_token *tkn_lst, t_cmd *cmd)
 {
@@ -103,22 +104,15 @@ void make_redirs(t_token *tkn_lst, t_cmd *cmd)
 	{
 		if (tkn_lst->type == t_redir_from_file || tkn_lst->type == t_redir_from_here_st)
 		{
-			redir_in(cmd->redir_in + i++, tkn_lst->type, tkn_lst->next->value);
+			tkn_lst->next->value = redir_in(cmd->redir_in + i++, tkn_lst->type, tkn_lst->next->value);
 			if (tkn_lst->next)
 				tkn_lst = tkn_lst->next->next;
 		}
 		else if (tkn_lst->type == t_redir_to_file || tkn_lst->type == t_append_rd)
 		{
-			redir_out(cmd->redir_out + j++, tkn_lst->type, tkn_lst->next->value);
+			tkn_lst->next->value = redir_out(cmd->redir_out + j++, tkn_lst->type, tkn_lst->next->value);
 			if (tkn_lst->next)
 				tkn_lst = tkn_lst->next->next;
 		}
 	}
 }
-
-///heredoc function....
-///still trying to get my head around how this is going to work..
-//https://github.com/gallegoloco/minishell/blob/main/srcs/redirection/heredoc.c
-//https://github.com/jmartini89/42_minishell/tree/master/src/exec/redirections
-//https://github.com/lskywalker/minishell/blob/master/src/parser/parser_here_doc.c
-//https://github.com/Jachokoreto/minishell/blob/main/src/exe_heredoc.c  --doesnt fork

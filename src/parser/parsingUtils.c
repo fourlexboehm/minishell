@@ -54,7 +54,7 @@ void make_cmd(t_token *tkn_lst, t_cmd *cmd)
 {
 	tkn_lst = make_argv(tkn_lst, cmd);
 	cmd->name = cmd->argv[0];
-	if (! tkn_lst)
+	if (!tkn_lst)
 		return ;
 	make_redirs(tkn_lst, cmd);
 }
