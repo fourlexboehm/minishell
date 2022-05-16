@@ -36,7 +36,6 @@ static void    heredoc_var(char *line, int *i, int tmp_file)
         expand(temp);
         ft_putstr_fd(*temp, tmp_file);
     }
-
 }
 
 void    read_n_write(char *delim, int has_quotes, int tmp_file)
@@ -57,7 +56,10 @@ void    read_n_write(char *delim, int has_quotes, int tmp_file)
 	   if (line[0] == '\n')
 		   continue ;
         if (!ft_strncmp(line, delim, ft_strlen(delim)))
+        {
+            close(tmp_file);
             return ;
+        }
         while (line[i]) 
         {
             if (line[i] == '$' && has_quotes == 0)
@@ -67,6 +69,7 @@ void    read_n_write(char *delim, int has_quotes, int tmp_file)
             else 
                 ft_putchar_fd(line[i], tmp_file);
             i++;
+            ft_putchar_fd('\n', tmp_file);
         }
     }
 }
@@ -74,17 +77,22 @@ void    read_n_write(char *delim, int has_quotes, int tmp_file)
 void    heredoc(char *delimiter)
 {
     int temp_fd;
-    //int pid;
+    int pid;
     int has_quotes;
-//    int old_out;
-//
-//    old_out = dup(1);
+    int status;
+    int old_out;
+
+    old_out = dup(1);
     has_quotes = 0;
     temp_fd = open_temp();
     if (delimiter[0] == '\'' || delimiter[0] == '"')
         has_quotes = 1;
-   //signal(SIGINT, SIG_IGN);
-    //pid = fork();
-    //if (pid == 0)
+    signal(SIGINT, SIG_IGN);
+    pid = fork();
+    if (pid == 0)
         read_n_write(delimiter, has_quotes, temp_fd);
+    close(temp_fd);
+	waitpid(pid, &status, 0);
+	if (!WIFEXITED(status))
+        printf("error");
 }
