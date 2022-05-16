@@ -70,7 +70,7 @@ static void    redir_in(int *in, int type, char *value)
 {
 	char *file;
 
-	if (*value != '/')
+	if (*value != '/' && type == t_redir_from_file)
 	{
 		file = getfile(search("PWD").data, value);
 		free(value);

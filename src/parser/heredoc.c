@@ -35,7 +35,9 @@ void    read_n_write(char *delim, int has_quotes, int tmp_file)
            close(tmp_file);
            exit(0);
        }
-        if (ft_strncmp(line, delim, ft_strlen(delim)))
+	   if (line[0] == '\n')
+		   continue ;
+        if (!ft_strncmp(line, delim, ft_strlen(delim)))
             return ;
         while (line[i]) 
         {
@@ -54,6 +56,7 @@ void    read_n_write(char *delim, int has_quotes, int tmp_file)
                     expand(temp);
                     ft_putstr_fd(*temp, tmp_file);
                 }
+
             }
             else 
                 ft_putchar_fd(line[i], tmp_file);
@@ -64,17 +67,17 @@ void    read_n_write(char *delim, int has_quotes, int tmp_file)
 void    heredoc(char *delimiter)
 {
     int temp_fd;
-    int pid;
+    //int pid;
     int has_quotes;
-    int old_out;
-
-    old_out = dup(1);
+//    int old_out;
+//
+//    old_out = dup(1);
     has_quotes = 0;
     temp_fd = open_temp();
     if (delimiter[0] == '\'' || delimiter[0] == '"')
         has_quotes = 1;
    //signal(SIGINT, SIG_IGN);
-    pid = fork();
-    if (pid == 0)
+    //pid = fork();
+    //if (pid == 0)
         read_n_write(delimiter, has_quotes, temp_fd);
 }
