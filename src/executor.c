@@ -92,7 +92,7 @@ void	executor(char **path, t_cmd *cmd)
 			if (stat(file, &sb) == 0 && sb.st_mode & S_IXUSR)
 				return (execute(cmd, file));
 			cpy++;
-			//free(file); //TODO FREE THIS
+			free(file); //TODO FREE THIS
 		}
 	file = NULL;
 	printf("%s Could not be run", cmd->name);

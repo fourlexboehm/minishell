@@ -80,9 +80,7 @@ void    heredoc(char *delimiter)
     int pid;
     int has_quotes;
     int status;
-    int old_out;
 
-    old_out = dup(1);
     has_quotes = 0;
     temp_fd = open_temp();
     if (delimiter[0] == '\'' || delimiter[0] == '"')

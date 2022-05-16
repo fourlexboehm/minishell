@@ -2,18 +2,13 @@
 
 static void freecmd(t_cmd cmd)
 {
-	int	*free_in;
-	int	*free_out;
-
-	free_in = cmd.redir_in;
-	free_out = cmd.redir_out;
-//
+	free(cmd.redir_in);
+	free(cmd.redir_out);
 //	TODO free after closing FDs?
 	if (cmd.pipe_in != STDIN_FILENO)
 		close(cmd.pipe_in);
 	if (cmd.pipe_out != STDOUT_FILENO)
 		close(cmd.pipe_out);
-
 	while(cmd.redir_in && *cmd.redir_in != STDIN_FILENO)
 	{
 		if (*cmd.redir_in != STDIN_FILENO)
@@ -26,8 +21,6 @@ static void freecmd(t_cmd cmd)
 			close(*cmd.redir_out);
 		cmd.redir_out++;
 	}
-	free(free_in);
-	free(free_out);
 	free2d_array((void **)cmd.argv);
 }
 
@@ -55,7 +48,7 @@ static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 	i = 0;
 	while(cmds[i].name)
 	{
-		*exit = !ft_strncmp("exit", cmds[i].name, 5);
+		*exit = !ft_strncmp("exit", cmds[i].name, 4);
 		if (*exit)
 			return (i);
 		executor(path->path, &cmds[i++]);

@@ -70,7 +70,7 @@ static t_cmd *make_cmd_lst(t_token **tkn_lst_array)
 	t_cmd	*cmds;
 
 	numcmds = n_pipes(tkn_lst_array) + 1;
-	cmds = malloc(sizeof(t_cmd) * (numcmds + 1));
+	cmds = ft_calloc(numcmds + 1, sizeof(t_cmd));
 //	cmds[0].in[0] = dup(0); //not needed
 //	cmds[numcmds - 1].out[0] = dup(1);
 	i = -1;
