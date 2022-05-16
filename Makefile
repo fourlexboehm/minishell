@@ -4,7 +4,7 @@ SRC = src/main.c src/loop.c  src/executor.c src/signals.c \
 src/hashTable.c src/path.c  src/builtins/environment.c  src/builtins/cd.c src/localvars.c \
 src/lexer/tokenUtils2.c src/lexer/tokensUtils.c src/lexer/lexer.c \
 src/expander/expanderUtils.c src/expander/expander.c src/expander/expander2.c \
-src/parser/parser.c src/parser/parsingUtils.c src/parser/parsingUtils2.c src/parser/makeRedirects.c
+src/parser/parser.c src/parser/parsingUtils.c src/parser/parsingUtils2.c src/parser/makeRedirects.c src/parser/heredoc.c
 
 INCLUDES = ./includes/
 LIBFT = ./libft/

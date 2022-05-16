@@ -85,6 +85,8 @@ t_cmd		*parse(t_token **lst);
 t_token		*lex(char const *line, t_lex *lex_data);
 void		make_redirs(t_token *tkn_lst, t_cmd *cmd);
 
+///heredoc.c
+void    heredoc(char *delimiter);
 
 //parsingUtils
 void make_cmd(t_token *tkn_lst, t_cmd *cmd);

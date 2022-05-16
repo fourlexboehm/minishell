@@ -58,6 +58,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+
 	init_g_env_table(env);
 	init_pathlist(&lst);
 	if (lst.path)
