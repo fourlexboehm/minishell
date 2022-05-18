@@ -22,8 +22,6 @@ static char	*redir_out(int *out, int type, char *value)
 		printf("File could not be opened\n");
 		return(NULL);
 	}
-	dup2(*out, 1);
-	close(*out);
 	return (value);
 }
 

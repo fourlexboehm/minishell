@@ -65,7 +65,7 @@ void	handle_var_single_quote(t_var *var, char **value, int i);
 void		insert(char *key, char *data);
 t_env		search(char *key);
 char		**get_env(t_env *envtab);
-void		display();
+void		display(t_cmd *cmd);
 void		free_env();
 u_int64_t	hash(char *str, int env_len);
 
@@ -82,7 +82,7 @@ char		*getfile(char *dir, char *name);
 
 //parser
 t_cmd		*parse(t_token **lst);
-t_token		*lex(char const *line, t_lex *lex_data);
+t_token		*lex(char const *line);
 void		make_redirs(t_token *tkn_lst, t_cmd *cmd);
 
 ///heredoc.c
@@ -108,8 +108,8 @@ void	free_tkn_lst_array(t_token **tkn_lst);
 void		loop_shell(t_pathlist *path);
 
 //builtins
-void		cd(char *path);
-void		pwd();
+void		cd(t_cmd *cmd);
+void		pwd(t_cmd *cmd);
 void		ft_export(t_cmd *cmd);
 void		unset(t_cmd *cmd);
 

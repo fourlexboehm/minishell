@@ -56,9 +56,10 @@ void	insert(char *key, char *data)
 }
 
 //return a list of env vars to the terminal
-void	display()
+void	display(t_cmd *cmd)
 {
-	int	i;
+	int		i;
+	(void)cmd;
 
 	i = 0;
 	while (i < env_size)

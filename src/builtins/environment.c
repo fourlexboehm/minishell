@@ -12,8 +12,9 @@
 
 #include "../../inc/minishell.h"
 
-void	pwd(void)
+void	pwd(t_cmd *cmd)
 {
+	(void)cmd;
 	printf("%s\n", search("PWD").data);
 }
 

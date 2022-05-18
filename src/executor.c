@@ -1,22 +1,6 @@
 #include <sys/stat.h>
 #include "../inc/minishell.h"
 
-static bool	builtin(t_cmd *cmd)
-{
-	if (!strcmp(cmd->name, "pwd"))
-		pwd();
-	else if (!strcmp(cmd->name, "cd"))
-		cd(cmd->argv[1]);
-	else if (!strcmp(cmd->name, "env"))
-		display();
-	else if (!strcmp(cmd->name, "export"))
-		ft_export(cmd);
-	else if (!strcmp(cmd->name, "unset"))
-		unset(cmd);
-	else
-		return (false);
-	return (true);
-}
 
 //string join a directory in path[] to the t_command name
 char	*getfile(char *dir, char *name)
@@ -48,11 +32,39 @@ static void setup_fds(t_cmd *cmd)
 	if(cmd->redir_in  != STDIN_FILENO)
 		dup2(cmd->redir_in, STDIN_FILENO);
 	if(cmd->redir_out != STDOUT_FILENO)
-	{
 		dup2(cmd->redir_out, STDOUT_FILENO);
-		close(cmd->pipe_out);
+}
+
+
+static void exec_builtin(void (function)(), t_cmd *cmd)
+{
+	int pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		setup_fds(cmd);
+		(*function)(cmd);
 	}
 }
+
+static bool	builtin(t_cmd *cmd)
+{
+	if (!strcmp(cmd->name, "pwd"))
+		exec_builtin(pwd, cmd);
+	else if (!strcmp(cmd->name, "cd"))
+		exec_builtin(cd, cmd);
+	else if (!strcmp(cmd->name, "env"))
+		exec_builtin(display, cmd);
+	else if (!strcmp(cmd->name, "export"))
+		exec_builtin(ft_export, cmd);
+	else if (!strcmp(cmd->name, "unset"))
+		exec_builtin(unset, cmd);
+	else
+		return (false);
+	return (true);
+}
+
 
 //run a program if it's in PATH and executable
 static void execute(t_cmd *cmd, char *file)
@@ -74,7 +86,7 @@ static void execute(t_cmd *cmd, char *file)
 	execve(file, cmd->argv, env);
 }
 
-//checks if a program exists as a builtin or in the path or in ./directory TODO run arbitrary directory files?
+//checks if a program exists as a builtin, in the path, as an absolute path or in ./directory
 void	executor(char **path, t_cmd *cmd)
 {
 	struct stat	sb;
@@ -88,7 +100,9 @@ void	executor(char **path, t_cmd *cmd)
 	//run local file if it starts with ./ or search for it in the path
 	while (*cpy)
 		{
-			if (!ft_strncmp(cmd->name, "./", 2))
+			if (*cmd->name == '/')
+				file = ft_strdup(cmd->name);
+			else if (!ft_strncmp(cmd->name, "./", 2))
 				file = getfile(search("PWD").data, cmd->name + 2);
 			else
 				file = getfile(*cpy, cmd->name);

@@ -46,11 +46,12 @@ static void	change_dir_to_path(const char *current_path)
   * if it's -, assigns the PWD to the OLDPWD and calls
   * change_dir_to_oldpwd
   * else calls change_dir_to_path */
-
-void	cd(char *path)
+void	cd(t_cmd *cmd)
 {
+	char *path;
 	char	*current_path;
 
+	path = cmd->name;
 	if ((!path) || ft_strncmp(path, "~", 2) == 0 || ft_strncmp(path, "~/", 3) == 0)
 		return cd_home();
 	else if (ft_strncmp(path, "-", 1) == 0)

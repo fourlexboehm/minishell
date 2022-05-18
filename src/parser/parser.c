@@ -73,8 +73,6 @@ static t_cmd *make_cmd_lst(t_token **tkn_lst_array)
 	while (tkn_lst_array[++numcmds])
 		;
 	cmds = ft_calloc(numcmds + 1, sizeof(t_cmd));
-//	cmds[0].in[0] = dup(0); //not needed
-//	cmds[numcmds - 1].out[0] = dup(1);
 	i = -1;
 	while (++i < numcmds)
 		make_cmd(tkn_lst_array[i], &cmds[i]);
@@ -83,7 +81,6 @@ static t_cmd *make_cmd_lst(t_token **tkn_lst_array)
 	return cmds;
 }
 
-//TODO work in progress
 t_cmd	*parse(t_token **lst)
 {
 	t_cmd *cmds;
@@ -94,7 +91,6 @@ t_cmd	*parse(t_token **lst)
 		printf("Nowhere to redirect to");
 		return (NULL);
 	}
-	//handle error
 	expandlst(*lst);
 	tkn_lst_array = split_tkn_lsts(lst);
 	cmds = make_cmd_lst(tkn_lst_array);

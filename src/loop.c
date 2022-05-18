@@ -56,11 +56,10 @@ static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 	return (0);
 }
 
-//TODO implement
 void	loop_shell(t_pathlist *path)
 {
-	t_lex	lex_data;
 	t_cmd	*cmds;
+	t_token *token_lst;
 	bool	exit;
 	int		i;
 
@@ -68,8 +67,8 @@ void	loop_shell(t_pathlist *path)
 	exit = false;
 	while (!exit)
 	{
-		lex_data.token_list = lex(rl_get(), &lex_data);
-		cmds = parse(&lex_data.token_list);
+		token_lst = lex(rl_get());
+		cmds = parse(&token_lst);
 		if (cmds && cmds->name)
 			i = iterate_cmds(path, cmds, &exit);
 	}
