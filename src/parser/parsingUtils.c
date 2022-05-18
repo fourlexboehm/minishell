@@ -54,7 +54,7 @@ void make_cmd(t_token *tkn_lst_array, t_cmd *cmd)
 {
 	tkn_lst_array = make_argv(tkn_lst_array, cmd);
 	cmd->name = cmd->argv[0];
-	if (!tkn_lst_array)
-		return ;
+//	if (!tkn_lst_array) I have no idea why this was here
+//		return ;
 	make_redirs(tkn_lst_array, cmd);
 }

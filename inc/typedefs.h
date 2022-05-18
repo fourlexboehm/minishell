@@ -31,8 +31,8 @@ typedef struct s_cmd
 	char *name;
 	int pipe_in;
 	int pipe_out;
-	int	*redir_in;
-	int	*redir_out;
+	int	redir_in;
+	int	redir_out;
 	int pid;
 	char **argv;
 } t_cmd;

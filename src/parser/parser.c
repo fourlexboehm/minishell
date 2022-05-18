@@ -98,7 +98,7 @@ t_cmd	*parse(t_token **lst)
 	expandlst(*lst);
 	tkn_lst_array = split_tkn_lsts(lst);
 	cmds = make_cmd_lst(tkn_lst_array);
-	free_tkn_lst(tkn_lst_array);
+	free_tkn_lst_array(tkn_lst_array);
 	return (cmds);
 }
 

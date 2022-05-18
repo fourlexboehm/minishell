@@ -102,7 +102,7 @@ void    smoke_pipes(t_token *token, t_lex *lex_data);
 void    redir_l(t_token *token, t_lex *lex_data);
 void    redir_r(t_token *token, t_lex *lex_data);
 void    handle_rest(t_token *token, t_lex *lex_data);
-void	free_tkn_lst(t_token **tkn_lst);
+void	free_tkn_lst_array(t_token **tkn_lst);
 
 //repl
 void		loop_shell(t_pathlist *path);

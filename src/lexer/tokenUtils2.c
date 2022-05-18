@@ -44,7 +44,6 @@ void    handle_rest(t_token *token, t_lex *lex_data)
     int start;
     int j;
 
-
     start = lex_data->i;
 	token->type = t_command;
 	j = start;
@@ -54,10 +53,12 @@ void    handle_rest(t_token *token, t_lex *lex_data)
     lex_data->i = j;
 }
 
-void free_tkn_lst(t_token **tkn_lst)
+void free_tkn_lst_array(t_token **tkn_lst)
 {
 	void *freeme;
+	t_token *tmp;
 
+	tmp = *tkn_lst;
 	freeme = tkn_lst;
 	while (*tkn_lst)
 	{
@@ -66,8 +67,9 @@ void free_tkn_lst(t_token **tkn_lst)
 			if ((*tkn_lst)->type < t_pipe)
 				free((*tkn_lst)->value);
 			(*tkn_lst)->value = NULL;
-			free(*tkn_lst);
+      		tmp = *tkn_lst;
 			*tkn_lst = (*tkn_lst)->next;
+			free(tmp);
 		}
 		tkn_lst++;
 	}

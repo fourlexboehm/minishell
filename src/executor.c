@@ -33,19 +33,25 @@ char	*getfile(char *dir, char *name)
 
 static void setup_fds(t_cmd *cmd)
 {
-	int	*in_cpy;
-	int	*out_cpy;
-
-	in_cpy = cmd->redir_in;
-	out_cpy = cmd->redir_out;
 	if (cmd->pipe_in != STDIN_FILENO)
+	{
 		dup2(cmd->pipe_in, STDIN_FILENO);
+		//close(cmd->pipe_in);
+		//cmd->pipe_in = STDIN_FILENO;
+	}
 	if (cmd->pipe_out != STDOUT_FILENO)
+	{
 		dup2(cmd->pipe_out, STDOUT_FILENO);
-	while(in_cpy && *in_cpy != STDIN_FILENO)
-			dup2(*in_cpy++, STDIN_FILENO);
-	while(out_cpy && *out_cpy != STDIN_FILENO && *out_cpy != STDOUT_FILENO)
-			dup2(*out_cpy++, STDOUT_FILENO);
+		//close(cmd->pipe_out);
+		//cmd->pipe_out = STDOUT_FILENO;
+	}
+	if(cmd->redir_in  != STDIN_FILENO)
+		dup2(cmd->redir_in, STDIN_FILENO);
+	if(cmd->redir_out != STDOUT_FILENO)
+	{
+		dup2(cmd->redir_out, STDOUT_FILENO);
+		close(cmd->pipe_out);
+	}
 }
 
 //run a program if it's in PATH and executable
@@ -56,10 +62,7 @@ static void execute(t_cmd *cmd, char *file)
 	cmd->pid = fork();
 	//define_exec_signals();
 	if (cmd->pid == -1)
-	{
-		printf("exec failed\n");
-		exit(-1);
-	}
+		exit(printf("exec failed\n"));
 	if (cmd->pid != 0)
 	{
 		free(file);
@@ -95,5 +98,5 @@ void	executor(char **path, t_cmd *cmd)
 			free(file);
 		}
 	file = NULL;
-	printf("%s Could not be run", cmd->name);
+	printf("\n%s Could not be run\n", cmd->name);
 }

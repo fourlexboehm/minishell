@@ -6,20 +6,10 @@ static void freecmd(t_cmd cmd)
 		close(cmd.pipe_in);
 	if (cmd.pipe_out != STDOUT_FILENO)
 		close(cmd.pipe_out);
-	free(cmd.redir_in);
-	while(cmd.redir_in && *cmd.redir_in != STDIN_FILENO)
-	{
-		if (*cmd.redir_in != STDIN_FILENO)
-			close(*cmd.redir_in);
-		cmd.redir_in++;
-	}
-	free(cmd.redir_out);
-	while(cmd.redir_out && *cmd.redir_out != 0)
-	{
-		if (*cmd.redir_out != STDOUT_FILENO)
-			close(*cmd.redir_out);
-		cmd.redir_out++;
-	}
+	if (cmd.redir_in != STDIN_FILENO)
+		close(cmd.redir_in);
+	if (cmd.redir_out != STDOUT_FILENO)
+		close(cmd.redir_out);
 	free2d_array((void **)cmd.argv);
 }
 
@@ -34,7 +24,8 @@ static char	*rl_get(void)
 		free((char *)line_read);
 		line_read = (char *) NULL;
 	}
-	line_read = readline(">>>");if (*line_read)
+	line_read = readline(">>>");
+	if (*line_read)
 		add_history(line_read);
 	return ((char *)line_read);
 }
