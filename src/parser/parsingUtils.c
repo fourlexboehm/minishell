@@ -50,11 +50,11 @@ t_token *make_argv(t_token *tkn_lst, t_cmd *cmd)
 	return tkn_lst;
 }
 
-void make_cmd(t_token *tkn_lst, t_cmd *cmd)
+void make_cmd(t_token *tkn_lst_array, t_cmd *cmd)
 {
-	tkn_lst = make_argv(tkn_lst, cmd);
+	tkn_lst_array = make_argv(tkn_lst_array, cmd);
 	cmd->name = cmd->argv[0];
-	if (!tkn_lst)
+	if (!tkn_lst_array)
 		return ;
-	make_redirs(tkn_lst, cmd);
+	make_redirs(tkn_lst_array, cmd);
 }
