@@ -15,6 +15,7 @@ typedef	struct s_lex
 	char const	*line;
 	int		i;
 	struct s_token	*token_list;
+	int				dlim_flag;
 }	t_lex;
 
 

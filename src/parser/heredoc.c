@@ -18,23 +18,48 @@ void    exit_heredoc(int signal)
     exit (0);
 }
 
+static int get_var_len(char *line, int *i)
+{
+    int var_len;
+    int c;
+    c = *i;
+    c++;
+    var_len = 0;
+    if(line[c] > 'A' && line[c] < 'Z')
+    {
+        while (line[c] > 'A' && line[c] < 'Z' && line[c] != ' ' && line[c] != '\0')
+        {
+            var_len++;
+            c++;
+        }
+    }
+    return(var_len);
+}
+
 static void    heredoc_var(char *line, int *i, int tmp_file)
 {
-    char    *temp[100];
+    char    *temp;
     int j;
-    
+    int c;
+    int len;
     j = 0;
-    if(line[++(*i)] > 'A' && line[*i] < 'Z')
+    c = *i;
+    c++;
+    len = get_var_len(line, i);
+    temp = (char *)malloc(sizeof(len + 1));
+    if(line[c] > 'A' && line[c] < 'Z')
     {
-        while (line[*i] != ' ')
+        printf("helloooo\n");
+        while (line[c] != ' ' && line[c])
         {
-            *temp[j] = line[*i];
-            i++;
+            temp[j] = line[c];
+            c++;
             j++;
         }
-        *temp[++j] = '\0';
-        expand(temp);
-        ft_putstr_fd(*temp, tmp_file);
+        temp[j] = '\0';
+        printf("temp is %s", temp);
+        expand(&temp);
+        ft_putstr_fd(temp, tmp_file);
     }
 }
 
@@ -43,10 +68,10 @@ void    read_n_write(char *delim, int has_quotes, int tmp_file)
     char    *line;
     int i;
 
-    i = 0;
     signal(SIGINT, exit_heredoc);
     while (1)
     {
+        i = 0;
        line = readline("> ");
        if(!line)
        {
@@ -62,15 +87,17 @@ void    read_n_write(char *delim, int has_quotes, int tmp_file)
         }
         while (line[i]) 
         {
+            printf("line[i] is %c and hasQ is %i\n", line[i], has_quotes);
             if (line[i] == '$' && has_quotes == 0)
             {
+                printf("into the $ condition\n");
                heredoc_var(line, &i, tmp_file);
             }
             else 
                 ft_putchar_fd(line[i], tmp_file);
             i++;
-            ft_putchar_fd('\n', tmp_file);
         }
+        ft_putchar_fd('\n', tmp_file);
     }
 }
 
@@ -85,12 +112,14 @@ void    heredoc(char *delimiter)
     temp_fd = open_temp();
     if (delimiter[0] == '\'' || delimiter[0] == '"')
         has_quotes = 1;
+    //printf("delim is %s, has quotes is %i\n", delimiter, has_quotes);
     signal(SIGINT, SIG_IGN);
     pid = fork();
     if (pid == 0)
         read_n_write(delimiter, has_quotes, temp_fd);
     close(temp_fd);
-	waitpid(pid, &status, 0);
+	waitpid(pid, &status, 0);   
+    printf("%i status", status);
 	if (!WIFEXITED(status))
-        printf("error");
+        printf("error PID status\n");
 }

@@ -30,6 +30,7 @@ void    redir_l(t_token *token, t_lex *lex_data)
         token->type = t_redir_from_here_st; //l_redx2
         token->value = "<<";
         lex_data->i += 2;
+        lex_data->dlim_flag = 1;
     }
     else 
     {

@@ -42,6 +42,7 @@ void	expand(char **variable)
 	temp = *variable;
 	temp++;
 	has_quote = check_double_quotes(&temp, &key);
+	printf("after chekdbl");
 	define_value(&value, key, local_vars);
 	free(*variable);
 	free(key);

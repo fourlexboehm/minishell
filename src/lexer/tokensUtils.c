@@ -47,7 +47,6 @@ int find_quote(t_lex *lex_data)
     {
         lex_data->i++;
         if (lex_data->line[lex_data->i] == c) {
-            //printf("value of k is %i and j is %i c is %c and val is %c\n", k, j, c, lex_data->line[k]);
             return(j); 
         }   
         j++;
@@ -65,7 +64,12 @@ void    handle_quote(t_token *token, t_lex *lex_data)
 	else
 		token->type = t_single_quotes;
 	end_quote = find_quote(lex_data);
-	//printf("eq is %i\n", end_quote = find_quote(lex_data));
+    if (lex_data->dlim_flag == 1)
+    {
+        //printf("delim flag is %i", lex_data->dlim_flag);
+        token->value = ft_substr(lex_data->line, start, end_quote + 2);
+        return ;
+    }
 	if(end_quote != -1)
     {
         token->value = ft_substr(lex_data->line, start + 1, end_quote);
