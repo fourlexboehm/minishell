@@ -2,10 +2,19 @@
 
 static void	define_value(char **value, char *key, t_env *local_vars)
 {
-	*value = ft_strdup(search(key).data);
+	char *env_data;
+	(void)local_vars;
+
+	env_data = search(key).data;
+	if (env_data)
+		*value = ft_strdup(env_data);
 	//TODO impl local vars
-	if (!*value)
-		*value = ft_strdup(local_search(key, local_vars).data);
+//	if (!*value)
+//	{
+//		env_data = local_search(key, local_vars).data;
+//		if (env_data)
+//			*value = ft_strdup(env_data);
+//	}
 	if (!*value)
 		*value = ft_strdup("");
 }
@@ -40,8 +49,9 @@ void	expand(char **variable)
 
 	has_quote = false;
 	temp = *variable;
-	temp++;
 	has_quote = check_double_quotes(&temp, &key);
+	if (has_quote)
+		temp++;
 	printf("after chekdbl");
 	define_value(&value, key, local_vars);
 	free(*variable);

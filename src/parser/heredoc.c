@@ -18,16 +18,16 @@ void    exit_heredoc(int signal)
     exit (0);
 }
 
-static int get_var_len(char *line, int *i)
+static int get_var_len(char *line, const int *i)
 {
     int var_len;
     int c;
     c = *i;
     c++;
     var_len = 0;
-    if(line[c] > 'A' && line[c] < 'Z')
+    if(ft_isalpha(line[c]))
     {
-        while (line[c] > 'A' && line[c] < 'Z' && line[c] != ' ' && line[c] != '\0')
+        while (ft_isalpha(line[c]) && line[c] != ' ' && line[c] != '\0')
         {
             var_len++;
             c++;
@@ -47,7 +47,7 @@ static void    heredoc_var(char *line, int *i, int tmp_file)
     c++;
     len = get_var_len(line, i);
     temp = (char *)malloc(sizeof(len + 1));
-    if(line[c] > 'A' && line[c] < 'Z')
+    if(ft_isalpha(line[c]))
     {
         printf("helloooo\n");
         while (line[c] != ' ' && line[c])
@@ -60,6 +60,7 @@ static void    heredoc_var(char *line, int *i, int tmp_file)
         printf("temp is %s", temp);
         expand(&temp);
         ft_putstr_fd(temp, tmp_file);
+
     }
 }
 
@@ -118,7 +119,7 @@ void    heredoc(char *delimiter)
     if (pid == 0)
         read_n_write(delimiter, has_quotes, temp_fd);
     close(temp_fd);
-	waitpid(pid, &status, 0);   
+	waitpid(pid, &status, 0);
     printf("%i status", status);
 	if (!WIFEXITED(status))
         printf("error PID status\n");
