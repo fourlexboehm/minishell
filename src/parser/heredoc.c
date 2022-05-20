@@ -94,8 +94,7 @@ void    read_n_write(char *delim, int has_quotes, int tmp_file)
             if (line[i] == '$' && has_quotes == 0)
             {
                skip_var_name = heredoc_var(line, &i, tmp_file);
-               if(skip_var_name)
-                    i += skip_var_name;
+                i += skip_var_name; 
             }
             else 
                 ft_putchar_fd(line[i], tmp_file);
