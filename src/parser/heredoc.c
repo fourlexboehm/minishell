@@ -32,11 +32,12 @@ static int get_var_len(char *line, const int *i)
             var_len++;
             c++;
         }
+        return (var_len);
     }
-    return(var_len);
+    return(0);
 }
 
-static void    heredoc_var(char *line, int *i, int tmp_file)
+static int   heredoc_var(char *line, int *i, int tmp_file)
 {
     char    *temp;
     int j;
@@ -49,7 +50,6 @@ static void    heredoc_var(char *line, int *i, int tmp_file)
     temp = (char *)malloc(sizeof(len + 1));
     if(ft_isalpha(line[c]))
     {
-        printf("helloooo\n");
         while (line[c] != ' ' && line[c])
         {
             temp[j] = line[c];
@@ -57,17 +57,19 @@ static void    heredoc_var(char *line, int *i, int tmp_file)
             j++;
         }
         temp[j] = '\0';
-        printf("temp is %s", temp);
+        //printf("temp is %s", temp);
         expand(&temp);
         ft_putstr_fd(temp, tmp_file);
 
     }
+    return (len);
 }
 
 void    read_n_write(char *delim, int has_quotes, int tmp_file)
 {
     char    *line;
     int i;
+    int skip_var_name;
 
     signal(SIGINT, exit_heredoc);
     while (1)
@@ -84,15 +86,16 @@ void    read_n_write(char *delim, int has_quotes, int tmp_file)
         if (!ft_strncmp(line, delim, ft_strlen(delim)))
         {
             close(tmp_file);
-            return ;
+            exit(0);
         }
         while (line[i]) 
         {
-            printf("line[i] is %c and hasQ is %i\n", line[i], has_quotes);
+            //printf("line[i] is %c and hasQ is %i\n", line[i], has_quotes);
             if (line[i] == '$' && has_quotes == 0)
             {
-                printf("into the $ condition\n");
-               heredoc_var(line, &i, tmp_file);
+               skip_var_name = heredoc_var(line, &i, tmp_file);
+               if(skip_var_name)
+                    i += skip_var_name;
             }
             else 
                 ft_putchar_fd(line[i], tmp_file);
@@ -112,15 +115,16 @@ void    heredoc(char *delimiter)
     has_quotes = 0;
     temp_fd = open_temp();
     if (delimiter[0] == '\'' || delimiter[0] == '"')
+    {
         has_quotes = 1;
-    //printf("delim is %s, has quotes is %i\n", delimiter, has_quotes);
-    signal(SIGINT, SIG_IGN);
+        delimiter = ft_strtrim(delimiter, "\"'");
+    }
+    //signal(SIGINT, SIG_IGN);
     pid = fork();
     if (pid == 0)
         read_n_write(delimiter, has_quotes, temp_fd);
     close(temp_fd);
 	waitpid(pid, &status, 0);
-    printf("%i status", status);
 	if (!WIFEXITED(status))
         printf("error PID status\n");
 }
