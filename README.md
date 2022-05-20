@@ -2,7 +2,6 @@
 
 ###TODO
 
-Fix pipe and redirect execution
 
 add $?
 
@@ -15,3 +14,5 @@ norme code
 
 ###Bugs
 fix case where exporting same variable multiple times causes corruption
+Fix expander where with echo $PWD error since FIX expander segv when null variable
+Fix pipe  execution
