@@ -19,7 +19,7 @@ static void	deal_with_string_slices(t_var *var, char **value, int *i)
 		handle_var_single_quote(var, value, *i);
 	else
 		var->after = ft_substr(*value, *i, (ft_strlen(*value) - *i));
-	expand(&var->value);
+	expand(&var->value, true);
 }
 
 static bool	has_dollar_sign(char **value, t_var *var, int *i)

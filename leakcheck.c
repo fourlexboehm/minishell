@@ -146,7 +146,6 @@ void	free_track(void *ptr)
 void	check_leaks(void)
 {
 	Leaks	*curr = g_leaks;
-	write(1, "fuck", 4);
 
 	if (!curr)
 	{

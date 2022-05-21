@@ -40,6 +40,7 @@
 # define t_redir_from_here_st 6
 # define t_redir_from_file 7
 
+
 //One allowed Global variable, it's the hash table that stores the environment variables
 # define env_size 2048
 # define local_env_size 256
@@ -47,7 +48,7 @@ extern t_env	g_env_table[env_size];
 
 //expander
 void	expandlst(t_token *lst);
-void	expand(char **variable);
+void	expand(char **variable, bool dollar);
 void	expand_variables(char **value);
 
 //expander_utils

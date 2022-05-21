@@ -45,12 +45,13 @@ void exec_builtin(void (function)(), t_cmd *cmd)
 	}
 }
 
+//runs all builtins in a new command except cd which
 bool	builtin(t_cmd *cmd)
 {
 	if (!strcmp(cmd->name, "pwd"))
 		exec_builtin(pwd, cmd);
 	else if (!strcmp(cmd->name, "cd"))
-		exec_builtin(cd, cmd);
+		cd(cmd);
 	else if (!strcmp(cmd->name, "env"))
 		exec_builtin(display, cmd);
 	else if (!strcmp(cmd->name, "export"))

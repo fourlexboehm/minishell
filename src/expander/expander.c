@@ -39,7 +39,7 @@ static void	restore_quote(char **value, char **temp)
 	free(*temp);
 }
 
-void	expand(char **variable)
+void	expand(char **variable, bool dollar)
 {
 	t_env local_vars[local_env_size];
 	char	*value;
@@ -47,12 +47,13 @@ void	expand(char **variable)
 	char	*temp;
 	bool	has_quote;
 
+	value = NULL;
 	has_quote = false;
 	temp = *variable;
 	has_quote = check_double_quotes(&temp, &key);
-	if (has_quote)
+	if(dollar)
 		temp++;
-	define_value(&value, key, local_vars);
+	define_value(&value, temp, local_vars);
 	free(*variable);
 	free(key);
 	if (has_quote)

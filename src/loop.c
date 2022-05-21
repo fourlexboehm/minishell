@@ -48,9 +48,10 @@ static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 	{
 		waitpid(cmds[i].pid, &status, 0);
 		if (!WIFEXITED(status))
-			printf(" cmd %i returned: %i\n", i, status);
+			printf(" cmd %i returned: %i\n", i, WEXITSTATUS(status));
 		freecmd(cmds[i++]);
 	}
+	insert("?", ft_itoa(WEXITSTATUS(status)));
 	free(cmds);
 	cmds = NULL;
 	return (0);

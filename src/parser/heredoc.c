@@ -58,7 +58,7 @@ static int   heredoc_var(char *line, int *i, int tmp_file)
         }
         temp[j] = '\0';
         //printf("temp is %s", temp);
-        expand(&temp);
+        expand(&temp, false);
         ft_putstr_fd(temp, tmp_file);
 
     }
