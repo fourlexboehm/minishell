@@ -46,7 +46,7 @@ void	insert(char *key, char *data)
 	unsigned long	hashindex;
 
 	hashindex = hash(key, env_size);
-	while (g_env_table[hashindex].key != NULL)
+	while (g_env_table[hashindex].key != NULL && ft_strncmp(key, g_env_table[hashindex].key, ft_strlen(key)))
 	{
 		++hashindex;
 		hashindex %= env_size;
@@ -75,7 +75,6 @@ char	**get_env(t_env *envtab)
 	int		i;
 	char	*tmp;
 	char	**env;
-	//char	**envtemp;
 	int		len;
 
 	len = 0;

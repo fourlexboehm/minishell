@@ -36,6 +36,7 @@ static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 	int status;
 
 	i = 0;
+	status = 0;
 	while(cmds[i].name)
 	{
 		*exit = !ft_strncmp("exit", cmds[i].name, 4);
