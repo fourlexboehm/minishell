@@ -14,10 +14,15 @@ static void execute(t_cmd *cmd, char *file)
 		exit(printf("exec failed\n"));
 	if (cmd->pid != 0)
 	{
+		if (cmd->pipe_in != 0)
+			close(cmd->pipe_out);
+		if (cmd->pipe_out != 1)
+			close(cmd->pipe_out);
 		free(file);
 		file = NULL;
 		return ;
 	}
+	//close_all_streams_except_current(cmd);
 	env = get_env(g_env_table);
 	setup_fds(cmd);
 	execve(file, cmd->argv, env);
