@@ -106,4 +106,7 @@ void		pwd(t_cmd *cmd);
 void		ft_export(t_cmd *cmd);
 void		unset(t_cmd *cmd);
 
+//signals
+void	define_exec_signals(void);
+
 #endif

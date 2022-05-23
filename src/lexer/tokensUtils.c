@@ -73,6 +73,6 @@ void    handle_quote(t_token *token, t_lex *lex_data)
 	if(end_quote != -1)
     {
         token->value = ft_substr(lex_data->line, start + 1, end_quote);
-        lex_data->i++;
+        lex_data->i += 1;
     }
 }

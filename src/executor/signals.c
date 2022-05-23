@@ -4,14 +4,14 @@ static void	quit_process(int signal)
 {
 	(void)signal;
 	//TODO error handling
-	ft_printf("Quit (core dumped)\n");
+	printf("Quit (core dumped)\n");
 }
 
 void	interrupt_process(int signal)
 {
 	(void)signal;
 // TODO error handling
-	write(1, "\n", 1);
+	write(2, "\n>>>", 4);
 }
 
 void	define_exec_signals(void)

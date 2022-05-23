@@ -9,7 +9,7 @@ static void execute(t_cmd *cmd, char *file)
 	char **env;
 
 	cmd->pid = fork();
-	//define_exec_signals();
+	define_exec_signals();
 	if (cmd->pid == -1)
 		exit(printf("exec failed\n"));
 	if (cmd->pid != 0)
