@@ -70,4 +70,6 @@ void make_redirs(t_token *tkn_lst, t_cmd *cmd)
 		else
 			exit(printf("redirect handler encounter unexpected tkn_type, check tokenizer")); //TODO remove exit
 	}
+	cmd->pipe_in = 0;
+	cmd->pipe_out = 1;
 }
