@@ -78,6 +78,7 @@ void		executor(char **path, t_cmd *cmd);
 bool	builtin(t_cmd *cmd);
 char		*getfile(char *dir, char *name);
 void setup_fds(t_cmd *cmd);
+void	close_all_streams_except_current(t_cmd *cmd, int i);
 
 //parser
 t_cmd		*parse(t_token **lst);

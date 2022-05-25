@@ -64,6 +64,7 @@ int	main(int argc, char **argv, char **env)
 	if (lst.path)
 		loop_shell(&lst);
 	destroy_pathlist(&lst);
+	rl_clear_history();
 	free_env();
 	check_leaks();
 }

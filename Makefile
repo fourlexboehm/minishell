@@ -7,23 +7,47 @@ src/expander/expanderUtils.c src/expander/expander.c src/expander/expander2.c \
 src/parser/parser.c src/parser/parsingUtils.c src/parser/parsingUtils2.c src/parser/makeRedirects.c src/parser/heredoc.c \
 src/executor/executor.c src/executor/executorUtils.c src/executor/signals.c \
 
-INCLUDES = ./includes/
+INCLUDES = 			-I ./includes/ \
+ 					-I /opt/homebrew/opt/readline/include/ \
+ 					-I /usr/local/opt/readline/include
+
+
 LIBFT = ./libft/
 LIBFT_A = ./libft/libft.a
 OBJECTS = $(SRC:.c=.o)
+
+
+MY_DIRNAME=/opt/homebrew/opt/readline/lib
+ifneq "$(wildcard $(MY_DIRNAME) )" ""
+  # if directory MY_DIRNAME exists:
+  LINK = -L $(LIBFT) -l ft -L /opt/homebrew/opt/readline/lib
+  INCLUDES = 			-I ./includes/ \
+   					-I /opt/homebrew/opt/readline/include/
+else
+  # if it doesn't:
+  LINK = -L $(LIBFT) -l ft -L /usr/local/opt/readline/lib
+  INCLUDES = 			-I ./includes/ \
+   					-I /usr/local/opt/readline/include/
+endif
+
+
+#if [ -d "/opt/homebrew/opt/readline/lib"]; then ; fi
+
+#if [ -d "/usr/local/opt/readline/lib"]; then LINK = -L $(LIBFT) -l ft -L /usr/local/opt/readline/lib; fi
+
+#LINK = -L $(LIBFT) -l ft -L /usr/local/opt/readline/lib
 
 
 all: $(NAME)
 
 
 .c.o:
-	@gcc $(CFLAGS) -c $< -o $(<:.c=.o) -I$(INCLUDES)
+	@gcc $(CFLAGS) -c $< -o $(<:.c=.o) $(INCLUDES)
 
 $(NAME): $(OBJECTS)
 
 	@make -C $(LIBFT) bonus
-	@gcc $(CFLAGS) -o $(NAME) $(OBJECTS) leakcheck.c $(LIBFT_A) -lreadline
-	#/opt/homebrew/Cellar/readline/8.1.2/lib/libhistory.a /opt/homebrew/Cellar/readline/8.1.2/lib/libreadline.a
+	@gcc $(CFLAGS) -o $(NAME) $(OBJECTS) leakcheck.c $(LIBFT_A) $(LINK) -lreadline #/opt/homebrew/Cellar/readline/8.1.2/lib/libhistory.a /opt/homebrew/Cellar/readline/8.1.2/lib/libreadline.a
 
 clean:
 	@make clean -C $(LIBFT)
