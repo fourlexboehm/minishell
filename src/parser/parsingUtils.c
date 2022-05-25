@@ -19,8 +19,8 @@ static int	n_args(t_token *token)
 
 	i = 0;
 	tmp = token;
-	while (tmp && (tmp->type == t_command || tmp->type == t_single_quotes
-			   || tmp->type == t_double_quotes))
+	while (tmp && (tmp->type == T_COMMAND || tmp->type == T_SINGLE_QUOTES
+				   || tmp->type == T_DOUBLE_QUOTES))
 	{
 		i++;
 		tmp = tmp->next;
@@ -41,7 +41,7 @@ t_token	*make_argv(t_token *tkn_lst, t_cmd *cmd)
 {
 	int	i;
 
-	if (tkn_lst && tkn_lst->type == t_pipe)
+	if (tkn_lst && tkn_lst->type == T_PIPE)
 	{
 		make_pipe(cmd);
 		tkn_lst = tkn_lst->next;

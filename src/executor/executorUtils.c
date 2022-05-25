@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-//string join a directory in path[] to the t_command name
+//string join a directory in path[] to the T_COMMAND name
 char	*getfile(char *dir, char *name)
 {
 	char	*file;

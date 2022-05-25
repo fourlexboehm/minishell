@@ -21,7 +21,7 @@ static int	n_pipes(t_token **token)
 	tmp = *token;
 	while (tmp)
 	{
-		if (tmp->type == t_pipe)
+		if (tmp->type == T_PIPE)
 			i++;
 		tmp = tmp->next;
 	}
@@ -35,10 +35,10 @@ static bool	check_filename_after_redir(t_token *token)
 	while (token)
 	{
 		next = token->next;
-		if (token->type == t_redir_to_f || token->type == t_redir_from_f
-			|| token->type == t_redir_from_h)
-			if (!next || !(next->type == t_command || next->type
-					== t_double_quotes || next->type == t_single_quotes))
+		if (token->type == T_REDIR_TO_F || token->type == T_REDIR_FROM_F
+			|| token->type == T_REDIR_FROM_H)
+			if (!next || !(next->type == T_COMMAND || next->type
+													  == T_DOUBLE_QUOTES || next->type == T_SINGLE_QUOTES))
 				return (false);
 		token = next;
 	}
@@ -61,7 +61,7 @@ static t_token	**split_tkn_lsts(t_token **lst)
 	tmp = *lst;
 	while (tmp)
 	{
-		if (tmp->type == t_pipe)
+		if (tmp->type == T_PIPE)
 		{
 			(*lst)->next = NULL;
 			*lst = tmp;
@@ -73,7 +73,7 @@ static t_token	**split_tkn_lsts(t_token **lst)
 	return (tkn_lst_array);
 }
 
-//generate the token list for each t_command
+//generate the token list for each T_COMMAND
 static t_cmd	*make_cmd_lst(t_token **tkn_lst_array)
 {
 	int		numcmds;

@@ -18,7 +18,7 @@ static char	*redir_out(int *out, int type, char *value)
 	char	*file;
 	int		mode;
 
-	if (type == t_redir_to_f)
+	if (type == T_REDIR_TO_F)
 		mode = O_APPEND;
 	else
 		mode = O_TRUNC;
@@ -41,7 +41,7 @@ static char	*redir_in(int *in, int type, char *value)
 {
 	char	*file;
 
-	if (type == t_redir_from_f)
+	if (type == T_REDIR_FROM_F)
 	{
 		if (*value != '/')
 		{
@@ -65,16 +65,16 @@ void	make_redirs(t_token *tkn_lst, t_cmd *cmd)
 {
 	cmd->redir_in = 0;
 	cmd->redir_out = 1;
-	while (tkn_lst && tkn_lst->type != t_pipe)
+	while (tkn_lst && tkn_lst->type != T_PIPE)
 	{
-		if (tkn_lst->type == t_redir_from_f || tkn_lst->type == t_redir_from_h)
+		if (tkn_lst->type == T_REDIR_FROM_F || tkn_lst->type == T_REDIR_FROM_H)
 		{
 			tkn_lst->next->value = redir_in(&cmd->redir_in,
 					tkn_lst->type, tkn_lst->next->value);
 			if (tkn_lst->next)
 				tkn_lst = tkn_lst->next->next;
 		}
-		else if (tkn_lst->type == t_redir_to_f || tkn_lst->type == t_append_rd)
+		else if (tkn_lst->type == T_REDIR_TO_F || tkn_lst->type == T_APPEND_RD)
 		{
 			tkn_lst->next->value = redir_out(&cmd->redir_out,
 					tkn_lst->type, tkn_lst->next->value);

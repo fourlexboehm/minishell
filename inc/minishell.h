@@ -29,82 +29,121 @@
 # include <sys/stat.h>
 
 //lexer
-# define t_command 0
-# define t_double_quotes 1
-# define t_single_quotes 2
-# define t_pipe 3
-# define t_append_rd 4
-# define t_redir_to_f 5
-# define t_redir_from_h 6
-# define t_redir_from_f 7
-//One allowed Global variable, it's the hash table that stores the environment variables
-# define env_size 2048
-# define local_env_size 256
-extern t_env	g_env_table[env_size];
+# define T_COMMAND 0
+# define T_DOUBLE_QUOTES 1
+# define T_SINGLE_QUOTES 2
+# define T_PIPE 3
+# define T_APPEND_RD 4
+# define T_REDIR_TO_F 5
+# define T_REDIR_FROM_H 6
+# define T_REDIR_FROM_F 7
+//One allowed Global variable, it's the hash table
+// that stores the environment variables
+# define ENV_SIZE 2048
+# define LOCAL_ENV_SIZE 256
+
+extern t_env	g_env_table[2048];
 
 //expander
-void	expandlst(t_token *lst);
-void	expand(char **variable, bool dollar);
-void	expand_variables(char **value);
+void		expandlst(t_token *lst);
+
+void		expand(char **variable, bool dollar);
+
+void		expand_variables(char **value);
 
 //expander_utils
-char	**split_in_two(const char *string, char c);
-char	**split_in_two_by_pointer(const char *string, char *c_ptr);
-char	*search_var(char *value, int *i);
-int		get_var_size(const char *var, int *index);
-void	handle_var_single_quote(t_var *var, char **value, int i);
+char		**split_in_two(const char *string, char c);
+
+char		**split_in_two_by_pointer(const char *string, char *c_ptr);
+
+char		*search_var(char *value, int *i);
+
+int			get_var_size(const char *var, int *index);
+
+void		handle_var_single_quote(t_var *var, char **value, int i);
 
 //environment functions
 void		insert(char *key, char *data);
+
 t_env		search(char *key);
+
 char		**get_env(t_env *envtab);
+
 void		display(t_cmd *cmd);
-void		free_env();
+
+void		free_env(void);
+
 u_int64_t	hash(char *str, int env_len);
 
 //local environment functions
-void	local_insert(char *key, char *data, t_env *env_local);
-t_env	local_search(char *key, t_env *env_local);
+void		local_insert(char *key, char *data, t_env *env_local);
+
+t_env		local_search(char *key, t_env *env_local);
 
 //pathlist struct functions
 void		init_pathlist(t_pathlist *path);
+
 void		destroy_pathlist(t_pathlist *path);
+
 //executor functions
 void		executor(char **path, t_cmd *cmd);
-bool	builtin(t_cmd *cmd);
+
+bool		builtin(t_cmd *cmd);
+
 char		*getfile(char *dir, char *name);
-void setup_fds(t_cmd *cmd);
-void	close_all_streams_except_current(t_cmd *cmd, int i);
+
+void		setup_fds(t_cmd *cmd);
+
+void		close_all_streams_except_current(t_cmd *cmd, int i);
 
 //parser
 t_cmd		*parse(t_token **lst);
+
 t_token		*lex(char const *line);
+
 void		make_redirs(t_token *tkn_lst, t_cmd *cmd);
+
 ///heredoc.c
-void    heredoc(char *delimiter);
+void		heredoc(char *delimiter);
+
 //parsingUtils
-void	make_cmd(t_token *tkn_lst, t_cmd *cmd);
+void		make_cmd(t_token *tkn_lst, t_cmd *cmd);
+
 //tokenUtils
-int         is_whitespace(char c);
-void        skip_whitespace(t_lex *lex_data);
-t_token     *new_token(t_token **list);
-void        handle_quote(t_token *token, t_lex *lex_data);
+int			is_whitespace(char c);
+
+void		skip_whitespace(t_lex *lex_data);
+
+t_token		*new_token(t_token **list);
+
+void		handle_quote(t_token *token, t_lex *lex_data);
+
 //tokenUtils2
-void    smoke_pipes(t_token *token, t_lex *lex_data);
-void    redir_l(t_token *token, t_lex *lex_data);
-void    redir_r(t_token *token, t_lex *lex_data);
-void    handle_rest(t_token *token, t_lex *lex_data);
-void	free_tkn_lst_array(t_token **tkn_lst);
+void		smoke_pipes(t_token *token, t_lex *lex_data);
+
+void		redir_l(t_token *token, t_lex *lex_data);
+
+void		redir_r(t_token *token, t_lex *lex_data);
+
+void		handle_rest(t_token *token, t_lex *lex_data);
+
+void		free_tkn_lst_array(t_token **tkn_lst);
+
 //repl
 void		loop_shell(t_pathlist *path);
-void	safe_exit(int status);
+
+void		safe_exit(int status);
+
 //builtins
 void		cd(t_cmd *cmd);
+
 void		pwd(t_cmd *cmd);
+
 void		ft_export(t_cmd *cmd);
+
 void		unset(t_cmd *cmd);
 
 //signals
-void	define_exec_signals(void);
+void		define_exec_signals(void);
 
 #endif

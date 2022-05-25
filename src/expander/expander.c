@@ -76,13 +76,13 @@ void	expandlst(t_token *lst)
 {
 	while (lst)
 	{
-		if (lst->type == t_single_quotes)
+		if (lst->type == T_SINGLE_QUOTES)
 		{
 			lst = lst->next;
-			while (lst && lst->type != t_single_quotes)
+			while (lst && lst->type != T_SINGLE_QUOTES)
 				lst = lst->next;
 		}
-		else if (lst->type == t_command || lst->type == t_double_quotes)
+		else if (lst->type == T_COMMAND || lst->type == T_DOUBLE_QUOTES)
 		{
 			expand_variables(&lst->value);
 		}

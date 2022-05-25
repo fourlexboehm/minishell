@@ -65,7 +65,7 @@ void	handle_var_single_quote(t_var *var, char **value, int i)
 	char	*temp;
 	char	*aux;
 
-	splited_string = ft_split(var->value, t_single_quotes);
+	splited_string = ft_split(var->value, T_SINGLE_QUOTES);
 	free((void **)&var->value);
 	var->value = ft_strdup(splited_string[0]);
 	if (splited_string[1])

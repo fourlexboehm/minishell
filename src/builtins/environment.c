@@ -31,5 +31,5 @@ void	ft_export(t_cmd *cmd)
 void	unset(t_cmd *cmd)
 {
 	if (cmd->argv[1])
-		g_env_table[hash(cmd->argv[1], env_size)].key = NULL;
+		g_env_table[hash(cmd->argv[1], ENV_SIZE)].key = NULL;
 }

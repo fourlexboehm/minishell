@@ -20,7 +20,7 @@ void	init_g_env_table(char **env)
 	int		i;
 
 	i = 0;
-	while (i < env_size)
+	while (i < ENV_SIZE)
 	{
 		g_env_table[i].key = NULL;
 		g_env_table[i].data = NULL;
@@ -41,7 +41,7 @@ void	free_env(void)
 	int	i;
 
 	i = 0;
-	while (i < env_size)
+	while (i < ENV_SIZE)
 	{
 		if (g_env_table[i].key)
 		{

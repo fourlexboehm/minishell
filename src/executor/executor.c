@@ -40,7 +40,7 @@ static void	execute(t_cmd *cmd, char *file)
 static bool	add_if_var(char *name)
 {
 	char	*equals;
-	//static	t_env[local_env_size];
+	//static	t_env[LOCAL_ENV_SIZE];
 	equals = ft_strchr(name, '=');
 	if (!equals)
 		return (false);

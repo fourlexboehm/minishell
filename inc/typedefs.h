@@ -1,23 +1,21 @@
 
-#ifndef TYEPDEFS_H
-# define TYEPDEFS_H
+#ifndef TYPEDEFS_H
+# define TYPEDEFS_H
 
 //Struct for each environment variable in hashTable
 typedef struct s_env
 {
-	char *key;
-	char *data;
-	//struct s_env *next;
+	char	*key;
+	char	*data;
 }	t_env;
 
-typedef	struct s_lex
+typedef struct s_lex
 {
-	char const	*line;
-	int		i;
+	char const		*line;
+	int				i;
 	struct s_token	*token_list;
 	int				dlim_flag;
 }	t_lex;
-
 
 typedef struct s_token
 {
@@ -28,14 +26,14 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	int	argc;
-	char *name;
-	int pipe_in;
-	int pipe_out;
-	int	redir_in;
-	int	redir_out;
-	int pid;
-	char **argv;
+	int		argc;
+	char	*name;
+	int		pipe_in;
+	int		pipe_out;
+	int		redir_in;
+	int		redir_out;
+	int		pid;
+	char	**argv;
 }	t_cmd;
 
 typedef struct s_var
@@ -45,7 +43,6 @@ typedef struct s_var
 	char	*value;
 	char	*pointer;
 }	t_var;
-
 
 //Struct to store PATH
 typedef struct s_pathlist

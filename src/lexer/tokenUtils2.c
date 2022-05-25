@@ -1,57 +1,59 @@
 #include "../../inc/minishell.h"
 
-void    smoke_pipes(t_token *token, t_lex *lex_data)
+void	smoke_pipes(t_token *token, t_lex *lex_data)
 {
-    token->type = t_pipe;
-    token->value = "|";
-    lex_data->i++;
+	token->type = T_PIPE;
+	token->value = "|";
+	lex_data->i++;
 }
 
-void    redir_r(t_token *token, t_lex *lex_data)
+void	redir_r(t_token *token, t_lex *lex_data)
 {
-    if (lex_data->line[lex_data->i] == '>' && lex_data->line[lex_data->i + 1] == '>')
-    {
-        token->type = t_append_rd; //r_redx2
-        token->value = ">>";
-        lex_data->i += 2;
-    }
-    else 
-    {
-        token->type = t_redir_to_f; //r_redx1
-        token->value = ">";
-        lex_data->i += 1;
-    }
+	if (lex_data->line[lex_data->i] == '>'
+		&& lex_data->line[lex_data->i + 1] == '>')
+	{
+		token->type = T_APPEND_RD;
+		token->value = ">>";
+		lex_data->i += 2;
+	}
+	else
+	{
+		token->type = T_REDIR_TO_F;
+		token->value = ">";
+		lex_data->i += 1;
+	}
 }
 
-void    redir_l(t_token *token, t_lex *lex_data)
+void	redir_l(t_token *token, t_lex *lex_data)
 {
-    if (lex_data->line[lex_data->i] == '<' && lex_data->line[lex_data->i + 1] == '<')
-    {
-        token->type = t_redir_from_h; //l_redx2
-        token->value = "<<";
-        lex_data->i += 2;
-        lex_data->dlim_flag = 1;
-    }
-    else 
-    {
-        token->type = t_redir_from_f; //l_redx1
-        token->value = "<";
-        lex_data->i += 1;
-    }
+	if (lex_data->line[lex_data->i] == '<'
+		&& lex_data->line[lex_data->i + 1] == '<')
+	{
+		token->type = T_REDIR_FROM_H;
+		token->value = "<<";
+		lex_data->i += 2;
+		lex_data->dlim_flag = 1;
+	}
+	else
+	{
+		token->type = T_REDIR_FROM_F;
+		token->value = "<";
+		lex_data->i += 1;
+	}
 }
 
-void    handle_rest(t_token *token, t_lex *lex_data)
+void	handle_rest(t_token *token, t_lex *lex_data)
 {
-    int start;
-    int j;
+	int	start;
+	int	j;
 
-    start = lex_data->i;
-	token->type = t_command;
+	start = lex_data->i;
+	token->type = T_COMMAND;
 	j = start;
-	while(lex_data->line[j] && !is_whitespace(lex_data->line[j]))
-        j++;
-    token->value = ft_substr(lex_data->line, start, j - start);
-    lex_data->i = j;
+	while (lex_data->line[j] && !is_whitespace(lex_data->line[j]))
+		j++;
+	token->value = ft_substr(lex_data->line, start, j - start);
+	lex_data->i = j;
 }
 
 void	free_tkn_lst_array(t_token **tkn_lst)
@@ -65,7 +67,7 @@ void	free_tkn_lst_array(t_token **tkn_lst)
 	{
 		while (*tkn_lst)
 		{
-			if ((*tkn_lst)->type < t_pipe)
+			if ((*tkn_lst)->type < T_PIPE)
 				free((*tkn_lst)->value);
 			(*tkn_lst)->value = NULL;
 			tmp = *tkn_lst;

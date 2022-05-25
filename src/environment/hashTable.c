@@ -28,13 +28,13 @@ t_env	search(char *key)
 {
 	unsigned long	hashindex;
 
-	hashindex = hash(key, env_size);
+	hashindex = hash(key, ENV_SIZE);
 	while (g_env_table[hashindex].key != NULL)
 	{
 		if (!ft_strncmp(g_env_table[hashindex].key, key, ft_strlen(key)))
 			return (g_env_table[hashindex]);
 		++hashindex;
-		hashindex %= env_size;
+		hashindex %= ENV_SIZE;
 	}
 	return (g_env_table[hashindex]);
 }
@@ -44,12 +44,12 @@ void	insert(char *key, char *data)
 {
 	unsigned long	hashindex;
 
-	hashindex = hash(key, env_size);
+	hashindex = hash(key, ENV_SIZE);
 	while (g_env_table[hashindex].key != NULL
 		&& ft_strncmp(key, g_env_table[hashindex].key, ft_strlen(key)))
 	{
 		++hashindex;
-		hashindex %= env_size;
+		hashindex %= ENV_SIZE;
 	}
 	g_env_table[hashindex].key = key;
 	g_env_table[hashindex].data = data;
@@ -62,7 +62,7 @@ void	display(t_cmd *cmd)
 
 	(void)cmd;
 	i = 0;
-	while (i < env_size)
+	while (i < ENV_SIZE)
 	{
 		if (g_env_table[i].key != NULL)
 			printf("%s=%s\n", g_env_table[i].key, g_env_table[i].data);
@@ -79,12 +79,12 @@ char	**get_env(t_env *envtab)
 
 	len = 0;
 	i = 0;
-	while (i < env_size)
+	while (i < ENV_SIZE)
 		if (envtab[i++].key)
 			len++;
 	env = (char **)ft_calloc(len + 1, sizeof(char *));
 	i = -1;
-	while (++i < env_size)
+	while (++i < ENV_SIZE)
 	{
 		if (envtab[i].key)
 		{
