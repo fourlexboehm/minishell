@@ -55,7 +55,7 @@ void	free_env(void)
 void	safe_exit(int status)
 {
 	rl_clear_history();
-	destroy_pathlist((t_pathlist *) search("minish_path").data);
+	destroy_pathlist();
 	free_env();
 	check_leaks();
 	exit(status);

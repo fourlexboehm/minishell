@@ -83,7 +83,10 @@ t_env		local_search(char *key, t_env *env_local);
 //pathlist struct functions
 void		init_pathlist(t_pathlist *path);
 
-void		destroy_pathlist(t_pathlist *path);
+void		destroy_pathlist(void);
+
+char		***get_path(void);
+
 
 //executor functions
 void		executor(char **path, t_cmd *cmd);
