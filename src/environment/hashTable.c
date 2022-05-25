@@ -16,7 +16,6 @@
 u_int64_t	hash(char *str, int envlen)
 {
 	u_int64_t	hash;
-	//char		c;
 
 	hash = 5381L;
 	while (*str++)
@@ -46,7 +45,8 @@ void	insert(char *key, char *data)
 	unsigned long	hashindex;
 
 	hashindex = hash(key, env_size);
-	while (g_env_table[hashindex].key != NULL && ft_strncmp(key, g_env_table[hashindex].key, ft_strlen(key)))
+	while (g_env_table[hashindex].key != NULL
+		&& ft_strncmp(key, g_env_table[hashindex].key, ft_strlen(key)))
 	{
 		++hashindex;
 		hashindex %= env_size;
@@ -59,8 +59,8 @@ void	insert(char *key, char *data)
 void	display(t_cmd *cmd)
 {
 	int		i;
-	(void)cmd;
 
+	(void)cmd;
 	i = 0;
 	while (i < env_size)
 	{

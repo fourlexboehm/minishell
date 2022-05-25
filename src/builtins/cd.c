@@ -1,16 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboehm <aboehm@42adel.org.au>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 13:22:45 by aboehm            #+#    #+#             */
+/*   Updated: 2022/05/25 13:31:54 by aboehm           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 static void	change_dir_to_oldpwd(char *current_path)
 {
-	char * tmp;
+	char	*tmp;
 
 	tmp = search("OLDPWD").data;
 	insert("OLDPWD", current_path);
 	chdir(tmp);
 }
 
-static void cd_home()
+static void	cd_home(void)
 {
 	insert("OLDPWD", ft_strdup(search("PWD").data));
 	chdir(search("HOME").data);
@@ -18,9 +29,9 @@ static void cd_home()
 
 static void	change_dir_to_path(const char *current_path)
 {
-	char *wd;
-	char *abspath;
-	int	len;
+	char	*wd;
+	char	*abspath;
+	int		len;
 
 	wd = search("PWD").data;
 	{
@@ -40,26 +51,27 @@ static void	change_dir_to_path(const char *current_path)
 		else
 			insert("PWD", abspath);
 	}
- }
+}
 
- /* if the string is just ~ or ~/, calls cd_home
+/* if the string is just ~ or ~/, calls cd_home
   * if it's -, assigns the PWD to the OLDPWD and calls
   * change_dir_to_oldpwd
   * else calls change_dir_to_path */
 void	cd(t_cmd *cmd)
 {
-	char *path;
+	char	*path;
 	char	*current_path;
 
 	path = cmd->name;
-	if ((!path) || ft_strncmp(path, "~", 2) == 0 || ft_strncmp(path, "~/", 3) == 0)
-		return cd_home();
+	if ((!path) || ft_strncmp(path, "~", 2) == 0
+		|| ft_strncmp(path, "~/", 3) == 0)
+		return (cd_home());
 	else if (ft_strncmp(path, "-", 1) == 0)
 	{
 		current_path = ft_strdup(search("OLDPWD").data);
 		if (current_path == NULL)
 		{
-			//error_message("cd", NO_OLDPWD, 1);
+			printf("cd [Error[");
 			return ;
 		}
 		insert("OLDPWD", ft_strdup(search("PWD").data));

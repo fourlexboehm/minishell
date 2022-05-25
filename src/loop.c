@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-static void freecmd(t_cmd cmd)
+static void	freecmd(t_cmd cmd)
 {
 	if (cmd.pipe_in != STDIN_FILENO)
 		close(cmd.pipe_in);
@@ -30,14 +30,14 @@ static char	*rl_get(void)
 	return ((char *)line_read);
 }
 
-static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
+static int	iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 {
 	int	i;
-	int status;
+	int	status;
 
 	i = 0;
 	status = 0;
-	while(cmds[i].name)
+	while (cmds[i].name)
 	{
 		*exit = !ft_strncmp("exit", cmds[i].name, 4);
 		if (*exit)
@@ -45,7 +45,7 @@ static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 		executor(path->path, &cmds[i++]);
 	}
 	i = 0;
-	while(cmds[i].name)
+	while (cmds[i].name)
 	{
 		waitpid(cmds[i].pid, &status, 0);
 		if (!WIFEXITED(status))
@@ -61,7 +61,7 @@ static int iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 void	loop_shell(t_pathlist *path)
 {
 	t_cmd	*cmds;
-	t_token *token_lst;
+	t_token	*token_lst;
 	bool	exit;
 	int		i;
 
@@ -78,4 +78,3 @@ void	loop_shell(t_pathlist *path)
 		freecmd(cmds[i++]);
 	free(cmds);
 }
-

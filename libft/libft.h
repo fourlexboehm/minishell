@@ -6,7 +6,7 @@
 /*   By: aboehm <aboehm@42adel.org>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 20:35:40 by aboehm            #+#    #+#             */
-/*   Updated: 2022/02/19 15:15:14 by aboehm           ###   ########.fr       */
+/*   Updated: 2022/05/25 14:52:46 by aboehm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,5 @@ char	*ft_strndup(const char *s1, size_t n);
 void	ft_new_node(t_list **list, int content);
 void	ft_freev(void **ptr, int len, bool free_seg);
 void	free2d_array(void **arry);
-
-
 
 #endif

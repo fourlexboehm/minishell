@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -29,18 +28,15 @@
 # include "typedefs.h"
 # include <sys/stat.h>
 
-
 //lexer
 # define t_command 0
 # define t_double_quotes 1
 # define t_single_quotes 2
 # define t_pipe 3
 # define t_append_rd 4
-# define t_redir_to_file 5
-# define t_redir_from_here_st 6
-# define t_redir_from_file 7
-
-
+# define t_redir_to_f 5
+# define t_redir_from_h 6
+# define t_redir_from_f 7
 //One allowed Global variable, it's the hash table that stores the environment variables
 # define env_size 2048
 # define local_env_size 256
@@ -101,6 +97,7 @@ void    handle_rest(t_token *token, t_lex *lex_data);
 void	free_tkn_lst_array(t_token **tkn_lst);
 //repl
 void		loop_shell(t_pathlist *path);
+void	safe_exit(int status);
 //builtins
 void		cd(t_cmd *cmd);
 void		pwd(t_cmd *cmd);

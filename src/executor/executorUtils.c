@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executorUtils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboehm <aboehm@42adel.org.au>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 13:21:28 by aboehm            #+#    #+#             */
+/*   Updated: 2022/05/25 13:21:30 by aboehm           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 //string join a directory in path[] to the t_command name
@@ -13,29 +25,31 @@ char	*getfile(char *dir, char *name)
 	return (file);
 }
 
-void setup_fds(t_cmd *cmd)
+void	setup_fds(t_cmd *cmd)
 {
+	if (cmd->redir_in != STDIN_FILENO)
+		dup2(cmd->redir_in, STDIN_FILENO);
+	if (cmd->redir_out != STDOUT_FILENO)
+		dup2(cmd->redir_out, STDOUT_FILENO);
 	if (cmd->pipe_in != STDIN_FILENO)
 	{
 		dup2(cmd->pipe_in, STDIN_FILENO);
-		//close(cmd->pipe_in);
+		close((cmd - 1)->pipe_out);
+		close(cmd->pipe_in);
 		//cmd->pipe_in = STDIN_FILENO;
 	}
 	if (cmd->pipe_out != STDOUT_FILENO)
 	{
 		dup2(cmd->pipe_out, STDOUT_FILENO);
-		//close(cmd->pipe_out);
+		close((cmd + 1)->pipe_in);
+		close(cmd->pipe_out);
 		//cmd->pipe_out = STDOUT_FILENO;
 	}
-	if(cmd->redir_in  != STDIN_FILENO)
-		dup2(cmd->redir_in, STDIN_FILENO);
-	if(cmd->redir_out != STDOUT_FILENO)
-		dup2(cmd->redir_out, STDOUT_FILENO);
 }
 
-void exec_builtin(void (function)(), t_cmd *cmd)
+void	exec_builtin(void (function)(), t_cmd *cmd)
 {
-	int pid;
+	int	pid;
 
 	pid = fork();
 	if (pid == 0)

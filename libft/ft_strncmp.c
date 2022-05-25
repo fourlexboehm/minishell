@@ -6,7 +6,7 @@
 /*   By: aboehm <aboehm@42adel.org>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 20:36:55 by aboehm            #+#    #+#             */
-/*   Updated: 2021/09/20 14:29:45 by aboehm           ###   ########.fr       */
+/*   Updated: 2022/05/25 13:38:34 by aboehm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 */
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	while (s1 && s2  && *s1 == *s2 && n > 0)
+	while (s1 && s2 && *s1 == *s2 && n > 0)
 	{
 		s1++;
 		s2++;

@@ -17,10 +17,10 @@
 void	init_g_env_table(char **env)
 {
 	char	**var;
-	int	i;
-	
+	int		i;
+
 	i = 0;
-	while(i < env_size)
+	while (i < env_size)
 	{
 		g_env_table[i].key = NULL;
 		g_env_table[i].data = NULL;
@@ -52,19 +52,24 @@ void	free_env(void)
 	}
 }
 
+void	safe_exit(int status)
+{
+	rl_clear_history();
+	destroy_pathlist((t_pathlist *) search("minish_path").data);
+	free_env();
+	check_leaks();
+	exit(status);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_pathlist	lst;
 
 	(void)argc;
 	(void)argv;
-
 	init_g_env_table(env);
 	init_pathlist(&lst);
 	if (lst.path)
 		loop_shell(&lst);
-	destroy_pathlist(&lst);
-	rl_clear_history();
-	free_env();
-	check_leaks();
+	safe_exit(0);
 }

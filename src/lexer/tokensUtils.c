@@ -54,7 +54,7 @@ int find_quote(t_lex *lex_data)
     return(-1);
 }
 
-void    handle_quote(t_token *token, t_lex *lex_data)
+void	handle_quote(t_token *token, t_lex *lex_data)
 {
 	int end_quote;
 	int start;

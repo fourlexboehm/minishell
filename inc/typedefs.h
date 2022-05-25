@@ -8,7 +8,7 @@ typedef struct s_env
 	char *key;
 	char *data;
 	//struct s_env *next;
-} t_env;
+}	t_env;
 
 typedef	struct s_lex
 {
@@ -36,7 +36,7 @@ typedef struct s_cmd
 	int	redir_out;
 	int pid;
 	char **argv;
-} t_cmd;
+}	t_cmd;
 
 typedef struct s_var
 {
@@ -50,7 +50,7 @@ typedef struct s_var
 //Struct to store PATH
 typedef struct s_pathlist
 {
-	char **path;
-} t_pathlist;
+	char	**path;
+}	t_pathlist;
 
 #endif

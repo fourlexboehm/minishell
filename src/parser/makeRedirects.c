@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   makeRedirects.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboehm <aboehm@42adel.org.au>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 13:28:41 by aboehm            #+#    #+#             */
+/*   Updated: 2022/05/25 13:28:45 by aboehm           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
+//joins the PWD to value if it isn't a fully qualified path
 static char	*redir_out(int *out, int type, char *value)
 {
-	char *file;
-	int mode;
+	char	*file;
+	int		mode;
 
-	if (type == t_redir_to_file)
+	if (type == t_redir_to_f)
 		mode = O_APPEND;
 	else
 		mode = O_TRUNC;
-	//joins the PWD to value if it isn't a fully qualified path
 	if (*value != '/')
 	{
 		file = getfile(search("PWD").data, value);
@@ -20,16 +32,16 @@ static char	*redir_out(int *out, int type, char *value)
 	if (*out == -1)
 	{
 		printf("File could not be opened\n");
-		return(NULL);
+		return (NULL);
 	}
 	return (value);
 }
 
-static char *redir_in(int *in, int type, char *value)
+static char	*redir_in(int *in, int type, char *value)
 {
-	char *file;
+	char	*file;
 
-	if (type == t_redir_from_file)
+	if (type == t_redir_from_f)
 	{
 		if (*value != '/')
 		{
@@ -49,26 +61,29 @@ static char *redir_in(int *in, int type, char *value)
 	return (value);
 }
 
-void make_redirs(t_token *tkn_lst, t_cmd *cmd)
+void	make_redirs(t_token *tkn_lst, t_cmd *cmd)
 {
 	cmd->redir_in = 0;
 	cmd->redir_out = 1;
 	while (tkn_lst && tkn_lst->type != t_pipe)
 	{
-		if (tkn_lst->type == t_redir_from_file || tkn_lst->type == t_redir_from_here_st)
+		if (tkn_lst->type == t_redir_from_f || tkn_lst->type == t_redir_from_h)
 		{
-			tkn_lst->next->value = redir_in(&cmd->redir_in, tkn_lst->type, tkn_lst->next->value);
+			tkn_lst->next->value = redir_in(&cmd->redir_in,
+					tkn_lst->type, tkn_lst->next->value);
 			if (tkn_lst->next)
 				tkn_lst = tkn_lst->next->next;
 		}
-		else if (tkn_lst->type == t_redir_to_file || tkn_lst->type == t_append_rd)
+		else if (tkn_lst->type == t_redir_to_f || tkn_lst->type == t_append_rd)
 		{
-			tkn_lst->next->value = redir_out(&cmd->redir_out, tkn_lst->type, tkn_lst->next->value);
+			tkn_lst->next->value = redir_out(&cmd->redir_out,
+					tkn_lst->type, tkn_lst->next->value);
 			if (tkn_lst->next)
 				tkn_lst = tkn_lst->next->next;
 		}
 		else
-			exit(printf("redirect handler encounter unexpected tkn_type, check tokenizer")); //TODO remove exit
+			safe_exit(printf("redirect handler encounter unexpected tkn_type,"
+					" check tokenizer"));
 	}
 	cmd->pipe_in = 0;
 	cmd->pipe_out = 1;

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   localvars.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboehm <aboehm@42adel.org.au>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 13:21:58 by aboehm            #+#    #+#             */
+/*   Updated: 2022/05/25 13:21:59 by aboehm           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
@@ -29,5 +40,4 @@ void	local_insert(char *key, char *data, t_env *env_local)
 	}
 	env_local[hashindex].key = key;
 	env_local[hashindex].data = data;
-
 }

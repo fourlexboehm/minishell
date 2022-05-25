@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-static void handle_cases(const char *line, t_token *token, t_lex *lex_data)
+static void	handle_cases(const char *line, t_token *token, t_lex *lex_data)
 {
 	if (line[(*lex_data).i] == '"' || line[(*lex_data).i] == '\'')
 		handle_quote(token, lex_data);
@@ -16,7 +16,7 @@ static void handle_cases(const char *line, t_token *token, t_lex *lex_data)
 
 t_token	*lex(char const *line)
 {
-	t_token *token;
+	t_token	*token;
 	t_token	*tkn_lst;
 	t_lex	lex_data;
 
@@ -30,5 +30,5 @@ t_token	*lex(char const *line)
 		token = new_token(&tkn_lst);
 		handle_cases(line, token, &lex_data);
 	}
-	return(tkn_lst);
+	return (tkn_lst);
 }

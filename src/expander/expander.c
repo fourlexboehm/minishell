@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboehm <aboehm@42adel.org.au>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 13:22:26 by aboehm            #+#    #+#             */
+/*   Updated: 2022/05/25 13:22:27 by aboehm           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 static void	define_value(char **value, char *key, t_env *local_vars)
 {
-	char *env_data;
-	(void)local_vars;
+	char	*env_data;
 
+	(void)local_vars;
 	env_data = search(key).data;
 	if (env_data)
 		*value = ft_strdup(env_data);
@@ -28,7 +40,6 @@ static bool	check_double_quotes(char **temp, char **key)
 	}
 	*key = ft_strdup(*temp);
 	return (false);
-
 }
 
 static void	restore_quote(char **value, char **temp)
@@ -41,7 +52,7 @@ static void	restore_quote(char **value, char **temp)
 
 void	expand(char **variable, bool dollar)
 {
-	t_env local_vars[local_env_size];
+	t_env	local_vars[256];
 	char	*value;
 	char	*key;
 	char	*temp;
@@ -51,7 +62,7 @@ void	expand(char **variable, bool dollar)
 	has_quote = false;
 	temp = *variable;
 	has_quote = check_double_quotes(&temp, &key);
-	if(dollar)
+	if (dollar)
 		temp++;
 	define_value(&value, temp, local_vars);
 	free(*variable);
@@ -61,14 +72,14 @@ void	expand(char **variable, bool dollar)
 	*variable = value;
 }
 
-void expandlst(t_token *lst)
+void	expandlst(t_token *lst)
 {
 	while (lst)
 	{
 		if (lst->type == t_single_quotes)
 		{
 			lst = lst->next;
-			while(lst && lst->type != t_single_quotes)
+			while (lst && lst->type != t_single_quotes)
 				lst = lst->next;
 		}
 		else if (lst->type == t_command || lst->type == t_double_quotes)

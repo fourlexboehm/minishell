@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboehm <aboehm@42adel.org.au>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 13:22:33 by aboehm            #+#    #+#             */
+/*   Updated: 2022/05/25 13:29:42 by aboehm           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
@@ -48,8 +59,8 @@ void	expand_variables(char **value)
 	t_var	var;
 	char	*new_str;
 	char	*tmp_str;
-
 	int		i;
+
 	i = 0;
 	if (!has_dollar_sign(value, &var, &i)
 		|| only_dollar_sign_between_quotes(value))
@@ -64,4 +75,3 @@ void	expand_variables(char **value)
 	*value = new_str;
 	expand_variables(value);
 }
-
