@@ -65,7 +65,7 @@ static int	iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 		freecmd(cmds[i++]);
 	}
 	insert("?", ft_itoa(WEXITSTATUS(status)));
-	free(cmds);
+	free(cmds - 1);
 	cmds = NULL;
 	return (0);
 }
@@ -88,5 +88,5 @@ void	loop_shell(t_pathlist *path)
 	}
 	while (cmds && cmds[i].argv)
 		freecmd(cmds[i++]);
-	free(cmds);
+	free(cmds - 1);
 }

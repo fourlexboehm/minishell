@@ -20,7 +20,7 @@ static void	execute(t_cmd *cmd, char *file)
 	cmd->pid = fork();
 	define_exec_signals();
 	if (cmd->pid == -1)
-		exit(printf("exec failed\n"));
+		safe_exit(printf("exec failed\n"));
 	if (cmd->pid != 0)
 	{
 		if (cmd->pipe_in != 0)

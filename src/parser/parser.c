@@ -83,7 +83,8 @@ static t_cmd	*make_cmd_lst(t_token **tkn_lst_array)
 	numcmds = 0;
 	while (tkn_lst_array[++numcmds])
 		;
-	cmds = ft_calloc(numcmds + 1, sizeof(t_cmd));
+	cmds = ft_calloc(numcmds + 2, sizeof(t_cmd));
+	cmds += 1;
 	i = -1;
 	while (++i < numcmds)
 		make_cmd(tkn_lst_array[i], &cmds[i]);

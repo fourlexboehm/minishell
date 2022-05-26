@@ -46,11 +46,10 @@ t_token	*make_argv(t_token *tkn_lst, t_cmd *cmd)
 		make_pipe(cmd);
 		tkn_lst = tkn_lst->next;
 	}
-	else
-	{
-		cmd->pipe_in = STDIN_FILENO;
-		cmd->pipe_out = STDOUT_FILENO;
-	}
+	if (!(cmd - 1))
+		cmd->pipe_in = dup(STDIN_FILENO);
+	if (!(cmd + 1))
+		cmd->pipe_out = dup(STDOUT_FILENO);
 	cmd->argc = n_args(tkn_lst);
 	cmd->argv = ft_calloc(cmd->argc + 1, sizeof (char *));
 	i = 0;

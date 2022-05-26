@@ -63,8 +63,8 @@ static char	*redir_in(int *in, int type, char *value)
 
 void	make_redirs(t_token *tkn_lst, t_cmd *cmd)
 {
-	cmd->redir_in = 0;
-	cmd->redir_out = 1;
+	cmd->redir_in = STDIN_FILENO;
+	cmd->redir_out = STDOUT_FILENO;
 	while (tkn_lst && tkn_lst->type != T_PIPE)
 	{
 		if (tkn_lst->type == T_REDIR_FROM_F || tkn_lst->type == T_REDIR_FROM_H)
@@ -85,6 +85,4 @@ void	make_redirs(t_token *tkn_lst, t_cmd *cmd)
 			safe_exit(printf("redirect handler encounter unexpected tkn_type,"
 					" check tokenizer"));
 	}
-	cmd->pipe_in = 0;
-	cmd->pipe_out = 1;
 }

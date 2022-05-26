@@ -87,7 +87,6 @@ void		destroy_pathlist(void);
 
 char		***get_path(void);
 
-
 //executor functions
 void		executor(char **path, t_cmd *cmd);
 
