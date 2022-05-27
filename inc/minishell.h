@@ -145,6 +145,8 @@ void		ft_export(t_cmd *cmd);
 
 void		unset(t_cmd *cmd);
 
+void        echo(t_cmd *cmd);
+
 //signals
 void		define_exec_signals(void);
 
