@@ -1,6 +1,6 @@
-#Minishell
+# Minishell
 
-###TODO
+### TODO
 
 
 add $?
@@ -12,7 +12,7 @@ add localvars
 norme code
 
 
-###Bugs
+### Bugs
 fix case where exporting same variable multiple times causes corruption
 Fix expander where with echo $PWD error since FIX expander segv when null variable
 Fix pipe  execution

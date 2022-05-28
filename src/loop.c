@@ -47,7 +47,7 @@ static int	iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 	int	i;
 	int	status;
 
-	i = 0;
+	i = 1;
 	status = 0;
 	while (cmds[i].name)
 	{
@@ -56,7 +56,7 @@ static int	iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 			return (i);
 		executor(path->path, &cmds[i++]);
 	}
-	i = 0;
+	i = 1;
 	while (cmds[i].name)
 	{
 		waitpid(cmds[i].pid, &status, 0);
@@ -65,7 +65,7 @@ static int	iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 		freecmd(cmds[i++]);
 	}
 	insert("?", ft_itoa(WEXITSTATUS(status)));
-	free(cmds - 1);
+	free(cmds);
 	cmds = NULL;
 	return (0);
 }
@@ -83,10 +83,10 @@ void	loop_shell(t_pathlist *path)
 	{
 		token_lst = lex(rl_get());
 		cmds = parse(&token_lst);
-		if (cmds && cmds->name)
+		if (cmds && cmds[1].name)
 			i = iterate_cmds(path, cmds, &exit);
 	}
 	while (cmds && cmds[i].argv)
 		freecmd(cmds[i++]);
-	free(cmds - 1);
+	free(cmds);
 }

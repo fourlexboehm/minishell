@@ -20,7 +20,7 @@ static int	n_args(t_token *token)
 	i = 0;
 	tmp = token;
 	while (tmp && (tmp->type == T_COMMAND || tmp->type == T_SINGLE_QUOTES
-				   || tmp->type == T_DOUBLE_QUOTES))
+			|| tmp->type == T_DOUBLE_QUOTES))
 	{
 		i++;
 		tmp = tmp->next;
@@ -37,33 +37,32 @@ static void	make_pipe(t_cmd *cmd)
 	(cmd - 1)->pipe_out = new_pipe[1];
 }
 
-t_token	*make_argv(t_token *tkn_lst, t_cmd *cmd)
+static void	make_argv(t_token **tkn_lst, t_cmd *cmd)
 {
 	int	i;
 
-	if (tkn_lst && tkn_lst->type == T_PIPE)
+	if (tkn_lst && (*tkn_lst)->type == T_PIPE)
 	{
 		make_pipe(cmd);
-		tkn_lst = tkn_lst->next;
+		*tkn_lst = (*tkn_lst)->next;
 	}
-	if (!(cmd - 1))
+	if (!(cmd - 1)->name)
 		cmd->pipe_in = dup(STDIN_FILENO);
-	if (!(cmd + 1))
+	if (!(cmd + 1)->name)
 		cmd->pipe_out = dup(STDOUT_FILENO);
-	cmd->argc = n_args(tkn_lst);
+	cmd->argc = n_args(*tkn_lst);
 	cmd->argv = ft_calloc(cmd->argc + 1, sizeof (char *));
 	i = 0;
 	while (i < cmd->argc)
 	{
-		cmd->argv[i++] = ft_strdup(tkn_lst->value);
-		tkn_lst = tkn_lst->next;
+		cmd->argv[i++] = ft_strdup((*tkn_lst)->value);
+		*tkn_lst = (*tkn_lst)->next;
 	}
-	return (tkn_lst);
 }
 
 void	make_cmd(t_token *tkn_lst_array, t_cmd *cmd)
 {
-	tkn_lst_array = make_argv(tkn_lst_array, cmd);
+	make_argv(&tkn_lst_array, cmd);
 	cmd->name = cmd->argv[0];
 	make_redirs(tkn_lst_array, cmd);
 }
