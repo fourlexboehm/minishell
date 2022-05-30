@@ -62,6 +62,7 @@ void	exec_builtin(void (function)(), t_cmd *cmd)
 	{
 		setup_fds(cmd);
 		(*function)(cmd);
+		exit(0);
 	}
 }
 
@@ -75,7 +76,7 @@ bool	builtin(t_cmd *cmd)
 	else if (!strcmp(cmd->name, "env"))
 		exec_builtin(display, cmd);
 	else if (!strcmp(cmd->name, "export"))
-		exec_builtin(ft_export, cmd);
+		ft_export(cmd);
 	else if (!strcmp(cmd->name, "unset"))
 		exec_builtin(unset, cmd);
 	else if (!strcmp(cmd->name, "echo"))
