@@ -31,7 +31,7 @@ static char	*rl_get(void)
 	static char const	*line_read;
 
 	line_read = NULL;
-	if (line_read == NULL)
+	if (line_read)
 	{
 		free((char *)line_read);
 		line_read = (char *) NULL;
