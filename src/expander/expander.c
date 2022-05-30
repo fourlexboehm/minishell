@@ -20,17 +20,28 @@ static void	define_value(char **value, char *key, t_env *local_vars)
 	env_data = search(key).data;
 	if (env_data)
 		*value = ft_strdup(env_data);
-	//TODO impl local vars
+	if (!*value)
+		*value = ft_strdup("");
+}
+
+//static void	define_value(char **value, char *key, t_env *local_vars)
+//{
+//	char	*env_data;
+//
+//	(void)local_vars;
+//	env_data = search(key).data;
+//	if (env_data)
+//		*value = ft_strdup(env_data);
+//	//TODO impl local vars
 //	if (!*value)
 //	{
 //		env_data = local_search(key, local_vars).data;
 //		if (env_data)
 //			*value = ft_strdup(env_data);
 //	}
-	if (!*value)
-		*value = ft_strdup("");
-}
-
+//	if (!*value)
+//		*value = ft_strdup("");
+//}
 static bool	check_double_quotes(char **temp, char **key)
 {
 	if (ft_strchr(*temp, '"'))

@@ -48,7 +48,7 @@ static void	make_argv(t_token **tkn_lst, t_cmd *cmd)
 		*tkn_lst = (*tkn_lst)->next;
 	}
 	if (!(cmd - 1)->name)
-		cmd->pipe_in = STDIN_FILENO; //TODO to dup or not to dup
+		cmd->pipe_in = STDIN_FILENO;
 	if (!(cmd + 1)->name)
 		cmd->pipe_out = STDOUT_FILENO;
 	cmd->argc = n_args(*tkn_lst);

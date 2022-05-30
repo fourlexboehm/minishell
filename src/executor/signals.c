@@ -15,14 +15,12 @@
 static void	quit_process(int signal)
 {
 	(void)signal;
-	//TODO error handling
 	printf("Quit (core dumped)\n");
 }
 
 void	interrupt_process(int signal)
 {
 	(void)signal;
-// TODO error handling
 	write(2, "\n>>>", 4);
 }
 

@@ -38,7 +38,7 @@ static bool	check_filename_after_redir(t_token *token)
 		if (token->type == T_REDIR_TO_F || token->type == T_REDIR_FROM_F
 			|| token->type == T_REDIR_FROM_H)
 			if (!next || !(next->type == T_COMMAND || next->type
-			== T_DOUBLE_QUOTES || next->type == T_SINGLE_QUOTES))
+					== T_DOUBLE_QUOTES || next->type == T_SINGLE_QUOTES))
 				return (false);
 		token = next;
 	}

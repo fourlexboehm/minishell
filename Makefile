@@ -47,7 +47,7 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 
 	@make -C $(LIBFT) bonus
-	@gcc $(CFLAGS) -o $(NAME) $(OBJECTS) leakcheck.c $(LIBFT_A) $(LINK) -lreadline #/opt/homebrew/Cellar/readline/8.1.2/lib/libhistory.a /opt/homebrew/Cellar/readline/8.1.2/lib/libreadline.a
+	@gcc $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBFT_A) $(LINK) -lreadline #/opt/homebrew/Cellar/readline/8.1.2/lib/libhistory.a /opt/homebrew/Cellar/readline/8.1.2/lib/libreadline.a
 
 clean:
 	@make clean -C $(LIBFT)

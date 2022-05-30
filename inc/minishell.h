@@ -105,8 +105,12 @@ t_token		*lex(char const *line);
 
 void		make_redirs(t_token *tkn_lst, t_cmd *cmd);
 
-///heredoc.c
+//heredoc.c
 void		heredoc(char *delimiter);
+//parsingUtils2
+int			open_temp(void);
+
+void		exit_heredoc(int signal);
 
 //parsingUtils
 void		make_cmd(t_token *tkn_lst, t_cmd *cmd);

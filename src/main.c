@@ -57,7 +57,6 @@ void	safe_exit(int status)
 	rl_clear_history();
 	destroy_pathlist();
 	free_env();
-	check_leaks();
 	exit(status);
 }
 

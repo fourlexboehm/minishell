@@ -1,22 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apangraz <apangraz@42adel.org.au>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 13:22:45 by apangraz          #+#    #+#             */
+/*   Updated: 2022/05/25 13:31:54 by apangraz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
-
-int	open_temp(void)
-{
-	int	fd;
-
-	unlink("/tmp/tmp_file");
-	fd = open("/tmp/tmp_file", O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (fd == -1)
-		printf("ERROR TEMP FD FAILED\n");
-	return (fd);
-}
-
-void	exit_heredoc(int signal)
-{
-	(void) signal;
-	write(1, "/n", 1);
-	exit(0);
-}
 
 static int	get_var_len(char *line, const int *i)
 {
@@ -65,16 +59,32 @@ static int	heredoc_var(char *line, int *i, int tmp_file)
 	return (len);
 }
 
+void	line_loop(int has_quotes, int tmp_file, char *line)
+{
+	int		i;
+	int		skip_var_name;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$' && has_quotes == 0)
+		{
+			skip_var_name = heredoc_var(line, &i, tmp_file);
+			i += skip_var_name;
+		}
+		else
+			ft_putchar_fd(line[i], tmp_file);
+		i++;
+	}
+}
+
 void	read_n_write(char *delim, int has_quotes, int tmp_file)
 {
 	char	*line;
-	int		i;
-	int		skip_var_name;
 
 	signal(SIGINT, exit_heredoc);
 	while (1)
 	{
-		i = 0;
 		line = readline("> ");
 		if (!line)
 		{
@@ -88,17 +98,7 @@ void	read_n_write(char *delim, int has_quotes, int tmp_file)
 			close(tmp_file);
 			exit(0);
 		}
-		while (line[i])
-		{
-			if (line[i] == '$' && has_quotes == 0)
-			{
-				skip_var_name = heredoc_var(line, &i, tmp_file);
-				i += skip_var_name;
-			}
-			else
-				ft_putchar_fd(line[i], tmp_file);
-			i++;
-		}
+		line_loop(has_quotes, tmp_file, line);
 		ft_putchar_fd('\n', tmp_file);
 	}
 }

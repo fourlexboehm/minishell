@@ -64,7 +64,7 @@ static int	iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 			printf(" cmd %i returned: %i\n", i, WEXITSTATUS(status));
 		freecmd(cmds[i++]);
 	}
-	insert("?", ft_itoa(WEXITSTATUS(status)));
+	insert(ft_strdup("?"), ft_itoa(WEXITSTATUS(status)));
 	free(cmds);
 	cmds = NULL;
 	return (0);
