@@ -15,7 +15,7 @@
 static void	quit_process(int signal)
 {
 	(void)signal;
-	printf("Quit (core dumped)\n");
+	safe_exit(0);
 }
 
 void	interrupt_process(int signal)

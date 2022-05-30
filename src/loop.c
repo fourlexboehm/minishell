@@ -81,6 +81,7 @@ void	loop_shell(t_pathlist *path)
 
 	i = 0;
 	exit = false;
+	define_exec_signals();
 	while (!exit)
 	{
 		token_lst = lex(rl_get());
