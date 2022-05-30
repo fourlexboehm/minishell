@@ -31,12 +31,14 @@ static char	*rl_get(void)
 	static char const	*line_read;
 
 	line_read = NULL;
-	if (line_read)
+	if (line_read == NULL)
 	{
 		free((char *)line_read);
 		line_read = (char *) NULL;
 	}
 	line_read = readline(">>>");
+	if (line_read == NULL)
+		safe_exit(0);
 	if (*line_read)
 		add_history(line_read);
 	return ((char *)line_read);
