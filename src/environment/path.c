@@ -20,21 +20,21 @@ void	init_pathlist(t_pathlist *pathlist)
 	path = search("PATH");
 	if (path.key)
 	{
-		*get_path() = ft_split(path.data, ':');
-		pathlist->path = *get_path();
+		(get_path())->path = ft_split(path.data, ':');
+		pathlist->path = get_path()->path;
 	}
 	else
 		pathlist->path = NULL;
 }
 
-char	***get_path(void)
+t_pathlist	*get_path(void)
 {
-	static char	**path;
+	static t_pathlist	path;
 
 	return (&path);
 }
 
 void	destroy_pathlist(void)
 {
-	free2d_array((void **)*get_path());
+	free2d_array((void **)get_path()->path);
 }
