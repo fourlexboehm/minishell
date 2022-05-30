@@ -14,7 +14,7 @@
 
 void	secure_close(int fd)
 {
-	if (fd >= 0)
+	if (fd > 1)
 		close(fd);
 }
 
@@ -24,28 +24,22 @@ void	close_std_streams(void)
 	secure_close(1);
 }
 
-void	close_saved_fd_and_streams(t_cmd *procs)
-{
-	if (procs)
-	{
-		secure_close(procs->saved_std[0]);
-		secure_close(procs->saved_std[1]);
-		close_std_streams();
-	}
-}
-
-void	close_all_streams_except_current(t_cmd *cmd, int i)
+void	close_all_streams_except_current(t_cmd *cmd)
 {
 	int	k;
 
-	k = 0;
-	while ((cmd + k))
+	k = 1;
+	while ((cmd->name + k))
 	{
-		if (k != i)
-		{
-			secure_close(cmd[k].pipe_out);
-			secure_close(cmd[k].pipe_in);
-		}
+		close(cmd[k].pipe_out);
+		close(cmd[k].pipe_in);
 		k++;
+	}
+	k = -1;
+	while ((cmd->name + k))
+	{
+		close(cmd[k].pipe_out);
+		close(cmd[k].pipe_in);
+		k--;
 	}
 }

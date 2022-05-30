@@ -43,13 +43,14 @@ static void	make_argv(t_token **tkn_lst, t_cmd *cmd)
 
 	if (tkn_lst && (*tkn_lst)->type == T_PIPE)
 	{
-		make_pipe(cmd);
+		if ((cmd - 1)->name)
+			make_pipe(cmd);
 		*tkn_lst = (*tkn_lst)->next;
 	}
 	if (!(cmd - 1)->name)
-		cmd->pipe_in = dup(STDIN_FILENO);
+		cmd->pipe_in = STDIN_FILENO; //TODO to dup or not to dup
 	if (!(cmd + 1)->name)
-		cmd->pipe_out = dup(STDOUT_FILENO);
+		cmd->pipe_out = STDOUT_FILENO;
 	cmd->argc = n_args(*tkn_lst);
 	cmd->argv = ft_calloc(cmd->argc + 1, sizeof (char *));
 	i = 0;

@@ -27,23 +27,29 @@ char	*getfile(char *dir, char *name)
 
 void	setup_fds(t_cmd *cmd)
 {
-	if (cmd->redir_in != STDIN_FILENO)
-		dup2(cmd->redir_in, STDIN_FILENO);
-	if (cmd->redir_out != STDOUT_FILENO)
-		dup2(cmd->redir_out, STDOUT_FILENO);
 	if (cmd->pipe_in != STDIN_FILENO)
 	{
 		dup2(cmd->pipe_in, STDIN_FILENO);
 		close((cmd - 1)->pipe_out);
 		close(cmd->pipe_in);
-		//cmd->pipe_in = STDIN_FILENO;
 	}
 	if (cmd->pipe_out != STDOUT_FILENO)
 	{
 		dup2(cmd->pipe_out, STDOUT_FILENO);
 		close((cmd + 1)->pipe_in);
 		close(cmd->pipe_out);
-		//cmd->pipe_out = STDOUT_FILENO;
+	}
+	if (cmd->redir_in != STDIN_FILENO)
+	{
+		if ((cmd - 1)->name)
+			close(cmd->pipe_in);
+		dup2(cmd->redir_in, STDIN_FILENO);
+	}
+	if (cmd->redir_out != STDOUT_FILENO)
+	{
+		if ((cmd + 1)->name)
+			close(cmd->pipe_out);
+		dup2(cmd->redir_out, STDOUT_FILENO);
 	}
 }
 

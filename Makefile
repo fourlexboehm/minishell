@@ -1,6 +1,6 @@
 NAME = minishell
 CFLAGS = -Wall -Wextra -Werror -g
-SRC = src/main.c src/loop.c  \
+SRC = src/main.c src/loop.c  src/executor/fdTools.c\
 src/environment/hashTable.c src/environment/path.c src/builtins/echo.c src/builtins/environment.c  src/builtins/cd.c src/environment/localvars.c \
 src/lexer/tokenUtils2.c src/lexer/tokensUtils.c src/lexer/lexer.c \
 src/expander/expanderUtils.c src/expander/expander.c src/expander/expander2.c \

@@ -96,7 +96,7 @@ char		*getfile(char *dir, char *name);
 
 void		setup_fds(t_cmd *cmd);
 
-void		close_all_streams_except_current(t_cmd *cmd, int i);
+void		close_all_streams_except_current(t_cmd *cmd);
 
 //parser
 t_cmd		*parse(t_token **lst);
@@ -145,7 +145,7 @@ void		ft_export(t_cmd *cmd);
 
 void		unset(t_cmd *cmd);
 
-void        echo(t_cmd *cmd);
+void		echo(t_cmd *cmd);
 
 //signals
 void		define_exec_signals(void);

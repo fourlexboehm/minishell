@@ -23,29 +23,29 @@ static void	execute(t_cmd *cmd, char *file)
 		safe_exit(printf("exec failed\n"));
 	if (cmd->pid != 0)
 	{
-		if (cmd->pipe_in != 0)
+		if ((cmd + 1)->name)
 			close(cmd->pipe_out);
-		if (cmd->pipe_out != 1)
-			close(cmd->pipe_out);
+		if ((cmd - 1)->name)
+			close(cmd->pipe_in);
 		free(file);
 		file = NULL;
 		return ;
 	}
-	//close_all_streams_except_current(cmd);
 	env = get_env(g_env_table);
 	setup_fds(cmd);
 	execve(file, cmd->argv, env);
 }
 
+//local_insert(ft_substr(name, 0, equals - name), ft_strdup(equals + 1));
+//static	t_env[LOCAL_ENV_SIZE];
 static bool	add_if_var(char *name)
 {
 	char	*equals;
-	//static	t_env[LOCAL_ENV_SIZE];
+
 	equals = ft_strchr(name, '=');
 	if (!equals)
 		return (false);
 	insert(ft_substr(name, 0, equals - name), ft_strdup(equals + 1));
-	//local_insert(ft_substr(name, 0, equals - name), ft_strdup(equals + 1));
 	return (true);
 }
 
