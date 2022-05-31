@@ -12,16 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-static bool	is_exit_status_variable(char **value)
-{
-	if (ft_strncmp(*value, "$?", 3) == 0)
-	{
-		free(*value);
-		return (true);
-	}
-	return (false);
-}
-
 static void	deal_with_string_slices(t_var *var, char **value, int *i)
 {
 	var->before = ft_substr(*value, 0, *i);
@@ -35,7 +25,7 @@ static void	deal_with_string_slices(t_var *var, char **value, int *i)
 
 static bool	has_dollar_sign(char **value, t_var *var, int *i)
 {
-	if (!(*value) || is_exit_status_variable(value))
+	if (!(*value))
 		return (false);
 	var->pointer = search_var(*value, i);
 	if (!(var->pointer))

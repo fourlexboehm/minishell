@@ -59,7 +59,7 @@ void	executor(char **path, t_cmd *cmd)
 	char		**cpy;
 
 	cpy = path;
-	if (!cmd->name || cmd->name[0] == '\n' || builtin(cmd))
+	if (!cmd->name || builtin(cmd))
 		return ;
 	while (*cpy)
 	{

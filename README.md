@@ -1,8 +1,8 @@
 # Minishell
 
 ### TODO
-fix enter new 
-fix echo $?
+fix enter new ✔️
+fix echo $? ✔️
 add signal for ctrl+
 
 //fix cat without arguments x86

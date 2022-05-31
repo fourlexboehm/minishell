@@ -78,7 +78,7 @@ bool	builtin(t_cmd *cmd)
 	else if (!strcmp(cmd->name, "export"))
 		ft_export(cmd);
 	else if (!strcmp(cmd->name, "unset"))
-		exec_builtin(unset, cmd);
+		unset(cmd);
 	else if (!strcmp(cmd->name, "echo"))
 		exec_builtin(echo, cmd);
 	else

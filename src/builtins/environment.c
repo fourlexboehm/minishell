@@ -32,4 +32,6 @@ void	unset(t_cmd *cmd)
 {
 	if (cmd->argv[1])
 		g_env_table[hash(cmd->argv[1], ENV_SIZE)].key = NULL;
+	if (!ft_strncmp("PATH", cmd->name, 5))
+		get_path()->path = NULL;
 }

@@ -32,6 +32,8 @@ t_token	*lex(char const *line)
 	t_token	*tkn_lst;
 	t_lex	lex_data;
 
+	if (!ft_strncmp("\n", line, 2))
+		return (NULL);
 	lex_data.line = line;
 	lex_data.i = 0;
 	tkn_lst = NULL;

@@ -85,6 +85,8 @@ void	loop_shell(t_pathlist *path)
 	while (!exit)
 	{
 		token_lst = lex(rl_get());
+		if (!token_lst)
+			continue ;
 		cmds = parse(&token_lst);
 		if (cmds && cmds[1].name)
 			i = iterate_cmds(path, cmds, &exit);
