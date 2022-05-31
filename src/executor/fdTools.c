@@ -23,23 +23,3 @@ void	close_std_streams(void)
 	secure_close(0);
 	secure_close(1);
 }
-
-void	close_all_streams_except_current(t_cmd *cmd)
-{
-	int	k;
-
-	k = 1;
-	while ((cmd->name + k))
-	{
-		close(cmd[k].pipe_out);
-		close(cmd[k].pipe_in);
-		k++;
-	}
-	k = -1;
-	while ((cmd->name + k))
-	{
-		close(cmd[k].pipe_out);
-		close(cmd[k].pipe_in);
-		k--;
-	}
-}

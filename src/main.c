@@ -42,12 +42,11 @@ void	free_env(void)
 
 	i = 0;
 	while (i < ENV_SIZE)
-	{
+	{ //TODO should this be done together?
 		if (g_env_table[i].key)
-		{
-			free(g_env_table[i].data);
 			free(g_env_table[i].key);
-		}
+		if (g_env_table[i].data)
+			free(g_env_table[i].data);
 		i++;
 	}
 }

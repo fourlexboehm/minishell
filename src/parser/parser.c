@@ -75,7 +75,7 @@ static t_token	**split_tkn_lsts(t_token **lst)
 
 //generate the token list for each T_COMMAND
 //cmds[i + 1] because the first command is null so
-// that it the cmdlist can be reverse iterated through
+// that the cmdlist can be reverse iterated through
 static t_cmd	*make_cmd_lst(t_token **tkn_lst_array)
 {
 	int		numcmds;
@@ -91,8 +91,8 @@ static t_cmd	*make_cmd_lst(t_token **tkn_lst_array)
 	i = -1;
 	while (++i < numcmds)
 		make_cmd(tkn_lst_array[i], &cmds[i + 1]);
-	cmds[i + 2].argv = NULL;
-	cmds[i + 2].name = NULL;
+	cmds[i + 1].argv = NULL;
+	cmds[i + 1].name = NULL;
 	return (cmds);
 }
 

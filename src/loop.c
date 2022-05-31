@@ -66,7 +66,7 @@ static int	iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 			printf(" cmd %i returned: %i\n", i, WEXITSTATUS(status));
 		freecmd(cmds[i++]);
 	}
-	insert(ft_strdup("?"), ft_itoa(WEXITSTATUS(status)));
+	insert(ft_strdup("?"), ft_itoa(WEXITSTATUS(status))); //TODO why does this leak? It should be freed with the rest of the env_table
 	free(cmds);
 	cmds = NULL;
 	return (0);

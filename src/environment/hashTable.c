@@ -51,6 +51,11 @@ void	insert(char *key, char *data)
 		++hashindex;
 		hashindex %= ENV_SIZE;
 	}
+	if (g_env_table[hashindex].key)
+	{
+		free(g_env_table[hashindex].key);
+		free(g_env_table[hashindex].data);
+	}
 	g_env_table[hashindex].key = key;
 	g_env_table[hashindex].data = data;
 }

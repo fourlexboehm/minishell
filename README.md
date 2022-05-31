@@ -13,3 +13,5 @@ add unset path
 
 ### Bugs
 
+test for memory leaks with:
+valgrind --track-origins=yes --leak-check=full --supressions=./valgrind_filter.supp ./minishell
