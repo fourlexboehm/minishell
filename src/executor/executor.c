@@ -52,29 +52,30 @@ static bool	add_if_var(char *name)
 /*checks if a program exists as a builtin, 
  * in the path, as an absolute path or in ./directory
  */
-void	executor(char **path, t_cmd *cmd)
+void	executor(t_cmd *cmd)
 {
 	struct stat	sb;
 	char		*file;
-	char		**cpy;
+	char		**path;
 
-	cpy = path;
-	if (!cmd->name || builtin(cmd))
+	path = init_pathlist();
+	if (!path || !cmd->name || builtin(cmd))
 		return ;
-	while (*cpy)
+	while (*path)
 	{
 		if (*cmd->name == '/')
 			file = ft_strdup(cmd->name);
 		else if (!ft_strncmp(cmd->name, "./", 2))
 			file = getfile(search("PWD").data, cmd->name + 2);
 		else
-			file = getfile(*cpy, cmd->name);
+			file = getfile(*path, cmd->name);
 		if (stat(file, &sb) == 0 && sb.st_mode & S_IXUSR)
 			return (execute(cmd, file));
-		cpy++;
+		path++;
 		free(file);
 	}
 	if (add_if_var(cmd->name))
 		return ;
 	printf("\n%s Could not be run\n", cmd->name);
+	destroy_pathlist(path);
 }

@@ -81,14 +81,12 @@ void		local_insert(char *key, char *data, t_env *env_local);
 t_env		local_search(char *key, t_env *env_local);
 
 //pathlist struct functions
-void		init_pathlist(t_pathlist *path);
+char		**init_pathlist(void);
 
-void		destroy_pathlist(void);
-
-t_pathlist	*get_path(void);
+void		destroy_pathlist(char **path);
 
 //executor functions
-void		executor(char **path, t_cmd *cmd);
+void		executor(t_cmd *cmd);
 
 bool		builtin(t_cmd *cmd);
 
@@ -136,7 +134,7 @@ void		handle_rest(t_token *token, t_lex *lex_data);
 void		free_tkn_lst_array(t_token **tkn_lst);
 
 //repl
-void		loop_shell(t_pathlist *path);
+void		loop_shell(void);
 
 void		safe_exit(int status);
 

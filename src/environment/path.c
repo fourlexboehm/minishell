@@ -13,28 +13,22 @@
 #include "../../inc/minishell.h"
 
 //takes the path from the g_env_table and adds it to a 2d array in the pathlist
-void	init_pathlist(t_pathlist *pathlist)
+char	**init_pathlist(void)
 {
 	t_env	path;
+	char	**pathlst;
 
 	path = search("PATH");
 	if (path.key)
-	{
-		(get_path())->path = ft_split(path.data, ':');
-		pathlist->path = get_path()->path;
-	}
+		pathlst = ft_split(path.data, ':');
 	else
-		pathlist->path = NULL;
+		pathlst = NULL;
+	return (pathlst);
 }
 
-t_pathlist	*get_path(void)
+void	destroy_pathlist(char **path)
 {
-	static t_pathlist	path;
-
-	return (&path);
-}
-
-void	destroy_pathlist(void)
-{
-	free2d_array((void **)get_path()->path);
+	free2d_array((void **) path);
+	free(path);
+	path = NULL;
 }

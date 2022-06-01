@@ -44,7 +44,7 @@ static char	*rl_get(void)
 	return ((char *)line_read);
 }
 
-static int	iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
+static int	iterate_cmds(t_cmd *cmds, bool *exit)
 {
 	int	i;
 	int	status;
@@ -56,7 +56,7 @@ static int	iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 		*exit = !ft_strncmp("exit", cmds[i].name, 4);
 		if (*exit)
 			return (i);
-		executor(path->path, &cmds[i++]);
+		executor(&cmds[i++]);
 	}
 	i = 1;
 	while (cmds[i].name)
@@ -73,7 +73,7 @@ static int	iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 	return (0);
 }
 
-void	loop_shell(t_pathlist *path)
+void	loop_shell(void)
 {
 	t_cmd	*cmds;
 	t_token	*token_lst;
@@ -90,7 +90,7 @@ void	loop_shell(t_pathlist *path)
 			continue ;
 		cmds = parse(&token_lst);
 		if (cmds && cmds[1].name)
-			i = iterate_cmds(path, cmds, &exit);
+			i = iterate_cmds(cmds, &exit);
 	}
 	while (cmds && cmds[i].argv)
 		freecmd(cmds[i++]);

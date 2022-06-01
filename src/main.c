@@ -42,11 +42,13 @@ void	free_env(void)
 
 	i = 0;
 	while (i < ENV_SIZE)
-	{ //TODO should this be done together?
+	{
 		if (g_env_table[i].key)
 			free(g_env_table[i].key);
 		if (g_env_table[i].data)
 			free(g_env_table[i].data);
+		g_env_table[i].data = NULL;
+		g_env_table[i].key = NULL;
 		i++;
 	}
 }
@@ -54,20 +56,15 @@ void	free_env(void)
 void	safe_exit(int status)
 {
 	rl_clear_history();
-	destroy_pathlist();
 	free_env();
 	exit(status);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	t_pathlist	lst;
-
 	(void)argc;
 	(void)argv;
 	init_g_env_table(env);
-	init_pathlist(&lst);
-	if (lst.path)
-		loop_shell(&lst);
+	loop_shell();
 	safe_exit(0);
 }

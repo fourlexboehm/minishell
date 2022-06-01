@@ -19,9 +19,9 @@ static void	define_value(char **value, char *key, t_env *local_vars)
 	(void)local_vars;
 	env_data = search(key).data;
 	if (env_data)
-		*value = env_data; //TODO strdup these?
+		*value = env_data;
 	if (!*value)
-		*value = ""; //?
+		*value = "";
 }
 
 static bool	check_double_quotes(char **temp, char **key)
