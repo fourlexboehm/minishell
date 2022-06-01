@@ -29,3 +29,9 @@ void	define_exec_signals(void)
 	signal(SIGINT, interrupt_process);
 	signal(SIGQUIT, quit_process);
 }
+
+void	define_input_signals(void)
+{
+	signal(SIGINT, interrupt_process);
+	signal(SIGQUIT, SIG_IGN);
+}

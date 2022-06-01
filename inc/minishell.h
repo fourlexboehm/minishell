@@ -154,4 +154,6 @@ void		echo(t_cmd *cmd);
 //signals
 void		define_exec_signals(void);
 
+void		define_input_signals(void);
+
 #endif

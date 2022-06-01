@@ -38,7 +38,7 @@ t_token	*lex(char const *line)
 	lex_data.i = 0;
 	tkn_lst = NULL;
 	skip_whitespace(&lex_data);
-	while (line[lex_data.i] && line[lex_data.i + 1]) //TODO does this break stuff?
+	while (line[lex_data.i] && line[lex_data.i + 1])
 	{
 		skip_whitespace(&lex_data);
 		token = new_token(&tkn_lst);
