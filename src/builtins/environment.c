@@ -30,8 +30,14 @@ void	ft_export(t_cmd *cmd)
 
 void	unset(t_cmd *cmd)
 {
+	t_env	var;
+
 	if (cmd->argv[1])
-		g_env_table[hash(cmd->argv[1], ENV_SIZE)].key = NULL;
+	{
+		var = g_env_table[hash(cmd->argv[1], ENV_SIZE)];
+		var.key = NULL;
+		var.data = NULL;
+	}
 	if (!ft_strncmp("PATH", cmd->name, 5))
 		get_path()->path = NULL;
 }

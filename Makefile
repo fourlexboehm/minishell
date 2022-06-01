@@ -30,16 +30,7 @@ else
    					-I /usr/local/opt/readline/include/
 endif
 
-
-#if [ -d "/opt/homebrew/opt/readline/lib"]; then ; fi
-
-#if [ -d "/usr/local/opt/readline/lib"]; then LINK = -L $(LIBFT) -l ft -L /usr/local/opt/readline/lib; fi
-
-#LINK = -L $(LIBFT) -l ft -L /usr/local/opt/readline/lib
-
-
 all: $(NAME)
-
 
 .c.o:
 	@gcc $(CFLAGS) -c $< -o $(<:.c=.o) $(INCLUDES)
@@ -59,8 +50,6 @@ clean:
 	@rm -rf src/builtins/*.o
 	@rm -rf src/executor/*.o
 	@rm -rf src/environment/*.o
-
-
 
 fclean: clean
 	rm -rf $(NAME)

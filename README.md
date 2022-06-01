@@ -7,13 +7,11 @@ fix echo $? ✔️
 
 add signal for ctrl+ ✔️
 
+add newline after cat ✔
 
-//fix cat without arguments x86
-
-fix cd
+fix cd  ✔️
 
 add unset path
-add newline to end of README.md
 ### Bugs
 
 test for memory leaks with:

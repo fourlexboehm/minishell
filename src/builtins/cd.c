@@ -62,7 +62,7 @@ void	cd(t_cmd *cmd)
 	char	*path;
 	char	*current_path;
 
-	path = cmd->name;
+	path = cmd->argv[1];
 	if ((!path) || ft_strncmp(path, "~", 2) == 0
 		|| ft_strncmp(path, "~/", 3) == 0)
 		return (cd_home());
@@ -71,7 +71,7 @@ void	cd(t_cmd *cmd)
 		current_path = ft_strdup(search("OLDPWD").data);
 		if (current_path == NULL)
 		{
-			printf("cd [Error[");
+			printf("cd [Error]");
 			return ;
 		}
 		insert("OLDPWD", ft_strdup(search("PWD").data));

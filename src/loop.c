@@ -69,6 +69,7 @@ static int	iterate_cmds(t_pathlist *path, t_cmd *cmds, bool *exit)
 	insert(ft_strdup("?"), ft_itoa(WEXITSTATUS(status)));
 	free(cmds);
 	cmds = NULL;
+	write(1, "\n", 1);
 	return (0);
 }
 
