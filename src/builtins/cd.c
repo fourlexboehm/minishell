@@ -36,7 +36,7 @@ static void	change_dir_to_path(const char *current_path)
 	wd = search("PWD").data;
 	{
 		len = ft_strlen(wd) + ft_strlen(current_path) + 1;
-		insert("OLDPWD", ft_strdup(wd));
+		insert(ft_strdup("OLDPWD"), ft_strdup(wd));
 		if (current_path[0] == '/')
 		{
 			abspath = ft_calloc(len, sizeof(char));
@@ -49,7 +49,7 @@ static void	change_dir_to_path(const char *current_path)
 		if (chdir(abspath))
 			free(abspath);
 		else
-			insert("PWD", abspath);
+			insert(ft_strdup("PWD"), abspath);
 	}
 }
 
