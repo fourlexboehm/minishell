@@ -49,7 +49,20 @@ static bool	add_if_var(char *name)
 	return (true);
 }
 
-/*checks if a program exists as a builtin, 
+char	*get_abs_path(t_cmd *cmd, char *const *path)
+{
+	char	*file;
+
+	if (*cmd->name == '/')
+		file = ft_strdup(cmd->name);
+	else if (!ft_strncmp(cmd->name, "./", 2))
+		file = getfile(search("PWD").data, cmd->name + 2);
+	else
+		file = getfile(*path, cmd->name);
+	return (file);
+}
+
+/*checks if a program exists as a builtin,
  * in the path, as an absolute path or in ./directory
  */
 void	executor(t_cmd *cmd)
@@ -57,25 +70,25 @@ void	executor(t_cmd *cmd)
 	struct stat	sb;
 	char		*file;
 	char		**path;
+	char		**free_path;
 
 	path = init_pathlist();
+	free_path = path;
 	if (!path || !cmd->name || builtin(cmd))
 		return ;
 	while (*path)
 	{
-		if (*cmd->name == '/')
-			file = ft_strdup(cmd->name);
-		else if (!ft_strncmp(cmd->name, "./", 2))
-			file = getfile(search("PWD").data, cmd->name + 2);
-		else
-			file = getfile(*path, cmd->name);
+		file = get_abs_path(cmd, path);
 		if (stat(file, &sb) == 0 && sb.st_mode & S_IXUSR)
+		{
+			destroy_pathlist(free_path);
 			return (execute(cmd, file));
+		}
 		path++;
 		free(file);
 	}
+	destroy_pathlist(free_path);
 	if (add_if_var(cmd->name))
 		return ;
 	printf("\n%s Could not be run\n", cmd->name);
-	destroy_pathlist(path);
 }

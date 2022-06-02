@@ -28,7 +28,9 @@ char	**init_pathlist(void)
 
 void	destroy_pathlist(char **path)
 {
-	free2d_array((void **) path);
-	free(path);
-	path = NULL;
+	if (path)
+	{
+		free2d_array((void **) path);
+		path = NULL;
+	}
 }
