@@ -44,6 +44,16 @@ static char	*rl_get(void)
 	return ((char *)line_read);
 }
 
+static void	get_exit_and_free(const t_cmd *cmds, int *i, int *status)
+{
+	waitpid(cmds[(*i)].pid, status, 0);
+	if (!WIFEXITED((*status)))
+		printf(" cmd %i returned: %i\n", (*i), WEXITSTATUS((*status)));
+	if (!ft_strncmp(cmds[(*i)].name, "cat", 4))
+		write(1, "\n", 1);
+	freecmd(cmds[(*i)++]);
+}
+
 static int	iterate_cmds(t_cmd *cmds, bool *exit)
 {
 	int	i;
@@ -60,14 +70,7 @@ static int	iterate_cmds(t_cmd *cmds, bool *exit)
 	}
 	i = 1;
 	while (cmds[i].name)
-	{
-		waitpid(cmds[i].pid, &status, 0);
-		if (!WIFEXITED(status))
-			printf(" cmd %i returned: %i\n", i, WEXITSTATUS(status));
-		if (!ft_strncmp(cmds[i].name, "cat", 4))
-			write(1, "\n", 1);
-		freecmd(cmds[i++]);
-	}
+		get_exit_and_free(cmds, &i, &status);
 	insert(ft_strdup("?"), ft_itoa(WEXITSTATUS(status)));
 	free(cmds);
 	cmds = NULL;
