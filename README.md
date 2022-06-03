@@ -11,7 +11,7 @@ add newline after cat ✔
 
 fix cd  ✔️
 
-add unset path
+add unset path ✔
 ### Bugs
 
 test for memory leaks with:

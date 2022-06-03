@@ -64,12 +64,13 @@ static int	iterate_cmds(t_cmd *cmds, bool *exit)
 		waitpid(cmds[i].pid, &status, 0);
 		if (!WIFEXITED(status))
 			printf(" cmd %i returned: %i\n", i, WEXITSTATUS(status));
+		if (!ft_strncmp(cmds[i].name, "cat", 4))
+			write(1, "\n", 1);
 		freecmd(cmds[i++]);
 	}
 	insert(ft_strdup("?"), ft_itoa(WEXITSTATUS(status)));
 	free(cmds);
 	cmds = NULL;
-	write(1, "\n", 1);
 	return (0);
 }
 
