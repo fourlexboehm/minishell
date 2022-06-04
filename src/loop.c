@@ -49,7 +49,7 @@ static void	get_exit_and_free(const t_cmd *cmds, int *i, int *status)
 	waitpid(cmds[(*i)].pid, status, 0);
 	if (!WIFEXITED((*status)))
 		printf(" cmd %i returned: %i\n", (*i), WEXITSTATUS((*status)));
-	if (!ft_strncmp(cmds[(*i)].name, "cat", 4))
+	if (!ft_strncmp(cmds[(*i)].name, "cat", 3))
 		write(1, "\n", 1);
 	freecmd(cmds[(*i)++]);
 }
@@ -63,7 +63,7 @@ static int	iterate_cmds(t_cmd *cmds, bool *exit)
 	status = 0;
 	while (cmds[i].name)
 	{
-		*exit = !ft_strncmp("exit", cmds[i].name, 4);
+		*exit = !ft_strncmp("exit", cmds[i].name, 5);
 		if (*exit)
 			return (i);
 		executor(&cmds[i++]);

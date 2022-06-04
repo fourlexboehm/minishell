@@ -35,6 +35,8 @@ void	unset(t_cmd *cmd)
 	if (cmd->argv[1])
 	{
 		var = &g_env_table[hash(cmd->argv[1], ENV_SIZE)];
+		free(var->key);
+		free(var->data);
 		var->key = NULL;
 		var->data = NULL;
 	}

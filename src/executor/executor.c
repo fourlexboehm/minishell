@@ -75,7 +75,7 @@ void	executor(t_cmd *cmd)
 	path = init_pathlist();
 	free_path = path;
 	if (!path || !cmd->name || builtin(cmd))
-		return ;
+		return (destroy_pathlist(free_path));
 	while (*path)
 	{
 		file = get_abs_path(cmd, path);
