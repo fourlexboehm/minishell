@@ -75,7 +75,8 @@ void	expandlst(t_token *lst)
 			while (lst && lst->type != T_SINGLE_QUOTES)
 				lst = lst->next;
 		}
-		else if (lst->type == T_COMMAND || lst->type == T_DOUBLE_QUOTES)
+		else if ((lst->type == T_COMMAND || lst->type == T_DOUBLE_QUOTES)
+			&& lst->value[1] != '\0')
 		{
 			expand_variables(&lst->value);
 		}

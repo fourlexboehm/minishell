@@ -49,8 +49,8 @@ static char	*rl_get(void)
 static void	get_exit_and_free(const t_cmd *cmds, int *i, int *status)
 {
 	waitpid(cmds[(*i)].pid, status, 0);
-	if (!WIFEXITED((*status)))
-		printf(" cmd %i returned: %i\n", (*i), WEXITSTATUS((*status)));
+	if (!WIFEXITED((*status)) && WEXITSTATUS(*status))
+		printf(" cmd %i returned: %i\n", *i, WEXITSTATUS(*status));
 	freecmd(cmds[(*i)++]);
 }
 
