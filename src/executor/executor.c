@@ -18,7 +18,6 @@ static void	execute(t_cmd *cmd, char *file)
 	char	**env;
 
 	cmd->pid = fork();
-	define_exec_signals();
 	if (cmd->pid == -1)
 		safe_exit(printf("exec failed\n"));
 	if (cmd->pid != 0)
@@ -31,6 +30,7 @@ static void	execute(t_cmd *cmd, char *file)
 		file = NULL;
 		return ;
 	}
+	define_exec_signals();
 	env = get_env(g_env_table);
 	setup_fds(cmd);
 	execve(file, cmd->argv, env);

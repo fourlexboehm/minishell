@@ -44,13 +44,13 @@ static char	*rl_get(void)
 	return ((char *)line_read);
 }
 
+//	if (!ft_strncmp(cmds[(*i)].name, "cat", 3))
+//		write(1, "\n", 1);
 static void	get_exit_and_free(const t_cmd *cmds, int *i, int *status)
 {
 	waitpid(cmds[(*i)].pid, status, 0);
 	if (!WIFEXITED((*status)))
 		printf(" cmd %i returned: %i\n", (*i), WEXITSTATUS((*status)));
-	if (!ft_strncmp(cmds[(*i)].name, "cat", 3))
-		write(1, "\n", 1);
 	freecmd(cmds[(*i)++]);
 }
 

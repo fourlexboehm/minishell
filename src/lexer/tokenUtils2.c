@@ -79,7 +79,7 @@ void	free_tkn_lst_array(t_token **tkn_lst)
 	{
 		while (*tkn_lst)
 		{
-			if ((*tkn_lst)->type < T_PIPE)
+			if ((*tkn_lst)->type < T_PIPE && *(*tkn_lst)->value != '\0')
 				free((*tkn_lst)->value);
 			(*tkn_lst)->value = NULL;
 			tmp = *tkn_lst;
