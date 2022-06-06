@@ -18,7 +18,7 @@ void	pwd(t_cmd *cmd)
 	char	*wd;
 
 	(void)cmd;
-	wd = getwd(NULL);
+	wd = getcwd(NULL, 50);
 	printf("%s\n", wd);
 	free(wd);
 }
