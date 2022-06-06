@@ -12,10 +12,15 @@
 
 #include "../../inc/minishell.h"
 
+//printf("%s\n", search("PWD").data);
 void	pwd(t_cmd *cmd)
 {
+	char	*wd;
+
 	(void)cmd;
-	printf("%s\n", search("PWD").data);
+	wd = getwd(NULL);
+	printf("%s\n", wd);
+	free(wd);
 }
 
 void	ft_export(t_cmd *cmd)
